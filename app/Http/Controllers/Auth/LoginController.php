@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -51,7 +52,7 @@ class LoginController extends Controller
     {
         return redirect()->back()->withErrors([
             'email' => 'These credentials do not match our records.',
-        ]);
+        ])->onlyInput('email');
     }
 
     // Get the post-login redirect path

@@ -1,17 +1,17 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 
 // Redirect root to registration step one
 Route::get('/', function () {
     return redirect()->route('register.step.one');
 });
 
-// Home Page Route
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+// Home Page Route - Use HomeController and apply auth middleware
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

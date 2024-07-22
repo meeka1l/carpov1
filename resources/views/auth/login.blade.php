@@ -20,6 +20,9 @@
             @csrf
             <div class="form-group">
                 <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+                @if ($errors->has('email'))
+                    <span class="error-message">{{ $errors->first('email') }}</span>
+                @endif
             </div>
             <div class="form-group">
                 <input id="password" type="password" name="password" placeholder="Password" required>
@@ -30,5 +33,11 @@
             <p>Don't have an account? <a href="{{ route('register.step.one') }}">Register</a></p>
         </form>
     </div>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
 </body>
 </html>

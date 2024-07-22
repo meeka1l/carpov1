@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -24,10 +25,15 @@ class RegisterController extends Controller
     {
         $validator = $this->validatorStepOne($request->all());
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        // Check if NIC is unique
+        $nic = $request->input('nic');
+        $nicExists = User::where('nic', $nic)->exists();
+
+        if ($nicExists) {
+            return redirect()->back()->withErrors(['nic' => 'The NIC has already been taken.'])->withInput();
         }
 
+        $validator->validate();
         $request->session()->put('register', $request->all());
 
         return redirect()->route('register.step.two');
@@ -60,19 +66,7 @@ class RegisterController extends Controller
             'phone_number' => ['required', 'string', 'max:255'],
             'nic' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                function ($attribute, $value, $fail) {
-                    // Check if email exists in the database
-                    if (User::where('email', $value)->exists()) {
-                        $fail('The email address is already in use.');
-                    }
-                },
-                'regex:/^[cC][bB]\d{6}@students\.apiit\.lk$/'
-            ],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }

@@ -30,18 +30,8 @@ body {
 .header2 {
     margin-bottom: 2px;
 }
-/* .leftwrapper{
-    
-        max-width: 100%;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-    
-} */
 
-
-
-.leftwrapper h3{
+.leftwrapper h3 {
     font-size: 1rem;
     font-weight: 500;
     text-align: left;
@@ -49,14 +39,15 @@ body {
     margin-bottom: 30%;
 }
 
-.leftwrapper h2{
+.leftwrapper h2 {
     text-align: left;
     margin: 0%;
 }
- .leftwrapper h1{
+
+.leftwrapper h1 {
     text-align: left;
     margin-bottom: 0%;
- }
+}
 
 .header h1 {
     color: #000000; /* Dark greenish cyan for header */
@@ -91,24 +82,24 @@ h2 {
     margin-bottom: 20px;
     text-align: center;
     /* border: 1px solid #ccc; */
-  display: block;
-  padding: 6px 12px;
-  cursor: pointer;
-  /* background-color: #01b5a0; */
-  color: white;
-  border-radius: 12px;
+    display: block;
+    padding: 6px 12px;
+    cursor: pointer;
+    /* background-color: #01b5a0; */
+    color: white;
+    border-radius: 12px;
 }
 
 .form-group2 {
     margin-bottom: 80px;
     text-align: center;
     border: 1px solid #ccc;
-  display: block;
-  padding: 6px 24px;
-  cursor: pointer;
-  background-color: #01b5a0;
-  color: white;
-  border-radius: 12px;
+    display: block;
+    padding: 6px 24px;
+    cursor: pointer;
+    background-color: #01b5a0;
+    color: white;
+    border-radius: 12px;
 }
 
 .form-group2 input[type="file"] {
@@ -122,12 +113,16 @@ h2 {
     margin: 0 auto;
 }
 
-.submit-group{
+.file-uploaded {
+    background-color: #006a5e; /* Blue background for file uploaded */
+}
+
+.submit-group {
     margin-bottom: 20px;
     text-align: center;
 }
 
-.submit-group2 button{
+.submit-group2 button {
     margin-bottom: 20px;
     text-align: center;
     padding: 8px;
@@ -136,7 +131,7 @@ h2 {
     background-color: rgb(217, 46, 46);
 }
 
-.submit-group2{
+.submit-group2 {
     margin-bottom: 20px;
     text-align: center;
     padding: 30px;
