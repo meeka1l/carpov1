@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 
 // Redirect root to registration step one
 Route::get('/', function () {
@@ -15,6 +16,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware(
 
 // Admin Dashboard Route - Use HomeController and apply auth middleware
 Route::get('/admin/dashboard', [HomeController::class, 'admin'])->name('admin.dashboard')->middleware('auth');
+
+// Manage Student Database Route - Use AdminController and apply auth middleware
+Route::get('/admin/manage-student-database', [AdminController::class, 'manageStudentDatabase'])->name('admin.manageStudentDatabase')->middleware('auth');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

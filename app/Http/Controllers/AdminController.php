@@ -10,4 +10,9 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
+
+    public function manageStudentDatabase()
+    {
+        return view('admin.manageStudentDatabase');
+    }
 }
