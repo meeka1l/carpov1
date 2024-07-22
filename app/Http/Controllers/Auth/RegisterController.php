@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -92,6 +91,7 @@ class RegisterController extends Controller
             'nic_front' => $data['nic_front']->store('nic_front'),
             'nic_back' => $data['nic_back']->store('nic_back'),
             'student_id_front' => $data['student_id_front']->store('student_id_front'),
+            'role' => 'user',  // Default role
         ]);
     }
 }

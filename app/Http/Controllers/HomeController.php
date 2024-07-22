@@ -16,4 +16,13 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function admin()
+    {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('admin.dashboard');
+    }
 }

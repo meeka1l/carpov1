@@ -13,6 +13,9 @@ Route::get('/', function () {
 // Home Page Route - Use HomeController and apply auth middleware
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
+// Admin Dashboard Route - Use HomeController and apply auth middleware
+Route::get('/admin/dashboard', [HomeController::class, 'admin'])->name('admin.dashboard')->middleware('auth');
+
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');

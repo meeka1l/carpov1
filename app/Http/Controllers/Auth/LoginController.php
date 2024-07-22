@@ -26,6 +26,10 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         if (Auth::attempt($this->credentials($request))) {
+            // Check user role and redirect accordingly
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
             return redirect()->intended($this->redirectPath());
         }
 
