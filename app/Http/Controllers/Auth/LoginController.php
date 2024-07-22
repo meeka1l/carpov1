@@ -51,7 +51,7 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         return redirect()->back()->withErrors([
-            'email' => 'These credentials do not match our records.',
+            'email' => 'Invalid Credentials.',
         ])->onlyInput('email');
     }
 
