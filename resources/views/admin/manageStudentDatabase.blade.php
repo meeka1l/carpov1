@@ -12,7 +12,11 @@
         <div class="admin-header">
             <h1>CARPO</h1>
             <div class="admin-button-group">
-                <a href="#"><button class="admin-btn black-btn">Upload Student Data *.csv</button></a>
+                <form action="{{ route('upload.student.data') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="student_data" required>
+                    <button type="submit" class="admin-btn black-btn">Upload Student Data *.csv</button>
+                </form>
                 <a href="#"><button class="admin-btn green-btn">Download Current Student Data *.csv</button></a>
             </div>
             <a href="{{ route('admin.dashboard') }}"><button class="admin-btn green-btn">Home</button></a>

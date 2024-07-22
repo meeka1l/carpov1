@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StudentDataController;
 
 // Redirect root to registration step one
 Route::get('/', function () {
@@ -30,3 +31,8 @@ Route::get('/register', [RegisterController::class, 'showStepOneForm'])->name('r
 Route::post('/register', [RegisterController::class, 'postStepOneForm'])->name('register.step.one.post');
 Route::get('/register/step-two', [RegisterController::class, 'showStepTwoForm'])->name('register.step.two');
 Route::post('/register/step-two', [RegisterController::class, 'postStepTwoForm'])->name('register.step.two.post');
+
+
+// Upload Student Data Route
+
+Route::post('/upload-student-data', [StudentDataController::class, 'uploadStudentData'])->name('upload.student.data');
