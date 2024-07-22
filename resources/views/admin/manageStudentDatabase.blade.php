@@ -17,7 +17,7 @@
                     <input type="file" name="student_data" required>
                     <button type="submit" class="admin-btn black-btn">Upload Student Data *.csv</button>
                 </form>
-                <a href="#"><button class="admin-btn green-btn">Download Current Student Data *.csv</button></a>
+                <a href="#"><button class="admin-btn green-btn">Download Current Student Data*.csv</button></a>
             </div>
             <a href="{{ route('admin.dashboard') }}"><button class="admin-btn green-btn">Home</button></a>
         </div>
