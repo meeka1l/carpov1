@@ -34,5 +34,7 @@ Route::post('/register/step-two', [RegisterController::class, 'postStepTwoForm']
 
 
 // Upload Student Data Route
-
 Route::post('/upload-student-data', [StudentDataController::class, 'uploadStudentData'])->name('upload.student.data');
+
+// Route for downloading student data as CSV
+Route::get('/admin/download-student-data', [StudentDataController::class, 'downloadStudentData'])->name('admin.download-student-data');

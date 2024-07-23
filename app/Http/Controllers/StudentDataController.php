@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StudentDataController extends Controller
 {
@@ -59,5 +60,42 @@ class StudentDataController extends Controller
         }
 
         return redirect()->route('admin.dashboard')->with('success', 'Student data uploaded successfully.');
+    }
+
+    public function downloadStudentData()
+    {
+        $tableName = 'students';
+
+        if (!Schema::hasTable($tableName)) {
+            return redirect()->route('admin.dashboard')->with('error', 'No student data available.');
+        }
+
+        $students = DB::table($tableName)->get();
+
+        $response = new StreamedResponse(function () use ($students) {
+            $handle = fopen('php://output', 'w');
+            // Add the header of the CSV file
+            fputcsv($handle, ['ID', 'Name', 'Email', 'Phone', 'Address', 'Created At', 'Updated At']);
+
+            // Add the rows
+            foreach ($students as $student) {
+                fputcsv($handle, [
+                    $student->id,
+                    $student->name,
+                    $student->email,
+                    $student->phone,
+                    $student->address,
+                    $student->created_at,
+                    $student->updated_at,
+                ]);
+            }
+
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="students.csv"');
+
+        return $response;
     }
 }
