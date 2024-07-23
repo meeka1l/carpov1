@@ -19,8 +19,10 @@
                 </form>
                 <a href="{{ route('admin.download-student-data') }}"><button class="admin-btn green-btn">Download Current Student Data *.csv</button></a>
             </div>
-            <a href="{{ route('admin.dashboard') }}"><button class="admin-btn green-btn">Home</button></a>
+            
         </div>
+        <a href="{{ route('admin.dashboard') }}"><button class="admin-btn green-btn2">Home</button></a>
     </div>
+    
 </body>
 </html>

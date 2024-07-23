@@ -254,6 +254,7 @@ a:active { text-decoration: none; }
 
 .green-btn {
     background-color: #00C2A8;
+    padding: 0px;
 }
 
 .admin-input {
@@ -288,3 +289,18 @@ a:active { text-decoration: none; }
     transition: background-color 0.3s;
 }
 
+.green-btn2 {
+    display: block;
+    width: 40%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 12px;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: unset;
+}
