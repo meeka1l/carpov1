@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Register</title>
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
