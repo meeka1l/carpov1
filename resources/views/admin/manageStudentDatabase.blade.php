@@ -11,7 +11,7 @@
     <div class="manage-student-db">
         <div class="admin-header">
             <h1>CARPO</h1>
-            <div class="admin-button-group">
+            <div class="admin-button-group2">
                 <form action="{{ route('upload.student.data') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="student_data" required>

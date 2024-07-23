@@ -137,6 +137,7 @@ h2 {
     padding: 30px;
 }
 
+
 /* Form Group Styles (continued) */
 input[type="text"],
 input[type="email"],
@@ -212,6 +213,13 @@ p a:hover {
     width: 100%;
 }
 
+.admin-button-group2 {
+    display: inline-block;
+    max-width: 600px;
+    margin: 30px auto;
+    width: 100%;
+}
+
 .admin-btn {
     background-color: #01b5a0; /* Dark greenish cyan for buttons */
     color: #ffffff;
@@ -241,6 +249,7 @@ a:active { text-decoration: none; }
 
 .black-btn {
     background-color: #000000;
+    margin-bottom: 30px;
 }
 
 .green-btn {
@@ -278,3 +287,4 @@ a:active { text-decoration: none; }
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
