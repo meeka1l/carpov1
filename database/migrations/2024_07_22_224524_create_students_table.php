@@ -14,8 +14,16 @@ class CreateStudentsTable extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
+            
             $table->id();
-            // Other columns will be added dynamically
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();  
+            $table->string('phone_number')->nullable();
+            $table->string('nic')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

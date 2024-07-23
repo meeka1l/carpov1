@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Student;
 
 class RegisterController extends Controller
 {
@@ -31,6 +32,13 @@ class RegisterController extends Controller
         if ($nicExists) {
             return redirect()->back()->withErrors(['nic' => 'The NIC has already been taken.'])->withInput();
         }
+        $email = $request->input('email');
+        $emailExists = Student::where('email', $email)->exists();
+
+        if (!$emailExists) {
+            return redirect()->back()->withErrors(['email' => 'You are not registered student of APIIT'])->withInput();
+        }
+
 
         $validator->validate();
         $request->session()->put('register', $request->all());

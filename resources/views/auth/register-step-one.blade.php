@@ -26,6 +26,7 @@
             </div>
             <div class="form-group">
                 <input id="nic" type="text" name="nic" placeholder="NIC" value="{{ old('nic') }}" maxlength="12" minlength="9" onkeypress="return /[a-zA-Z 0-9]/.test(event.key)" onpaste="return false;" required>
+              <br>
                 @error('nic')
                     <span class="error">{{ $message }}</span>
                 @enderror
@@ -35,7 +36,10 @@
             </div>
             <div class="form-group">
                 <input id="email" type="email" name="email" placeholder="Student Email" value="{{ old('email') }}" onpaste="return false;" required pattern="^[cC][bB]\d{6}@students\.apiit\.lk$" title="Email must be in the format: cbxxxxxx@students.apiit.lk" oninput="checkEmailFormat()">
-            </div>
+            </div><br>
+            @error('email')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             <div class="form-group">
                 <input id="password" type="password" name="password" placeholder="Password" required minlength="12" onpaste="return false;">
             </div>
