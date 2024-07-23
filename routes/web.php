@@ -9,7 +9,7 @@ use App\Http\Controllers\StudentDataController;
 
 // Redirect root to registration step one
 Route::get('/', function () {
-    return redirect()->route('register.step.one');
+    return redirect()->route('login');
 });
 
 // Home Page Route - Use HomeController and apply auth middleware
