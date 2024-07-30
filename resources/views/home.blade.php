@@ -49,7 +49,7 @@ nav ul a:not(.active) {
     <div class="wrapper">
         <header class="header">
             <h1>CARPO</h1>
-            <h2>Welcome to Carpo</h2>
+            <h2>Welcome to CARPO</h2>
             <nav>
     <ul>
         <a href="#" id="show-navigator" class="active">Navigator Mode</a>
