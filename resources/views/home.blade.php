@@ -32,6 +32,7 @@ nav ul a {
     flex: 1; /* To evenly distribute the links */
 }
 
+
 nav ul a:hover {
     
     color: black;
@@ -54,9 +55,9 @@ nav ul a:not(.active) {
             <h1>CARPO</h1>
             <h2>Welcome to CARPO</h2>
             <nav>
-    <ul>
-        <a href="#" id="show-navigator" class="active">Navigator Mode</a>
-        <a href="#" id="show-commuter">Commuter Mode</a>
+    <ul><a href="#" id="show-commuter"class="active">Commuter Mode</a>
+        <a href="#" id="show-navigator" >Navigator Mode</a>
+        
     </ul>
 </nav>
         </header>
@@ -65,6 +66,8 @@ nav ul a:not(.active) {
         <section class="navigator-page" id="navigator-page" style="display: none;">
             
             <p>Content for the navigator page goes here.</p>
+
+            
         </section>
 
         <!-- Commuter Page Section -->
