@@ -48,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function rides()
+    {
+        return $this->belongsToMany(Ride::class, 'ride_user')
+                    ->withPivot('pickup_location')
+                    ->withTimestamps();
+    }
 }

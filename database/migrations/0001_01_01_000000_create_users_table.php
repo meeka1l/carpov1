@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('nic')->unique();
             $table->string('address');
+            $table->string('location')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ride;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $rides = Ride::all(); // Fetch all rides from the database
+        return view('home', compact('rides'));
     }
 
     public function admin()

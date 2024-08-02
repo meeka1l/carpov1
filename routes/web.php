@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentDataController;
+use App\Http\Controllers\RideController;
+
 
 // Redirect root to registration step one
 Route::get('/', function () {
@@ -38,3 +40,13 @@ Route::post('/upload-student-data', [StudentDataController::class, 'uploadStuden
 
 // Route for downloading student data as CSV
 Route::get('/admin/download-student-data', [StudentDataController::class, 'downloadStudentData'])->name('admin.download-student-data');
+
+
+
+Route::get('/navigator', [RideController::class, 'showNavigator'])->name('navigator');
+Route::get('/commuter', [RideController::class, 'showCommuter'])->name('commuter');
+Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
+Route::post('/rides/join', [RideController::class, 'join'])->name('rides.join');
+Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
+
+Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
