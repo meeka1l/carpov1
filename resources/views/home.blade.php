@@ -86,20 +86,25 @@
                 <br>
 
                 <label for="start_location">Start Location:</label>
+                <input type="text" id="start_location" name="start_location" required readonly>
+                
                 <select id="start_location_dropdown" name="start_location" style="display: none;" required>
                     <option value="6.918688426614458,79.8612400882712">Location 1</option>
                     <option value="6.920275317391224,79.85747472886152">Location 2</option>
                 </select>
-                <input type="text" id="start_location" name="start_location" required readonly>
                 <br>
+                
+                
 
                 <label for="end_location">End Location:</label>
+                <input type="text" id="end_location" name="end_location" required readonly>
+                
                 <select id="end_location_dropdown" name="end_location" style="display: none;" required>
                     <option value="6.918688426614458,79.8612400882712">Location 1</option>
                     <option value="6.920275317391224,79.85747472886152">Location 2</option>
                 </select>
-                <input type="text" id="end_location" name="end_location" required readonly>
                 <br>
+                
 
                 <button type="submit">Share Ride</button>
             </form>
@@ -148,10 +153,17 @@
             navigatorPage.style.display = 'none';
             commuterPage.style.display = 'block';
 
+            function toggleActiveClass(currentLink) {
+                navigatorLink.classList.remove('active');
+                commuterLink.classList.remove('active');
+                currentLink.classList.add('active');
+            }
+
             navigatorLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 navigatorPage.style.display = 'block';
                 commuterPage.style.display = 'none';
+                toggleActiveClass(navigatorLink);
                 initMap('navigator');
             });
 
@@ -159,6 +171,7 @@
                 event.preventDefault();
                 commuterPage.style.display = 'block';
                 navigatorPage.style.display = 'none';
+                toggleActiveClass(commuterLink);
                 initMap('commuter');
             });
 
