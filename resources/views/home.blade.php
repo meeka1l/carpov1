@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Carpo</title>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0EE3mzHBVijYvZo-T5mvjQyX-kEuuZ3c&callback=initMap" async defer></script>
-    <style>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+ <style>
         nav {
             background-color: white;
             overflow: hidden;
@@ -68,9 +68,9 @@
         <!-- Navigator Page Section -->
         <section class="navigator-page" id="navigator-page" style="display: none;">
             <h2>Share Your Ride</h2>
-            <form action="{{ route('rides.store') }}" method="POST">
+            <form action="{{ route('rides.store') }}" method="post">
                 @csrf
-
+                
                 <label><input type="checkbox" id="from-apiit"> From APIIT</label>
                 <label><input type="checkbox" id="to-apiit"> To APIIT</label>
                 <br>
@@ -84,53 +84,41 @@
                 <label for="vehicle_model">Vehicle Model:</label>
                 <input type="text" id="vehicle_model" name="vehicle_model" required>
                 <br>
+                <label for="description">Ride Description:</label>
+                <input type="text" id="description" name="description" required>
+                <br>
 
                 <label for="start_location">Start Location:</label>
-                <input type="text" id="start_location" name="start_location" required readonly>
-                
-                <select id="start_location_dropdown" name="start_location" style="display: none;" required>
-                    <option value="6.918688426614458,79.8612400882712">Location 1</option>
-                    <option value="6.920275317391224,79.85747472886152">Location 2</option>
-                </select>
-                <br>
-                
+        <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>             
+        <input type="text" id="start_location" name="start_location" required readonly onclick="toggleDropdown('start_location')">
+
+        <select id="start_location_dropdown" name="start_location_dropdown" style="display: none;" required onchange="updateLocation('start_location')">
+            <option disabled selected>Select</option>
+            <option value="6.918688426614458,79.8612400882712">Location 1</option>
+            <option value="6.920275317391224,79.85747472886152">Location 2</option>
+        </select>
+        <br>
+
+        <label for="end_location">End Location:</label>
+        <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>
+        <input type="text" id="end_location" name="end_location" required readonly onclick="toggleDropdown('end_location')">
+
+        <select id="end_location_dropdown" name="end_location_dropdown" style="display: none;" required onchange="updateLocation('end_location')">
+            <option disabled selected>Select</option>
+            <option value="6.918688426614458,79.8612400882712">Location 1</option>
+            <option value="6.920275317391224,79.85747472886152">Location 2</option>
+        </select>
+        <br>
                 
 
-                <label for="end_location">End Location:</label>
-                <input type="text" id="end_location" name="end_location" required readonly>
-                
-                <select id="end_location_dropdown" name="end_location" style="display: none;" required>
-                    <option value="6.918688426614458,79.8612400882712">Location 1</option>
-                    <option value="6.920275317391224,79.85747472886152">Location 2</option>
-                </select>
-                <br>
-                
-
-                <button type="submit">Share Ride</button>
+                <button type="submit" >Share Ride</button>
             </form>
             <div id="map" class="disabled"></div>
         </section>
 
         <!-- Commuter Page Section -->
         <section class="commuter-page" id="commuter-page">
-            <h2>Available Rides</h2>
-            <ul>
-                @foreach($rides as $ride)
-                    <li>
-                        Vehicle: {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
-                        Color: {{ $ride->vehicle_color }}<br>
-                        Start: {{ $ride->start_location }}<br>
-                        End: {{ $ride->end_location }}<br>
-                        <form action="{{ route('rides.join') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-                            <input type="hidden" id="pickup_location_{{ $ride->id }}" name="pickup_location" required>
-                            <button type="submit" onclick="setPickupLocation({{ $ride->id }})">Join Ride</button>
-                        </form>
-                    </li>
-                @endforeach
-            </ul>
-            <div id="map" class="disabled"></div>
+          @include('rides')
         </section>
 
         <!-- Logout Form -->

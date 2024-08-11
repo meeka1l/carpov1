@@ -18,25 +18,62 @@ class RideController extends Controller
         $rides = Ride::all(); // Modify this as needed for your use case
         return view('home', ['mode' => 'commuter', 'rides' => $rides]);
     }
-
-    public function store(Request $request)
+    public function rules()
     {
-        // Validate and store the ride
-        $validated = $request->validate([
-            'vehicle_number' => 'required|string|max:255',
-            'vehicle_color' => 'required|string|max:255',
-            'vehicle_model' => 'required|string|max:255',
-            'start_location' => 'required|string',
-            'end_location' => 'required|string',
-        ]);
-         // Add the navigator_id to the validated data
-    $validated['navigator_id'] = auth()->id(); // Assuming the authenticated user is the navigator
-
-
-        $ride = Ride::create($validated);
-
-        return redirect()->route('home')->with('status', 'Ride shared successfully!');
+        return [
+            'description' => ['required', function ($attribute, $value, $fail) {
+                if (!preg_match('/^https:\/\/maps\.app\.goo\.gl\/[^\s]+$/', $value)) {
+                    $fail('The ' . $attribute . ' must be a valid Google Maps link.');
+                }
+            }],
+            // other rules...
+        ];
     }
+    public function store(Request $request)
+{
+    $user = auth()->user();
+    // Check if the user already has a ride
+    $existingRide = Ride::where('email', $user->email)->first();
+
+    if ($existingRide) {
+        return redirect()->back()->with('error', 'You can only share one ride at a time. Please delete your current ride to share a new one.');
+    }
+
+    // Validate the incoming request
+    $validated = $request->validate([
+        'vehicle_number' => 'required|string|max:255',
+        'vehicle_color' => 'required|string|max:255',
+        'vehicle_model' => 'required|string|max:255',
+        'start_location' => 'required|string',
+        'end_location' => 'required|string',
+        'description' => 'required|string',
+        'email' => 'requied|string', // Validate description
+    ]);
+
+    // Add the navigator_id (assuming the authenticated user is the navigator)
+    $validated['navigator_id'] = auth()->id();
+
+    // Create the ride using the validated data
+    Ride::create([
+        'vehicle_number' => $validated['vehicle_number'],
+        'vehicle_color' => $validated['vehicle_color'],
+        'vehicle_model' => $validated['vehicle_model'],
+        'start_location' => $validated['start_location'],
+        'end_location' => $validated['end_location'],
+        'description' => $validated['description'],
+        'navigator_id' => $user->id, // Save navigator ID
+        'email' => $user->email,  // Save the user's email for checking ride uniqueness
+  
+    ]);
+    $validated = $request->validate([
+        'id' => 'required|exists:rides,id',
+        
+    ]);
+    $validated['email'] = $user->email;
+    $ride = Ride::findOrFail($validated['id']);
+    // Redirect to the rides index with a success message
+   return '/rides/match';
+}
 
     public function join(Request $request)
     {
@@ -49,7 +86,7 @@ class RideController extends Controller
         $ride = Ride::findOrFail($validated['ride_id']);
         // Logic to join the ride (e.g., updating ride status, adding commuter info, etc.)
 
-        return redirect()->route('home')->with('status', 'Ride joined successfully!');
+        return redirect()->route('rides.match')->with('status', 'Ride joined successfully!');
     }
 
     public function locate(Request $request)
@@ -66,4 +103,19 @@ class RideController extends Controller
 
         return response()->json(['status' => 'Location updated successfully!']);
     }
+    
+    
+    public function searchRides(Request $request)
+{
+    $query = $request->input('query');
+
+    // Search rides by description
+    $rides = Ride::where('description', 'like', '%' . $query . '%')->get();
+
+    // Return the results as JSON for AJAX request
+    return response()->json($rides);
+}
+
+
+
 }

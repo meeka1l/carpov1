@@ -50,3 +50,6 @@ Route::post('/rides/join', [RideController::class, 'join'])->name('rides.join');
 Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
 
 Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
+Route::get('/rides/search', [RideController::class, 'searchRides']);
+
+Route::get('/rides/match}', [HomeController::class, 'show'])->name('rides.match');
