@@ -57,3 +57,4 @@ Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride
 Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index');
 
 
+Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPage'])->name('rides.request');

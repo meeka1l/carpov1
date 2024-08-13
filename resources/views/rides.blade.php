@@ -104,8 +104,8 @@
                     @csrf
                     <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                     <input type="hidden" id="pickup_location_{{ $ride->id }}" name="pickup_location" required>
-                    <button type="submit" onclick="setPickupLocation({{ $ride->id }})">Join Ride</button>
-                </form>
+                    <a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="btn btn-primary">Join Ride</a>
+          </form>
             </li>
             @endforeach
         </ul>

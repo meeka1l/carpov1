@@ -18,7 +18,16 @@ class RideMatchingController extends Controller
      
 // In RideMatchingController
 
-     
+public function showRideRequestPage(Request $request)
+{
+    // Retrieve ride details using the ride_id passed as a query parameter
+    $rideId = $request->query('ride_id');
+    $ride = Ride::findOrFail($rideId);
+
+    // Pass ride details to the view
+    return view('riderequest', compact('ride'));
+}
+    
     public function showUserRides()
 {
    // Get the currently authenticated user
@@ -28,7 +37,7 @@ class RideMatchingController extends Controller
    // dd($user->email);
 
    // Ensure you have a 'shared_email' column or adjust the column name accordingly
-   $rides = Ride::where('email', $user->$id->1)->get();
+   $rides = Ride::where('email', $user->$email)->get();
 
    // Debug: Check the rides fetched
    // dd($rides);
