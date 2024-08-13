@@ -61,6 +61,7 @@
                 <ul>
                     <a href="#" id="show-navigator">Navigator Mode</a>
                     <a href="#" id="show-commuter" class="active">Commuter Mode</a>
+                    <a href="#" id="show-rides">Ride Matches</a>
                 </ul>
             </nav>
         </header>
@@ -71,6 +72,7 @@
             <form action="{{ route('rides.store') }}" method="post">
                 @csrf
                 
+
                 <label><input type="checkbox" id="from-apiit"> From APIIT</label>
                 <label><input type="checkbox" id="to-apiit"> To APIIT</label>
                 <br>
@@ -88,7 +90,7 @@
                 <input type="text" id="description" name="description" required>
                 <br>
 
-                <label for="start_location">Start Location:</label>
+        <label for="start_location">Start Location:</label>
         <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>             
         <input type="text" id="start_location" name="start_location" required readonly onclick="toggleDropdown('start_location')">
 
@@ -109,9 +111,8 @@
             <option value="6.920275317391224,79.85747472886152">Location 2</option>
         </select>
         <br>
-                
-
-                <button type="submit" >Share Ride</button>
+        
+              <button type="submit" id="shareride">Share Ride</button>
             </form>
             <div id="map" class="disabled"></div>
         </section>
@@ -119,6 +120,11 @@
         <!-- Commuter Page Section -->
         <section class="commuter-page" id="commuter-page">
           @include('rides')
+        </section>
+        
+        <!-- Rides Page Section -->
+        <section class="rides-page" id="rides-page">
+        
         </section>
 
         <!-- Logout Form -->
@@ -132,18 +138,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             const navigatorLink = document.getElementById('show-navigator');
             const commuterLink = document.getElementById('show-commuter');
+            const ridesLink = document.getElementById('show-rides');
             const navigatorPage = document.getElementById('navigator-page');
             const commuterPage = document.getElementById('commuter-page');
+            const ridesPage = document.getElementById('rides-page');
+
             let map, startMarker, endMarker;
             let canSelectStart = false;
             let canSelectEnd = false;
 
             navigatorPage.style.display = 'none';
+            ridesPage.style.display = 'none';
             commuterPage.style.display = 'block';
+
 
             function toggleActiveClass(currentLink) {
                 navigatorLink.classList.remove('active');
                 commuterLink.classList.remove('active');
+                ridesLink.classList.remove('active');
                 currentLink.classList.add('active');
             }
 
@@ -151,6 +163,7 @@
                 event.preventDefault();
                 navigatorPage.style.display = 'block';
                 commuterPage.style.display = 'none';
+                ridesPage.style.display = 'none';
                 toggleActiveClass(navigatorLink);
                 initMap('navigator');
             });
@@ -159,8 +172,18 @@
                 event.preventDefault();
                 commuterPage.style.display = 'block';
                 navigatorPage.style.display = 'none';
+                ridesPage.style.display = 'none';
                 toggleActiveClass(commuterLink);
                 initMap('commuter');
+            });
+            
+            ridesLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                commuterPage.style.display = 'none';
+                navigatorPage.style.display = 'none';
+                ridesPage.style.display = 'block';
+                toggleActiveClass(ridesLink);
+                initMap('rides');
             });
 
             function initMap(currentMode) {
@@ -354,8 +377,17 @@
                 updateMapInteraction();
             });
 
-            updateMapInteraction();
+            document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{ route('rides.index') }}")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('rides-page').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading rides:', error));
+    });
+          
         });
+       
     </script>
 </body>
 </html>

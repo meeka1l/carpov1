@@ -27,8 +27,5 @@ class HomeController extends Controller
 
         return view('admin.dashboard');
     }
-    public function show()
-{
-    return view('ridematch');
-}
+
 }

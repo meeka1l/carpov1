@@ -62,7 +62,7 @@ class LoginController extends Controller
     // Get the post-login redirect path
     protected function redirectPath()
     {
-        return 'home';
+        return '/home';
     }
 
     // Handle logout request

@@ -146,6 +146,11 @@
             const steps = text.match(patterns.steps) || [];
             const mapLink = extract(patterns.mapLink).trim();
 
+            // Fallback to raw description if no specific format is matched
+            if (!sharedRoute && !from && !to && !via && !duration && !traffic && steps.length === 0 && !mapLink) {
+                return { rawDescription: text };
+            }
+
             return {
                 sharedRoute,
                 from,
@@ -159,6 +164,11 @@
         }
 
         function displayRouteDescription(data, descriptionElement) {
+            if (data.rawDescription) {
+                descriptionElement.innerHTML = `<p>${data.rawDescription}</p>`;
+                return;
+            }
+
             descriptionElement.innerHTML = `
                 <h2>${data.sharedRoute}</h2>
                 ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
@@ -209,6 +219,12 @@
                         });
                     });
             });
+            function setPickupLocation(rideId) {
+    // Assuming you have a way to determine the pickup location, set it here
+    // For example, you might prompt the user or get it from a predefined value
+    var pickupLocation = "Some predefined location"; // Replace with actual logic
+    document.getElementById('pickup_location_' + rideId).value = pickupLocation;
+}
         });
     </script>
 </body>

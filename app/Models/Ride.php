@@ -31,4 +31,22 @@ class Ride extends Model
                     ->withPivot('pickup_location')
                     ->withTimestamps();
     }
+
+    public function join(User $user, $pickupLocation)
+    {
+        $this->commuters()->attach($user, ['pickup_location' => $pickupLocation]);
+    }
+
+    public function end()
+    {
+        $this->commuters()->detach();
+        $this->delete();
+    }
+
+    public function locate($location)
+    {
+        $this->update(['current_location' => $location]);
+    }
+
+    
 }

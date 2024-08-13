@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ride;
-
+use Illuminate\Support\Facades\Auth;
 class RideController extends Controller
 {
     public function showNavigator()
@@ -72,7 +72,7 @@ class RideController extends Controller
     $validated['email'] = $user->email;
     $ride = Ride::findOrFail($validated['id']);
     // Redirect to the rides index with a success message
-   return '/rides/match';
+    return redirect()->route('rides.index')->with('status', 'Ride joined successfully!');
 }
 
     public function join(Request $request)
@@ -86,7 +86,7 @@ class RideController extends Controller
         $ride = Ride::findOrFail($validated['ride_id']);
         // Logic to join the ride (e.g., updating ride status, adding commuter info, etc.)
 
-        return redirect()->route('rides.match')->with('status', 'Ride joined successfully!');
+        return redirect()->route('ridematch')->with('status', 'Ride joined successfully!');
     }
 
     public function locate(Request $request)
@@ -117,5 +117,23 @@ class RideController extends Controller
 }
 
 
+public function show()
+{
+   // Get the currently authenticated user
+   $user = Auth::user();
+    
+   // Debug: Check the logged-in user's email
+   // dd($user->email);
 
+   // Ensure you have a 'shared_email' column or adjust the column name accordingly
+   $rides = Ride::where('email', $user->email)->get();
+
+   // Debug: Check the rides fetched
+   // dd($rides);
+
+   // Pass the rides to the view
+   return view('ridematch', ['rides' => $rides]);
 }
+}
+
+

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentDataController;
 use App\Http\Controllers\RideController;
+use App\Http\Controllers\RideMatchingController;
 
 
 // Redirect root to registration step one
@@ -46,10 +47,13 @@ Route::get('/admin/download-student-data', [StudentDataController::class, 'downl
 Route::get('/navigator', [RideController::class, 'showNavigator'])->name('navigator');
 Route::get('/commuter', [RideController::class, 'showCommuter'])->name('commuter');
 Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
-Route::post('/rides/join', [RideController::class, 'join'])->name('rides.join');
+Route::get('/rides/join', [RideController::class, 'join'])->name('rides.join');
 Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
 
 Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
 Route::get('/rides/search', [RideController::class, 'searchRides']);
 
-Route::get('/rides/match}', [HomeController::class, 'show'])->name('rides.match');
+Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride.match');
+Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index');
+
+
