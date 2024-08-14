@@ -1,19 +1,30 @@
-<section>
+<!-- Rides where the logged-in user is the navigator -->
+<h2>My Rides as Navigator</h2>
+@foreach($sharedRides as $ride)
     <div class="ride-details">
-        @foreach($rides as $ride)
-            <li>
-                <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
-                <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
-                <strong>Description:</strong> 
-                <span class="ride-description">{{ $ride->description }}</span><br>
-                <form action="{{ route('rides.join') }}" method="get">
-                    @csrf
-                    <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-                    <input type="hidden" id="pickup_location_{{ $ride->id }}" name="pickup_location" required>
-                    
-                </form>
-            </li>
-        @endforeach
-    </div>  
-  
-</section>
+        <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
+        <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
+        <strong>Description:</strong> {{ $ride->description }}<br>
+
+        <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
+        <strong>Pickup Locations:</strong>
+        @php
+            $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
+        @endphp
+        @if($locationsForRide->isEmpty())
+            <p>No pickup locations available.</p>
+        @else
+            @foreach($locationsForRide as $location)
+                @php
+                    $commuter = $commuters->get($location->user_id);
+                @endphp
+                <p>
+                    {{ $location->pickup_location }} 
+                    (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
+                    User ID: {{ $location->user_id }})
+                </p>
+            @endforeach
+        @endif
+    </div>
+    <hr>
+@endforeach

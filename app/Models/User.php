@@ -54,4 +54,8 @@ class User extends Authenticatable
                     ->withPivot('pickup_location')
                     ->withTimestamps();
     }
+    public function pickupLocations()
+{
+    return $this->hasMany(PickupLocation::class);
+}
 }

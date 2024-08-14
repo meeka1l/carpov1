@@ -47,7 +47,7 @@ Route::get('/admin/download-student-data', [StudentDataController::class, 'downl
 Route::get('/navigator', [RideController::class, 'showNavigator'])->name('navigator');
 Route::get('/commuter', [RideController::class, 'showCommuter'])->name('commuter');
 Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
-Route::get('/rides/join', [RideController::class, 'join'])->name('rides.join');
+Route::post('/rides/join', [RideController::class, 'joinRide'])->name('rides.join');
 Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
 
 Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
@@ -55,6 +55,6 @@ Route::get('/rides/search', [RideController::class, 'searchRides']);
 
 Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride.match');
 Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index');
-
-
 Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPage'])->name('rides.request');
+//Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
+

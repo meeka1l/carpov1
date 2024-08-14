@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ride;
+use App\Models\User;
+use App\Models\PickupLocation;
 use Illuminate\Support\Facades\Auth;
 class RideController extends Controller
 {
@@ -75,19 +77,62 @@ class RideController extends Controller
     return redirect()->route('rides.index')->with('status', 'Ride joined successfully!');
 }
 
-    public function join(Request $request)
-    {
-        // Handle joining a ride
-        $validated = $request->validate([
-            'ride_id' => 'required|exists:rides,id',
-            'pickup_location' => 'required|string',
-        ]);
 
-        $ride = Ride::findOrFail($validated['ride_id']);
-        // Logic to join the ride (e.g., updating ride status, adding commuter info, etc.)
+public function joinRide(Request $request)
+{
+    // Validate the input
+    $request->validate([
+        'ride_id' => 'required|exists:rides,id',
+        'pickup_location' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('ridematch')->with('status', 'Ride joined successfully!');
+    // Get the currently authenticated user
+    $user = Auth::user();
+
+    // Get the ride details
+    $ride = Ride::findOrFail($request->ride_id);
+
+    // Check if the user is a navigator for any ride
+    $isNavigator = Ride::where('navigator_id', $user->id)->exists();
+
+    if ($isNavigator) {
+        return redirect()->back()->with('error', 'As a navigator, you cannot join any rides.');
     }
+
+    // Check if the user is the navigator of the specific ride
+    if ($ride->navigator_id == $user->id) {
+        return redirect()->back()->with('error', 'You cannot join your own ride.');
+    }
+
+    // Check if the user already has a pickup location for this ride
+    $existingPickupLocation = PickupLocation::where('ride_id', $request->ride_id)
+                                           ->where('user_id', $user->id)
+                                           ->first();
+
+    if ($existingPickupLocation) {
+        return redirect()->back()->with('error', 'You have already added a pickup location for this ride.');
+    }
+
+    // Check if the user already has 3 pickup locations in total
+    if ($user->pickupLocations()->count() >= 3) {
+        return redirect()->back()->with('error', 'You can only have up to 3 pickup locations.');
+    }
+
+    // Save the pickup location
+    PickupLocation::create([
+        'user_id' => $user->id,
+        'ride_id' => $request->ride_id,
+        'pickup_location' => $request->pickup_location,
+    ]);
+
+    // Return to the previous page without a message
+    return redirect()->back();
+}
+
+
+
+
+
 
     public function locate(Request $request)
     {
@@ -119,21 +164,22 @@ class RideController extends Controller
 
 public function show()
 {
-   // Get the currently authenticated user
-   $user = Auth::user();
+    // Get the currently authenticated user
+    $user = Auth::user();
     
-   // Debug: Check the logged-in user's email
-   // dd($user->email);
+    // Fetch rides where the logged-in user is the navigator
+    $sharedRides = Ride::where('navigator_id', $user->id)->get();
 
-   // Ensure you have a 'shared_email' column or adjust the column name accordingly
-   $rides = Ride::where('email', $user->email)->get();
+    // Fetch all pickup locations for these rides
+    $pickupLocations = PickupLocation::whereIn('ride_id', $sharedRides->pluck('id'))->get();
 
-   // Debug: Check the rides fetched
-   // dd($rides);
+    // Fetch users who joined these rides
+    $commuters = User::whereIn('id', $pickupLocations->pluck('user_id'))->get()->keyBy('id');
 
-   // Pass the rides to the view
-   return view('ridematch', ['rides' => $rides]);
+    // Pass the rides, pickup locations, and commuters to the view
+    return view('ridematch', compact('sharedRides', 'pickupLocations', 'commuters', 'user'));
 }
+
 }
 
 
