@@ -114,7 +114,7 @@ public function joinRide(Request $request)
     }
 
     // Check if the user already has 3 pickup locations in total
-    if ($user->pickupLocations()->count() >= 3) {
+    if ($user->pickupLocations()->count()) {
         return redirect()->back()->with('error', 'You can only have up to 3 pickup locations.');
     }
 
@@ -129,6 +129,23 @@ public function joinRide(Request $request)
     return redirect()->back();
 }
 
+public function accept($rideId)
+{
+    $ride = Ride::findOrFail($rideId);
+    $ride->status = 'Accepted';
+    $ride->save();
+
+    return redirect()->back()->with('success', 'Ride accepted.');
+}
+
+public function reject($rideId)
+{
+    $ride = Ride::findOrFail($rideId);
+    $ride->status = 'Rejected';
+    $ride->save();
+
+    return redirect()->back()->with('success', 'Ride rejected.');
+}
 
 
 

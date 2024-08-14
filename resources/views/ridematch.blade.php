@@ -7,6 +7,7 @@
         <strong>Description:</strong> {{ $ride->description }}<br>
 
         <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
+        <strong>Status:</strong> {{ $ride->status }}<br>
         <strong>Pickup Locations:</strong>
         @php
             $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
@@ -24,6 +25,22 @@
                     User ID: {{ $location->user_id }})
                 </p>
             @endforeach
+        @endif
+
+        <!-- Accept/Reject Buttons -->
+        @if($ride->status == 'Pending')
+            <form action="{{ route('rides.accept', $ride->id) }}" method="POST">
+                @csrf
+                <button type="submit">Accept Ride</button>
+            </form>
+            <form action="{{ route('rides.reject', $ride->id) }}" method="POST">
+                @csrf
+                <button type="submit">Reject Ride</button>
+            </form>
+        @elseif($ride->status == 'Accepted')
+            <p>Ride accepted.</p>
+        @elseif($ride->status == 'Rejected')
+            <p>Ride rejected.</p>
         @endif
     </div>
     <hr>

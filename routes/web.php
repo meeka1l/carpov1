@@ -58,3 +58,5 @@ Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index')
 Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPage'])->name('rides.request');
 //Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
 
+Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('rides.accept');
+Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');
