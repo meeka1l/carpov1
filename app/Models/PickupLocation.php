@@ -19,4 +19,7 @@ class PickupLocation extends Model
     {
         return $this->belongsTo(Ride::class);
     }
+
+    
+
 }

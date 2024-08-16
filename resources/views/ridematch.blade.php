@@ -42,6 +42,13 @@
         @elseif($ride->status == 'Rejected')
             <p>Ride rejected.</p>
         @endif
-    </div>
+         </div>
+        
+        <!-- Delete Button -->
+        <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this ride?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Delete Ride</button>
+        </form>
     <hr>
 @endforeach

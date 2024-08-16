@@ -132,11 +132,25 @@ public function joinRide(Request $request)
 public function accept($rideId)
 {
     $ride = Ride::findOrFail($rideId);
+
+    // Check the number of accepted rides for this navigator
+    $acceptedRidesCount = Ride::where('navigator_id', $ride->navigator_id)
+                              ->where('status', 'Accepted')
+                              ->count();
+
+    if ($acceptedRidesCount >= 3) {
+        return redirect()->back()->with('error', 'You have already accepted the maximum number of rides.');
+    }
+
     $ride->status = 'Accepted';
     $ride->save();
 
+    // Optionally notify the user who made the request
+    $this->notifyUser($ride->user_id, 'Your ride request has been accepted.');
+
     return redirect()->back()->with('success', 'Ride accepted.');
 }
+
 
 public function reject($rideId)
 {
@@ -144,8 +158,37 @@ public function reject($rideId)
     $ride->status = 'Rejected';
     $ride->save();
 
+    // Optionally notify the user who made the request
+    $this->notifyUser($ride->user_id, 'Your ride request has been rejected.');
+
     return redirect()->back()->with('success', 'Ride rejected.');
 }
+
+protected function notifyUser($userId, $message)
+{
+    $user = User::find($userId);
+    // Here you could use a notification or just store a flash message or something in the database.
+    // Example:
+    // $user->notify(new RideStatusNotification($message));
+}
+public function delete($rideId)
+{
+    $ride = Ride::findOrFail($rideId);
+
+    // Ensure that only the navigator who accepted the ride can delete it
+    if ($ride->navigator_id != auth()->user()->id) {
+        return redirect()->back()->with('error', 'You are not authorized to delete this ride.');
+    }
+
+    // Delete the ride
+    $ride->delete();
+
+    // Optionally notify the commuter that the ride was deleted
+    $this->notifyUser($ride->user_id, 'Your ride request has been deleted by the navigator.');
+
+    return redirect()->back()->with('success', 'Ride deleted successfully.');
+}
+
 
 
 
