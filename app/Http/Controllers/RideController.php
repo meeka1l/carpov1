@@ -230,6 +230,11 @@ public function show()
     // Fetch rides where the logged-in user is the navigator
     $sharedRides = Ride::where('navigator_id', $user->id)->get();
 
+    // Debugging: Check if sharedRides is fetched correctly
+    if ($sharedRides->isEmpty()) {
+        dd('No shared rides found for user: ' . $user->id);
+    }
+
     // Fetch all pickup locations for these rides
     $pickupLocations = PickupLocation::whereIn('ride_id', $sharedRides->pluck('id'))->get();
 
@@ -239,7 +244,6 @@ public function show()
     // Pass the rides, pickup locations, and commuters to the view
     return view('ridematch', compact('sharedRides', 'pickupLocations', 'commuters', 'user'));
 }
-
 }
 
 

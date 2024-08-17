@@ -124,7 +124,8 @@
         
         <!-- Rides Page Section -->
         <section class="rides-page" id="rides-page">
-        
+        @include('test')
+        <a href="{{ route('ridematch') }}" class="btn btn-primary">View Ride Match</a>
         </section>
 
         <!-- Logout Form -->
@@ -378,7 +379,7 @@
             });
 
             document.addEventListener('DOMContentLoaded', function() {
-        fetch("{{ route('rides.index') }}")
+        fetch("{{ route('ridematch') }}")
             .then(response => response.text())
             .then(html => {
                 document.getElementById('rides-page').innerHTML = html;

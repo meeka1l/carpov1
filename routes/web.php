@@ -53,10 +53,10 @@ Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.loc
 Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
 Route::get('/rides/search', [RideController::class, 'searchRides']);
 
-Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride.match');
+//Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride.match');
 Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index');
 Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPage'])->name('rides.request');
-//Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
+Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
 
 Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('rides.accept');
 Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');

@@ -110,7 +110,7 @@
             @endforeach
         </ul>
 
-        <div id="map" class="disabled"></div>
+        
     </section>
 
     <script>
