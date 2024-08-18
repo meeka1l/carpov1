@@ -1,5 +1,6 @@
 @if(isset($sharedRides) && isset($pickupLocations) && isset($commuters))
 <!-- Rides where the logged-in user is the navigator -->
+
 <h2>My Rides as Navigator</h2>
 @foreach($sharedRides as $ride)
     <div class="ride-details">
@@ -7,7 +8,10 @@
         <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
         <strong>Description:</strong>
         <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
+        
+        <span class="shared-time"><strong>Shared on: </strong>{{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
 
+        <span class="shared-time-ago">({{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }})</span><br>
         <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
         <strong>Status:</strong> {{ $ride->status }}<br>
         <strong>Pickup Locations:</strong>
@@ -28,7 +32,6 @@
                 </p>
             @endforeach
 
-            <!-- Accept/Reject Buttons -->
             @if($ride->status == 'Pending')
                 <form action="{{ route('rides.accept', $ride->id) }}" method="POST" style="display: inline;">
                     @csrf
@@ -40,13 +43,13 @@
                 </form>
             @elseif($ride->status == 'Accepted')
                 <p>Ride accepted.</p>
+                
             @elseif($ride->status == 'Rejected')
                 <p>Ride rejected.</p>
             @endif
         @endif
     </div>
 
-    <!-- Delete Button -->
     <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this ride?');">
         @csrf
         @method('DELETE')
@@ -55,6 +58,7 @@
     <hr>
 @endforeach
 @endif
+<button onclick="history.back()" style="margin-bottom: 20px;">&larr; Back</button>
 
 <script>
     function convertToClickableLinks(text) {
@@ -119,10 +123,57 @@
             ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
         `;
     }
+    function startRide(event, rideId) {
+        event.preventDefault();
+        const form = document.getElementById(`start-ride-form-${rideId}`);
+        const now = new Date();
+        const formattedTime = now.toLocaleString('en-US', { timeZone: 'Asia/Colombo', hour: '2-digit', minute: '2-digit', hour12: true });
 
-    document.querySelectorAll('.ride-description').forEach(descriptionElement => {
-        const rawDescription = descriptionElement.innerText;
-        const formattedData = formatRouteDescription(rawDescription);
-        displayRouteDescription(formattedData, descriptionElement);
+        // Post the form to start the ride
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Display the start time
+                document.getElementById(`ride-start-time-${rideId}`).textContent = `Ride started at: ${formattedTime}`;
+            } else {
+                console.error('Failed to start the ride.');
+            }
+        }).catch(error => console.error('Error:', error));
+    }
+    // Function to format the timestamp into "time ago"
+    function formatTimeAgo(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const timeDifference = now - date;
+        
+        const seconds = Math.floor(timeDifference / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (days > 0) {
+            return days + ' day' + (days > 1 ? 's' : '') + ' ago';
+        } else if (hours > 0) {
+            return hours + ' hour' + (hours > 1 ? 's' : '') + ' ago';
+        } else if (minutes > 0) {
+            return minutes + ' minute' + (minutes > 1 ? 's' : '') + ' ago';
+        } else {
+            return seconds + ' second' + (seconds > 1 ? 's' : '') + ' ago';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+       
+        // Existing code to format descriptions
+        document.querySelectorAll('.ride-description').forEach(descriptionElement => {
+            const rawDescription = descriptionElement.innerText;
+            const formattedData = formatRouteDescription(rawDescription);
+            displayRouteDescription(formattedData, descriptionElement);
+        });
     });
 </script>

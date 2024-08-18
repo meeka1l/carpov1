@@ -18,6 +18,8 @@ class Ride extends Model
         'end_location',
         'description',
         'email',
+        'status',
+        'start_time',
     ];
 
     public function navigator()

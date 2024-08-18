@@ -62,3 +62,4 @@ Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('ri
 Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');
 Route::delete('/rides/{id}/delete', [RideController::class, 'delete'])->name('rides.delete');
 Route::delete('/ride-requests/{id}/delete', [RideController::class, 'deleteRequest'])->name('rideRequests.delete');
+Route::post('/rides/{id}/start', [RideController::class, 'start'])->name('rides.start');

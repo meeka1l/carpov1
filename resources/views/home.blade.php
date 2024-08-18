@@ -60,8 +60,8 @@
             <nav>
                 <ul>
                     <a href="#" id="show-navigator">Navigator Mode</a>
-                    <a href="#" id="show-commuter" class="active">Commuter Mode</a>
                     <a href="#" id="show-rides">Ride Matches</a>
+                    <a href="#" id="show-commuter" class="active">Commuter Mode</a>             
                 </ul>
             </nav>
         </header>
@@ -143,7 +143,7 @@
             const navigatorPage = document.getElementById('navigator-page');
             const commuterPage = document.getElementById('commuter-page');
             const ridesPage = document.getElementById('rides-page');
-
+            
             let map, startMarker, endMarker;
             let canSelectStart = false;
             let canSelectEnd = false;
@@ -386,6 +386,41 @@
             })
             .catch(error => console.error('Error loading rides:', error));
     });
+    // Handle form submission and active class change
+    const shareRideForm = document.querySelector('form[action="{{ route('rides.store') }}"]');
+    shareRideForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(shareRideForm);
+
+        fetch(shareRideForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); // or response.json() depending on your endpoint
+            } else {
+                throw new Error('Failed to submit form');
+            }
+        })
+        .then(data => {
+            // Assuming a successful submission
+            navigatorLink.classList.remove('active');
+            commuterLink.classList.remove('active');
+            ridesLink.classList.add('active');
+            commuterPage.style.display = 'none';
+            navigatorPage.style.display = 'none';
+            ridesPage.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
           
         });
        

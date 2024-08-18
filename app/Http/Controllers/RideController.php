@@ -220,7 +220,19 @@ public function delete($rideId)
     // Return the results as JSON for AJAX request
     return response()->json($rides);
 }
+public function start($id)
+    {
+        // Find the ride by ID
+        $ride = Ride::findOrFail($id);
+        
+        // Update the ride status to 'In Progress' and set the start time
+        $ride->status = 'In Progress';
+        $ride->start_time = now(); // Assuming you have a `start_time` column in your `rides` table
+        $ride->save();
 
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Ride started successfully.');
+    }
 
 public function show()
 {

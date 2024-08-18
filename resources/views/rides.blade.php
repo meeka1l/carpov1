@@ -86,6 +86,13 @@
             pointer-events: none;
             opacity: 0.6;
         }
+
+        /* Shared Time */
+        .shared-time {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -100,12 +107,16 @@
                 <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
                 <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
                 <span class="ride-description">{{ $ride->description }}</span><br>
+                <span class="shared-time">Shared on: {{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
+<br>
+                <span class="shared-time">Shared {{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }}</span>
+<!-- Display the shared time -->
                 <form action="{{ route('rides.join') }}" method="POST">
                     @csrf
                     <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                     <input type="hidden" id="pickup_location_{{ $ride->id }}" name="pickup_location" required>
                     <a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="btn btn-primary">Join Ride</a>
-          </form>
+                </form>
             </li>
             @endforeach
         </ul>
@@ -207,6 +218,7 @@
                                 <strong>Vehicle:</strong> ${ride.vehicle_model} (${ride.vehicle_number})<br>
                                 <strong>Color:</strong> ${ride.vehicle_color}<br>
                                 <strong>Description:</strong> <span class="ride-description"></span><br>
+                                <span class="shared-time">Shared on: ${new Date(ride.created_at).toLocaleString()}</span> <!-- Display the shared time -->
                                 <form action="/rides/join" method="POST">
                                     <input type="hidden" name="ride_id" value="${ride.id}">
                                     <input type="hidden" id="pickup_location_${ride.id}" name="pickup_location" required>
@@ -219,12 +231,13 @@
                         });
                     });
             });
+
             function setPickupLocation(rideId) {
-    // Assuming you have a way to determine the pickup location, set it here
-    // For example, you might prompt the user or get it from a predefined value
-    var pickupLocation = "Some predefined location"; // Replace with actual logic
-    document.getElementById('pickup_location_' + rideId).value = pickupLocation;
-}
+                // Assuming you have a way to determine the pickup location, set it here
+                // For example, you might prompt the user or get it from a predefined value
+                var pickupLocation = "Some predefined location"; // Replace with actual logic
+                document.getElementById(`pickup_location_${rideId}`).value = pickupLocation;
+            }
         });
     </script>
 </body>
