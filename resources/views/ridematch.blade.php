@@ -32,28 +32,51 @@
                 </p>
             @endforeach
 
-            @if($ride->status == 'Pending')
-                <form action="{{ route('rides.accept', $ride->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    <button type="submit">Accept Ride</button>
-                </form>
-                <form action="{{ route('rides.reject', $ride->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    <button type="submit">Reject Ride</button>
-                </form>
-            @elseif($ride->status == 'Accepted')
-                <p>Ride accepted.</p>
-                
+          @if($ride->status == 'Pending')
+    <form action="{{ route('rides.accept', $ride->id) }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit">Accept Ride</button>
+    </form>
+    <form action="{{ route('rides.reject', $ride->id) }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit">Reject Ride</button>
+    </form>
+    @elseif($ride->status == 'Accepted')
+    <form action="{{ route('rides.start', $ride->id) }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit">Start Ride</button>
+    </form>
+            @elseif($ride->status == 'Started')
+            @php
+                // Convert the start time to the desired timezone
+                $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
+                $currentTime = \Carbon\Carbon::now()->setTimezone('Asia/Colombo');
+
+                // Calculate the duration
+                $duration = $startTime->diff($currentTime);
+
+                // Format the duration
+                $formattedDuration = $duration->format('%H:%I:%S');
+            @endphp
+            <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d h:i:s A') }}.</p>
+            <p>Ride duration: <span id="ride-timer">{{ $formattedDuration }}</span></p>
+            <form action="{{ route('rides.end', $ride->id) }}" method="POST" id="end-ride-form">
+             @csrf
+            <button type="submit" class="btn btn-danger">End Ride</button>
+            </form>
             @elseif($ride->status == 'Rejected')
                 <p>Ride rejected.</p>
             @endif
         @endif
     </div>
-
-    <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this ride?');">
+@if($ride->status == 'Ended')
+    <p>Your ride has ended.</p>
+    <strong>Duration: </strong> {{ $ride->duration }}<br>
+@endif   
+    <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
         @csrf
         @method('DELETE')
-        <button type="submit">Delete Ride</button>
+        <button type="submit">Cancel Ride Sharing</button>
     </form>
     <hr>
 @endforeach
@@ -123,28 +146,47 @@
             ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
         `;
     }
-    function startRide(event, rideId) {
-        event.preventDefault();
-        const form = document.getElementById(`start-ride-form-${rideId}`);
-        const now = new Date();
-        const formattedTime = now.toLocaleString('en-US', { timeZone: 'Asia/Colombo', hour: '2-digit', minute: '2-digit', hour12: true });
+   
+    
+    document.addEventListener('DOMContentLoaded', (event) => {
+        @if($ride->status == 'Started')
+        let startTime = new Date("{{ \Carbon\Carbon::parse($ride->start_time)->timezone('Asia/Colombo')->format('Y-m-d H:i:s') }}").getTime();
+        let timerElement = document.getElementById('ride-timer');
 
-        // Post the form to start the ride
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            function updateTimer() {
+                let now = new Date().getTime();
+                let elapsed = now - startTime;
+
+                let hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerElement.innerHTML = hours + ':' + minutes + ':' + seconds;
             }
-        }).then(response => {
-            if (response.ok) {
-                // Display the start time
-                document.getElementById(`ride-start-time-${rideId}`).textContent = `Ride started at: ${formattedTime}`;
-            } else {
-                console.error('Failed to start the ride.');
-            }
-        }).catch(error => console.error('Error:', error));
+
+            timerInterval = setInterval(updateTimer, 1000);
+
+    document.getElementById('end-ride-form').addEventListener('submit', function(event) {
+        clearInterval(timerInterval);
+        alert('Ride ended. Duration: ' + timerElement.innerHTML);
+    });
+        @endif
+    });
+    function setStartTime() {
+        const now = new Date();
+        const formattedTime = now.toLocaleString('en-US', { 
+            timeZone: 'Asia/Colombo', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            hour12: true 
+        });
+        document.getElementById('start-time').value = formattedTime;
     }
+
     // Function to format the timestamp into "time ago"
     function formatTimeAgo(dateString) {
         const date = new Date(dateString);

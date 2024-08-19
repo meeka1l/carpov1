@@ -104,21 +104,30 @@
         <ul id="ride-list">
             @foreach($rides as $ride)
             <li>
+                
+                <strong>{{ $ride->email }}</strong><br>
                 <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
                 <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
                 <span class="ride-description">{{ $ride->description }}</span><br>
                 <span class="shared-time">Shared on: {{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
-<br>
+                <br>
                 <span class="shared-time">Shared {{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }}</span>
-<!-- Display the shared time -->
+                <!-- Display the shared time -->
                 <form action="{{ route('rides.join') }}" method="POST">
                     @csrf
                     <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                     <input type="hidden" id="pickup_location_{{ $ride->id }}" name="pickup_location" required>
+                     @if($ride->status == 'Started')
+                    <a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="btn btn-primary">View Ride</a>
+                    @elseif($ride->status == 'Ended')
+                    <a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="btn btn-primary">View Ride Details</a>
+                    @else
                     <a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="btn btn-primary">Join Ride</a>
+                   @endif
                 </form>
             </li>
             @endforeach
+            
         </ul>
 
         

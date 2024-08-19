@@ -47,6 +47,7 @@ Route::get('/admin/download-student-data', [StudentDataController::class, 'downl
 Route::get('/navigator', [RideController::class, 'showNavigator'])->name('navigator');
 Route::get('/commuter', [RideController::class, 'showCommuter'])->name('commuter');
 Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
+
 Route::post('/rides/join', [RideController::class, 'joinRide'])->name('rides.join');
 Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
 
@@ -62,4 +63,5 @@ Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('ri
 Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');
 Route::delete('/rides/{id}/delete', [RideController::class, 'delete'])->name('rides.delete');
 Route::delete('/ride-requests/{id}/delete', [RideController::class, 'deleteRequest'])->name('rideRequests.delete');
-Route::post('/rides/{id}/start', [RideController::class, 'start'])->name('rides.start');
+Route::post('/rides/{ride}/start', [RideController::class, 'start'])->name('rides.start');
+Route::post('/rides/end/{ride}', [RideController::class, 'end'])->name('rides.end'); // Add this line

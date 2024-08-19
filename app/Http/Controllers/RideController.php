@@ -220,19 +220,14 @@ public function delete($rideId)
     // Return the results as JSON for AJAX request
     return response()->json($rides);
 }
-public function start($id)
-    {
-        // Find the ride by ID
-        $ride = Ride::findOrFail($id);
-        
-        // Update the ride status to 'In Progress' and set the start time
-        $ride->status = 'In Progress';
-        $ride->start_time = now(); // Assuming you have a `start_time` column in your `rides` table
-        $ride->save();
+public function start(Request $request, Ride $ride)
+{
+    $ride->status = 'Started';
+    $ride->start_time = now();
+    $ride->save();
 
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Ride started successfully.');
-    }
+    return redirect()->back()->with('status', 'Ride started successfully!');
+}
 
 public function show()
 {
@@ -255,6 +250,23 @@ public function show()
 
     // Pass the rides, pickup locations, and commuters to the view
     return view('ridematch', compact('sharedRides', 'pickupLocations', 'commuters', 'user'));
+}
+
+
+public function end(Ride $ride)
+{
+    // Calculate the duration
+    $startTime = \Carbon\Carbon::parse($ride->start_time);
+    $endTime = now();
+    $duration = $startTime->diff($endTime)->format('%H:%I:%S');
+
+    // Update the ride status and end time
+    $ride->status = 'Ended';
+    $ride->end_time = $endTime;
+    $ride->duration = $duration; // Assuming you have a 'duration' column in your 'rides' table
+    $ride->save();
+
+    return redirect()->route('ridematch')->with('status', 'Ride ended successfully.');
 }
 }
 
