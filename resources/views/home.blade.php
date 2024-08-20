@@ -72,7 +72,7 @@
             <form action="{{ route('rides.store') }}" method="post">
                 @csrf
                 
-
+                
                 <label><input type="checkbox" id="from-apiit"> From APIIT</label>
                 <label><input type="checkbox" id="to-apiit"> To APIIT</label>
                 <br>
@@ -87,7 +87,8 @@
                 <input type="text" id="vehicle_model" name="vehicle_model" required>
                 <br>
                 <label for="description">Ride Description:</label>
-                <input type="text" id="description" name="description" required>
+                <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">Google Maps</a> <!-- Added Google Maps link -->
+               
                 <br>
 
         <label for="start_location">Start Location:</label>
