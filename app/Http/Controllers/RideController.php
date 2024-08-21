@@ -65,7 +65,7 @@ class RideController extends Controller
         'description' => $validated['description'],
         'navigator_id' => $user->id, // Save navigator ID
         'email' => $user->email,  // Save the user's email for checking ride uniqueness
-        'user_name' => Auth::user()->name, // Automatically populate user_name
+  
     ]);
     $validated = $request->validate([
         'id' => 'required|exists:rides,id',
