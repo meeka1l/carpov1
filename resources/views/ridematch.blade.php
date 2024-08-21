@@ -12,9 +12,22 @@
 
     h2 {
         font-size: 2em; /* Larger font size for headings */
+        color: white;
+        font-family: 'Krona One', sans-serif;
+        margin: 5%;
+        margin-bottom: 5%;
+    }
+
+    h1  {
+        font-size: 4em; /* Larger font size for headings */
         color: #333;
         font-family: 'Krona One', sans-serif;
-        margin-top: 0;
+        margin-bottom:10%;
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-left: 33.3%;
+        margin-right: 33.3%;
+        margin-top: 10%;
     }
 
     .ride-container {
@@ -22,7 +35,10 @@
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin: 1em 0;
+        margin: 0 auto;
+        max-width: 90%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        font-size: 2em;
     }
 
     .ride-description {
@@ -31,7 +47,7 @@
         background: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 4px;
-        font-size: 1.2em; /* Larger font size for descriptions */
+        font-weight: lighter;
     }
 
     .shared-time,
@@ -102,11 +118,23 @@
     .back-button:hover {
         opacity: 0.9;
     }
+    #cancel_button{
+        background-color: #dc3545;
+    }
+    #bg_design{
+        background-color: #27af97;
+        padding: 2%;
+        margin-right: 30%;
+        margin-bottom: 5%;
+    }
 </style>
 </head>
 
 @if(isset($sharedRides) && isset($pickupLocations) && isset($commuters))
-<h2>MY RIDE</h2>
+<h1>CARPO</h1>
+<div id="bg_design">
+    <h2>MY RIDE</h2>
+    </div>
 @foreach($sharedRides as $ride)
 <div class="ride-container">
     <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
@@ -177,7 +205,7 @@
 <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
     @csrf
     @method('DELETE')
-    <button type="submit">Cancel Ride Sharing</button>
+    <button id="cancel_button" type="submit">Cancel Ride Sharing</button>
 </form>
 <hr>
 @endforeach
