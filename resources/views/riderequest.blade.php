@@ -1,9 +1,91 @@
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        padding: 2em; /* Increased padding */
+        max-width: 100%;
+        margin: auto;
+        font-size: 1.2rem; /* Increased font size */
+        box-sizing: border-box;
+    }
+
+    h2 {
+        font-size: 2em; /* Larger font size for headings */
+        color: #333;
+        font-family: 'Krona One', sans-serif;
+        margin: 0;
+    }
+
+    p {
+        font-size: 1.2em; /* Increased font size for paragraphs */
+        margin: 1em 0; /* Adjusted margin for better spacing */
+    }
+
+    .status-message {
+        font-weight: bold;
+    }
+
+    .status-pending {
+        color: #FFA500;
+    }
+
+    .status-accepted {
+        color: #008000;
+    }
+
+    .status-rejected {
+        color: #FF0000;
+    }
+
+    .status-started {
+        color: #0000FF;
+    }
+
+    .form-container {
+        margin-top: 2em; /* Increased margin for form */
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 1em; /* Increased padding for better touchability */
+        margin-top: 1em; /* Increased margin for spacing */
+        font-size: 1.2em; /* Larger font size for input */
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 1em; /* Increased padding for better touchability */
+        font-size: 1.2em; /* Larger font size for buttons */
+        border: none;
+        border-radius: 4px;
+        margin-top: 2em; /* Increased margin for spacing */
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .btn-confirm {
+        background-color: #008CBA;
+        color: white;
+    }
+
+    .btn-back {
+        background-color: #f1f1f1;
+        color: #333;
+        border: 1px solid #ccc;
+    }
+</style>
 </head>
 
-<div style="padding: 10px; font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-    <h2 style="font-size: 1.5em; color: #333; font-family: Krona One">RIDE REQUEST</h2>
+<div class="container">
+    <h2>RIDE REQUEST</h2>
 
     <p><strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})</p>
     <p><strong>Color:</strong> {{ $ride->vehicle_color }}</p>
@@ -11,13 +93,13 @@
 
     <!-- Display the ride request status -->
     @if($ride->status == 'Pending')
-        <p style="color: #FFA500;">Your request is pending.</p>
+        <p class="status-message status-pending">Your request is pending.</p>
     @elseif($ride->status == 'Accepted')
-        <p style="color: #008000;">Your request has been accepted!</p>
+        <p class="status-message status-accepted">Your request has been accepted!</p>
     @elseif($ride->status == 'Rejected')
-        <p style="color: #FF0000;">Your request has been rejected.</p>
+        <p class="status-message status-rejected">Your request has been rejected.</p>
     @elseif($ride->status == 'Started')
-        <p style="color: #0000FF;">The ride has started.</p>
+        <p class="status-message status-started">The ride has started.</p>
         @php
         // Convert the start time to the desired timezone
         $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
@@ -35,17 +117,19 @@
 
     <!-- Form to allow the user to input their pickup location -->
     @if($ride->status == 'Pending')
-        <form action="{{ route('rides.join') }}" method="post" style="margin-top: 20px;">
-            @csrf
-            <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-            <label for="pickup_location" style="font-weight: bold;">Pickup Location:</label><br>
-            <input type="text" id="pickup_location" name="pickup_location" required style="width: 100%; padding: 8px; margin-top: 10px; box-sizing: border-box;">
-            <button type="submit" style="width: 100%; padding: 10px; background-color: #008CBA; color: white; border: none; border-radius: 4px; margin-top: 20px;">Confirm Join Ride</button>
-        </form>
+        <div class="form-container">
+            <form action="{{ route('rides.join') }}" method="post">
+                @csrf
+                <input type="hidden" name="ride_id" value="{{ $ride->id }}">
+                <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Pickup Location:</label><br>
+                <input type="text" id="pickup_location" name="pickup_location" required>
+                <button type="submit" class="btn-confirm">Confirm Join Ride</button>
+            </form>
+        </div>
     @elseif($ride->status == 'Ended')
-        <p style="color: #FF0000; margin-top: 20px;">The ride has ended.</p>
+        <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
     @endif
-    <button onclick="history.back()" style="width: 100%; padding: 10px; background-color: #f1f1f1; color: #333; border: 1px solid #ccc; border-radius: 4px; margin-top: 20px;">&larr; Back</button>
+    <button onclick="history.back()" class="btn-back">&larr; Back</button>
 </div>
 
 <script>

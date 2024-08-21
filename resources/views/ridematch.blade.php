@@ -7,52 +7,55 @@
         color: #333;
         margin: 0;
         padding: 20px;
+        font-size: 1.2rem; /* Increased base font size */
     }
 
     h2 {
-        font-size: 1.5em;
+        font-size: 2em; /* Larger font size for headings */
         color: #333;
         font-family: 'Krona One', sans-serif;
         margin-top: 0;
     }
 
     .ride-container {
-        padding: 15px;
+        padding: 1.5em; /* Increased padding */
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin: 10px 0;
+        margin: 1em 0;
     }
 
     .ride-description {
-        margin: 10px 0;
-        padding: 10px;
+        margin: 1em 0;
+        padding: 1em;
         background: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 4px;
+        font-size: 1.2em; /* Larger font size for descriptions */
     }
 
     .shared-time,
     .shared-time-ago {
         display: block;
-        margin: 5px 0;
+        margin: 0.5em 0;
+        font-size: 1.2em; /* Larger font size for timestamps */
     }
 
     .form-actions form {
         display: inline;
-        margin-right: 5px;
+        margin-right: 1em; /* Increased margin for spacing */
     }
 
     button {
         background-color: #007bff;
         border: none;
         color: white;
-        padding: 8px 16px;
+        padding: 1em 2em; /* Increased padding */
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 14px;
-        margin: 4px 2px;
+        font-size: 1.2em; /* Larger font size for buttons */
+        margin: 0.5em 1em; /* Increased margin */
         border-radius: 4px;
         cursor: pointer;
     }
@@ -67,30 +70,33 @@
 
     .ride-status {
         font-weight: bold;
+        font-size: 1.2em; /* Larger font size for status */
     }
 
     .no-pickup-locations {
         color: #666;
         font-style: italic;
+        font-size: 1.2em; /* Larger font size for no pickup locations message */
     }
 
     hr {
-        margin: 20px 0;
+        margin: 2em 0;
         border: 0;
         border-top: 1px solid #ddd;
     }
 
     .back-button {
         display: block;
-        margin: 20px 0;
+        margin: 2em 0;
         background: #007bff;
         color: white;
         border: none;
-        padding: 10px 20px;
+        padding: 1em 2em; /* Increased padding */
         text-align: center;
         text-decoration: none;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 1.2em; /* Larger font size for back button */
     }
 
     .back-button:hover {
@@ -178,7 +184,6 @@
 @endif
 <button onclick="history.back()" class="back-button">&larr; Back</button>
 
-
 <script>
     function convertToClickableLinks(text) {
         return text.replace(
@@ -242,7 +247,6 @@
             ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
         `;
     }
-   
     
     document.addEventListener('DOMContentLoaded', (event) => {
         @if($ride->status == 'Started')
