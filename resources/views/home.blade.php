@@ -117,7 +117,7 @@
                 <div class="ride_details">
                     <h3>Ride Details</h3>
                 <label for="description">Route Description:</label>
-                <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">Google Maps</a> <!-- Added Google Maps link -->
+                <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
                
                 <br>
 

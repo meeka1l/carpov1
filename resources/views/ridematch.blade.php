@@ -3,7 +3,6 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
         color: #333;
         margin: 0;
         padding: 20px;
@@ -18,16 +17,39 @@
         margin-bottom: 5%;
     }
 
+    .headerkrona {
+        font-size: 1.5em; /* Larger font size for headings */
+        color: #2cc3a9;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
+        margin-bottom: 2em;
+    }
+
+    .headerkrona2 {
+        font-size: 1.75em; /* Larger font size for headings */
+        color: #848484;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
+        margin-bottom: 2em;
+    }
+
+    .headerkrona3 {
+        font-size: 1.75em; /* Larger font size for headings */
+        color: white;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
+        margin-bottom: 2em;
+    }
+
     h1  {
         font-size: 4em; /* Larger font size for headings */
         color: #333;
         font-family: 'Krona One', sans-serif;
-        margin-bottom:10%;
-        margin-top: 2%;
+        margin-bottom:15%;
         margin-left: 2%;
         margin-left: 33.3%;
         margin-right: 33.3%;
-        margin-top: 10%;
+        margin-top: 15%;
     }
 
     .ride-container {
@@ -53,7 +75,7 @@
     .shared-time,
     .shared-time-ago {
         display: block;
-        margin: 0.5em 0;
+        margin: 0 0;
         font-size: 1.2em; /* Larger font size for timestamps */
     }
 
@@ -127,6 +149,37 @@
         margin-right: 30%;
         margin-bottom: 5%;
     }
+    .light_box{
+        max-width: 35%;
+        background-color: #1e8573;
+        color: white;
+        padding: 5%;
+        padding-top: 5%;
+        padding-bottom: 15%;
+        border-radius: 5%;
+    }
+    .dark_box{
+        max-width: 35%;
+        background-color: black;
+        color: white;
+        padding: 5%;
+        padding-top: 5%;
+        padding-bottom: 15%;
+        border-radius: 5%;
+        font-size: smaller;
+    }
+    .in_a_row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .wide_box{
+        background: linear-gradient(to right, #1e8573, black);
+        padding: 5%;
+        margin-top: 10%;
+        padding-top: 5%;
+        font-size: smaller;
+    }
 </style>
 </head>
 
@@ -137,15 +190,26 @@
     </div>
 @foreach($sharedRides as $ride)
 <div class="ride-container">
+    <div class="in_a_row">
+    <div class="light_box">
+    <strong class="headerkrona">Vehicle</strong><br><br>
     <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
     <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
-    <strong>Description:</strong>
-    <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
-    
+    </div>
+
+    <div class="dark_box">
+    <strong class="headerkrona2">Details</strong><br><br>  
     <span class="shared-time"><strong>Shared on: </strong>{{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
     <span class="shared-time-ago">({{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }})</span><br>
     <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
     <strong>Status:</strong> <span class="ride-status">{{ $ride->status }}</span><br>
+    </div>
+    </div>
+
+    <div class="wide_box">
+    <strong class="headerkrona3">Description</strong>
+    <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
+    </div>
     <strong>Pickup Locations:</strong>
     @php
         $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
