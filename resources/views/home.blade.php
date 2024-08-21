@@ -115,7 +115,7 @@
                 <br>
                 <div class="ride_details">
                     <h3>Ride Details</h3>
-                <label for="description">Ride Description:</label>
+                <label for="description">Route Description:</label>
                 <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">Google Maps</a> <!-- Added Google Maps link -->
                
                 <br>
@@ -126,8 +126,8 @@
 
         <select id="start_location_dropdown" name="start_location_dropdown" style="display: none;" required onchange="updateLocation('start_location')">
             <option disabled selected>Select</option>
-            <option value="6.918688426614458,79.8612400882712">Location 1</option>
-            <option value="6.920275317391224,79.85747472886152">Location 2</option>
+            <option value="6.918688426614458,79.8612400882712">City Campus</option>
+            <option value="6.920275317391224,79.85747472886152">Law School</option>
         </select>
         <br>
 

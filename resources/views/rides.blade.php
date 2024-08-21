@@ -93,6 +93,9 @@
             color: #888;
             margin-top: 5px;
         }
+        .strong_header{
+            font-family: "Krona one";
+        }
     </style>
 </head>
 <body>
@@ -105,8 +108,7 @@
             @foreach($rides as $ride)
             <li>
                 
-                <strong>Navigator ::</strong> {{ $ride->user_name}}  <br>
-                <strong>Email:</strong> {{ $ride->email }}<br>
+                <strong>{{ $ride->email }}</strong><br>
                 <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
                 <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
                 <span class="ride-description">{{ $ride->description }}</span><br>
