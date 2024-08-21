@@ -107,10 +107,12 @@
         <ul id="ride-list">
             @foreach($rides as $ride)
             <li>
-                
-                <strong>{{ $ride->email }}</strong><br>
+                <strong class="strong_header">Navigator Details</strong><br><br>
+                <strong>{{ $ride->email }}</strong><br><br><br>
+                <strong class="strong_header">Vehicle Details</strong><br><br>
                 <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
-                <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
+                <strong>Color:</strong> {{ $ride->vehicle_color }}<br><br><br>
+                <strong class="strong_header">Route Details</strong><br><br>
                 <span class="ride-description">{{ $ride->description }}</span><br>
                 <span class="shared-time">Shared on: {{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
                 <br>
