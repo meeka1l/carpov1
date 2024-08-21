@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Carpo</title>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
  <style>
         nav {
@@ -37,7 +36,6 @@
 
         nav ul a.active {
             font-weight: bold;
-            color:#27af97;
         }
 
         nav ul a:not(.active) {
@@ -79,13 +77,13 @@
 <body>
     <div class="wrapper">
         <header class="header">
-            <h1 id="carpo_logo">CARPO</h1>
-            
+            <h1>CARPO</h1>
+            <h2>Welcome to CARPO</h2>
             <nav>
                 <ul>
-                    <a href="#" id="show-commuter" class="active">Commuter Mode</a>
+                    <a href="#" id="show-navigator">Navigator Mode</a>
                     <a href="#" id="show-rides">Ride Matches</a>
-                    <a href="#" id="show-navigator">Navigator Mode</a>             
+                    <a href="#" id="show-commuter" class="active">Commuter Mode</a>             
                 </ul>
             </nav>
         </header>
@@ -100,9 +98,7 @@
                 <label><input type="checkbox" id="from-apiit"> From APIIT</label>
                 <label><input type="checkbox" id="to-apiit"> To APIIT</label>
                 <br>
-                <br>
-                <div class="vehicle_details">
-                    <h3>Vehicle</h3>
+
                 <label for="vehicle_number">Vehicle Number:</label>
                 <input type="text" id="vehicle_number" name="vehicle_number" required>
                 <br>
@@ -111,7 +107,6 @@
                 <br>
                 <label for="vehicle_model">Vehicle Model:</label>
                 <input type="text" id="vehicle_model" name="vehicle_model" required>
-                </div>
                 <br>
                 <div class="ride_details">
                     <h3>Ride Details</h3>
