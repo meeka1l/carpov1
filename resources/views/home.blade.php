@@ -137,8 +137,8 @@
 
         <select id="end_location_dropdown" name="end_location_dropdown" style="display: none;" required onchange="updateLocation('end_location')">
             <option disabled selected>Select</option>
-            <option value="6.918688426614458,79.8612400882712">Location 1</option>
-            <option value="6.920275317391224,79.85747472886152">Location 2</option>
+            <option value="6.918688426614458,79.8612400882712">APIIT City Campus</option>
+            <option value="6.920275317391224,79.85747472886152">APIIT Law School</option>
         </select>
         </div>
         <br>
