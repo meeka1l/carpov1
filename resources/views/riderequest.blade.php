@@ -16,11 +16,24 @@
         box-sizing: border-box;
     }
 
-    h2 {
-        font-size: 2em; /* Larger font size for headings */
+    h1  {
+        font-size: 4em; /* Larger font size for headings */
         color: #333;
         font-family: 'Krona One', sans-serif;
-        margin: 0;
+        margin-bottom:10%;
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-left: 33.3%;
+        margin-right: 33.3%;
+        margin-top: 10%;
+    }
+
+    h2 {
+        font-size: 2em; /* Larger font size for headings */
+        color: white;
+        font-family: 'Krona One', sans-serif;
+        margin: 5%;
+        margin-bottom: 5%;
     }
 
     p {
@@ -81,12 +94,32 @@
         color: #333;
         border: 1px solid #ccc;
     }
+    #bg_design{
+        background-color: #27af97;
+        padding: 2%;
+        margin-right: 30%;
+        margin-bottom: 5%;
+    }
+    .ride-container {
+        padding: 1.5em; /* Increased padding */
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin: 0 auto;
+        max-width: 90%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        font-size: 2em;
+    }
+
 </style>
 </head>
 
 <div class="container">
+    <h1>CARPO</h1>
+    <div id="bg_design">
     <h2>RIDE REQUEST</h2>
-
+    </div>
+    <div class="ride-container">
     <p><strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})</p>
     <p><strong>Color:</strong> {{ $ride->vehicle_color }}</p>
     <p><strong>Description:</strong> {{ $ride->description }}</p>
