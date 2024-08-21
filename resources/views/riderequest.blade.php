@@ -46,7 +46,7 @@
         <p style="color: #FF0000; margin-top: 20px;">The ride has ended.</p>
     @endif
     <button onclick="history.back()" style="width: 100%; padding: 10px; background-color: #f1f1f1; color: #333; border: 1px solid #ccc; border-radius: 4px; margin-top: 20px;">&larr; Back</button>
-</di>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {

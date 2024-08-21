@@ -1,87 +1,183 @@
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+        color: #333;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0;
+    }
+
+    .ride-container {
+        padding: 15px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin: 10px 0;
+    }
+
+    .ride-description {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .shared-time,
+    .shared-time-ago {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .form-actions form {
+        display: inline;
+        margin-right: 5px;
+    }
+
+    button {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button.btn-danger {
+        background-color: #dc3545;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    .ride-status {
+        font-weight: bold;
+    }
+
+    .no-pickup-locations {
+        color: #666;
+        font-style: italic;
+    }
+
+    hr {
+        margin: 20px 0;
+        border: 0;
+        border-top: 1px solid #ddd;
+    }
+
+    .back-button {
+        display: block;
+        margin: 20px 0;
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        opacity: 0.9;
+    }
+</style>
+</head>
+
 @if(isset($sharedRides) && isset($pickupLocations) && isset($commuters))
-<!-- Rides where the logged-in user is the navigator -->
-
-<h2>My Rides as Navigator</h2>
+<h2>MY RIDE</h2>
 @foreach($sharedRides as $ride)
-    <div class="ride-details">
-        <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
-        <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
-        <strong>Description:</strong>
-        <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
-        
-        <span class="shared-time"><strong>Shared on: </strong>{{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
-
-        <span class="shared-time-ago">({{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }})</span><br>
-        <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
-        <strong>Status:</strong> {{ $ride->status }}<br>
-        <strong>Pickup Locations:</strong>
-        @php
-            $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
-        @endphp
-        @if($locationsForRide->isEmpty())
-            <p>No pickup locations available.</p>
-        @else
-            @foreach($locationsForRide as $location)
-                @php
-                    $commuter = $commuters->get($location->user_id);
-                @endphp
-                <p>
-                    {{ $location->pickup_location }} 
-                    (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
-                    User ID: {{ $location->user_id }})
-                </p>
-            @endforeach
-
-          @if($ride->status == 'Pending')
-    <form action="{{ route('rides.accept', $ride->id) }}" method="POST" style="display: inline;">
-        @csrf
-        <button type="submit">Accept Ride</button>
-    </form>
-    <form action="{{ route('rides.reject', $ride->id) }}" method="POST" style="display: inline;">
-        @csrf
-        <button type="submit">Reject Ride</button>
-    </form>
-    @elseif($ride->status == 'Accepted')
-    <form action="{{ route('rides.start', $ride->id) }}" method="POST" style="display: inline;">
-        @csrf
-        <button type="submit">Start Ride</button>
-    </form>
-            @elseif($ride->status == 'Started')
+<div class="ride-container">
+    <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br>
+    <strong>Color:</strong> {{ $ride->vehicle_color }}<br>
+    <strong>Description:</strong>
+    <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
+    
+    <span class="shared-time"><strong>Shared on: </strong>{{ $ride->created_at->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}</span>
+    <span class="shared-time-ago">({{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }})</span><br>
+    <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
+    <strong>Status:</strong> <span class="ride-status">{{ $ride->status }}</span><br>
+    <strong>Pickup Locations:</strong>
+    @php
+        $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
+    @endphp
+    @if($locationsForRide->isEmpty())
+        <p class="no-pickup-locations">No pickup locations available.</p>
+    @else
+        @foreach($locationsForRide as $location)
             @php
-                // Convert the start time to the desired timezone
-                $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
-                $currentTime = \Carbon\Carbon::now()->setTimezone('Asia/Colombo');
-
-                // Calculate the duration
-                $duration = $startTime->diff($currentTime);
-
-                // Format the duration
-                $formattedDuration = $duration->format('%H:%I:%S');
+                $commuter = $commuters->get($location->user_id);
             @endphp
-            <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d h:i:s A') }}.</p>
-            <p>Ride duration: <span id="ride-timer">{{ $formattedDuration }}</span></p>
-            <form action="{{ route('rides.end', $ride->id) }}" method="POST" id="end-ride-form">
-             @csrf
-            <button type="submit" class="btn btn-danger">End Ride</button>
-            </form>
+            <p>
+                {{ $location->pickup_location }} 
+                (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
+                User ID: {{ $location->user_id }})
+            </p>
+        @endforeach
+
+        <div class="form-actions">
+            @if($ride->status == 'Pending')
+                <form action="{{ route('rides.accept', $ride->id) }}" method="POST">
+                    @csrf
+                    <button type="submit">Accept Ride</button>
+                </form>
+                <form action="{{ route('rides.reject', $ride->id) }}" method="POST">
+                    @csrf
+                    <button type="submit">Reject Ride</button>
+                </form>
+            @elseif($ride->status == 'Accepted')
+                <form action="{{ route('rides.start', $ride->id) }}" method="POST">
+                    @csrf
+                    <button type="submit">Start Ride</button>
+                </form>
+            @elseif($ride->status == 'Started')
+                @php
+                    $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
+                    $currentTime = \Carbon\Carbon::now()->setTimezone('Asia/Colombo');
+                    $duration = $startTime->diff($currentTime);
+                    $formattedDuration = $duration->format('%H:%I:%S');
+                @endphp
+                <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d h:i:s A') }}.</p>
+                <p>Ride duration: <span id="ride-timer">{{ $formattedDuration }}</span></p>
+                <form action="{{ route('rides.end', $ride->id) }}" method="POST" id="end-ride-form">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">End Ride</button>
+                </form>
             @elseif($ride->status == 'Rejected')
                 <p>Ride rejected.</p>
             @endif
-        @endif
-    </div>
+        </div>
+    @endif
+</div>
 @if($ride->status == 'Ended')
     <p>Your ride has ended.</p>
     <strong>Duration: </strong> {{ $ride->duration }}<br>
 @endif   
-    <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Cancel Ride Sharing</button>
-    </form>
-    <hr>
+<form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Cancel Ride Sharing</button>
+</form>
+<hr>
 @endforeach
 @endif
-<button onclick="history.back()" style="margin-bottom: 20px;">&larr; Back</button>
+<button onclick="history.back()" class="back-button">&larr; Back</button>
+
 
 <script>
     function convertToClickableLinks(text) {
