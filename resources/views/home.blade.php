@@ -62,9 +62,17 @@
             border-color: black;
             border-radius: 2%;
         }
+        .ride_details{
+            background-color:black;
+            color: aliceblue;
+            padding: 10%;
+            border-color: black;
+            border-radius: 2%;
+        }
         h3{
             font-family:'Krona One', sans-serif;
             font-size: larger;
+            
         }
     </style>
 </head>
@@ -105,6 +113,8 @@
                 <input type="text" id="vehicle_model" name="vehicle_model" required>
                 </div>
                 <br>
+                <div class="ride_details">
+                    <h3>Ride Details</h3>
                 <label for="description">Ride Description:</label>
                 <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">Google Maps</a> <!-- Added Google Maps link -->
                
@@ -130,6 +140,7 @@
             <option value="6.918688426614458,79.8612400882712">Location 1</option>
             <option value="6.920275317391224,79.85747472886152">Location 2</option>
         </select>
+        </div>
         <br>
         
               <button type="submit" id="shareride">Share Ride</button>
