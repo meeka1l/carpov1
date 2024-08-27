@@ -157,7 +157,7 @@
         <!-- Rides Page Section -->
         <section class="rides-page" id="rides-page">
         @include('test')
-        <a href="{{ route('ridematch') }}" class="btn btn-primary">View Ride Match</a>
+        <a href="{{ route('ridematch') }}" class="btn btn-primary">View Your Ride </a>
         </section>
 
         <!-- Logout Form -->
