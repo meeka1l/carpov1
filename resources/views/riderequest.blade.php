@@ -29,7 +29,7 @@
     }
 
     h2 {
-        font-size: 2em; /* Larger font size for headings */
+        font-size: 1em; /* Larger font size for headings */
         color: white;
         font-family: 'Krona One', sans-serif;
         margin: 5%;
@@ -90,8 +90,8 @@
     }
 
     .btn-back {
-        background-color: #f1f1f1;
-        color: #333;
+        background-color:#ef0000;
+        color: white;
         border: 1px solid #ccc;
     }
     #bg_design{
@@ -99,6 +99,7 @@
         padding: 2%;
         margin-right: 30%;
         margin-bottom: 5%;
+      font-size: smaller;
     }
     .ride-container {
         padding: 1.5em; /* Increased padding */
@@ -110,6 +111,42 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         font-size: 2em;
     }
+    .headerkrona {
+        font-size: 1.5em; /* Larger font size for headings */
+        color: #2cc3a9;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
+        margin-bottom: 2em;
+    }
+
+    .light_box{
+        max-width: 100%;
+        background-color: #1e8573;
+        color: white;
+        padding: 5%;
+        padding-top: 5%;
+        padding-bottom: 10%;
+        border-radius: 5%;
+        margin-bottom: 10%;
+    }
+    .dark_box{
+        max-width: 100%;
+        background-color: black;
+        color: white;
+        padding: 5%;
+        padding-top: 5%;
+        padding-bottom: 15%;
+        border-radius: 5%;
+        font-size: smaller;
+    }
+
+    .headerkrona2 {
+        font-size: 1.75em; /* Larger font size for headings */
+        color: #848484;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
+        margin-bottom: 2em;
+    }
 
 </style>
 </head>
@@ -120,15 +157,23 @@
     <h2>RIDE REQUEST</h2>
     </div>
     <div class="ride-container">
+
+    <div class="light_box">
+    <strong class="headerkrona">Vehicle</strong><br><br>
     <p><strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})</p>
     <p><strong>Color:</strong> {{ $ride->vehicle_color }}</p>
-    <p><strong>Description:</strong> {{ $ride->description }}</p>
+    </div>
+
+    <div class="dark_box">
+    <strong class="headerkrona2">Route</strong><br><br>
+    <p> {{ $ride->description }}</p>
+    </div>
 
     <!-- Display the ride request status -->
     @if($ride->status == 'Pending')
-        <p class="status-message status-pending">Your request is pending.</p>
+        <p class="status-message status-pending">Your request is pending...</p>
     @elseif($ride->status == 'Accepted')
-        <p class="status-message status-accepted">Your request has been accepted!</p>
+        <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
     @elseif($ride->status == 'Rejected')
         <p class="status-message status-rejected">Your request has been rejected.</p>
     @elseif($ride->status == 'Started')
@@ -156,7 +201,7 @@
                 <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                 <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Pickup Location:</label><br>
                 <input type="text" id="pickup_location" name="pickup_location" required>
-                <button type="submit" class="btn-confirm">Confirm Join Ride</button>
+                <button type="submit" class="btn-confirm">Confirm Request</button>
             </form>
         </div>
     @elseif($ride->status == 'Ended')

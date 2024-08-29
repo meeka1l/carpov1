@@ -80,12 +80,14 @@
     }
 
     .form-actions form {
-        display: inline;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-right: 1em; /* Increased margin for spacing */
     }
 
     button {
-        background-color: #007bff;
+        background-color: #1e8573;
         border: none;
         color: white;
         padding: 1em 2em; /* Increased padding */
@@ -124,24 +126,34 @@
     }
 
     .back-button {
-        display: block;
-        margin: 2em 0;
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 1em 2em; /* Increased padding */
-        text-align: center;
-        text-decoration: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1.2em; /* Larger font size for back button */
-    }
+    display: block;
+    background-color: black; /* Changed to 'background-color' for consistency */
+    color: white;
+    border: none;
+    padding: 20px 25px; /* Adjusted padding for a more balanced look */
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px;
+    cursor: pointer;
+    max-width: 150px; /* Set a specific max width */
+    font-size: 1.8em; /* Adjusted font size */
+    position: fixed;
+    top: 5%; /* Center vertically */
+    left: 20px; /* Distance from the left side */
+    transform: translateY(-50%); /* Center alignment adjustment */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for better visibility */
+    z-index: 1000; /* Ensures the button is above other elements */
+}
 
-    .back-button:hover {
-        opacity: 0.9;
-    }
+.back-button:hover {
+    background-color: #333; /* Slightly lighter on hover */
+    opacity: 0.9;
+}
+
     #cancel_button{
         background-color: #dc3545;
+        min-width: 90%;
+        font-size: 2em;
     }
     #bg_design{
         background-color: #27af97;
@@ -167,6 +179,18 @@
         padding-bottom: 15%;
         border-radius: 5%;
         font-size: smaller;
+    }
+    .black_box{
+        max-width: 100%;
+        background-color: black;
+        color: white;
+        padding: 5%;
+        padding-top: 5%;
+        padding-bottom: 15%;
+        border-radius: 20px;
+        font-size: smaller;
+        margin-top: 10%;
+        margin-bottom: 10%;
     }
     .in_a_row{
         display: flex;
@@ -210,6 +234,8 @@
     <strong class="headerkrona3">Description</strong>
     <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
     </div>
+    
+    <div class="black_box">
     <strong>Pickup Locations:</strong>
     @php
         $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
@@ -227,16 +253,17 @@
                 User ID: {{ $location->user_id }})
             </p>
         @endforeach
+        </div>
 
         <div class="form-actions">
             @if($ride->status == 'Pending')
                 <form action="{{ route('rides.accept', $ride->id) }}" method="POST">
                     @csrf
-                    <button type="submit">Accept Ride</button>
+                    <button type="submit">Accept Commuter</button>
                 </form>
                 <form action="{{ route('rides.reject', $ride->id) }}" method="POST">
                     @csrf
-                    <button type="submit">Reject Ride</button>
+                    <button type="submit" class="btn-danger">Reject Commuter</button>
                 </form>
             @elseif($ride->status == 'Accepted')
                 <form action="{{ route('rides.start', $ride->id) }}" method="POST">
@@ -274,7 +301,7 @@
 <hr>
 @endforeach
 @endif
-<button onclick="history.back()" class="back-button">&larr; Back</button>
+<button onclick="history.back()" class="back-button">&larr;</button>
 
 <script>
     function convertToClickableLinks(text) {
