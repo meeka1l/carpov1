@@ -139,10 +139,11 @@
     font-size: 1.8em; /* Adjusted font size */
     position: fixed;
     top: 5%; /* Center vertically */
-    left: 20px; /* Distance from the left side */
+    left: 3%; /* Distance from the left side */
     transform: translateY(-50%); /* Center alignment adjustment */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for better visibility */
     z-index: 1000; /* Ensures the button is above other elements */
+    margin: 0;
 }
 
 .back-button:hover {
@@ -153,7 +154,7 @@
     #cancel_button{
         background-color: #dc3545;
         min-width: 90%;
-        font-size: 2em;
+        font-size: 1em;
     }
     #bg_design{
         background-color: #27af97;

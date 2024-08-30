@@ -148,6 +148,25 @@
         margin-bottom: 2em;
     }
 
+    .btn-chat {
+    width: 100%;
+    padding: 1em; /* Increased padding for better touchability */
+    font-size: 1.2em; /* Larger font size for buttons */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 2em; /* Increased margin for spacing */
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-chat:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+    
+
 </style>
 </head>
 
@@ -174,6 +193,7 @@
         <p class="status-message status-pending">Your request is pending...</p>
     @elseif($ride->status == 'Accepted')
         <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
+        <button class="btn-chat" onclick="window.location.href='{{ route('chat', ['ride_id' => $ride->id]) }}'">Chat with Navigator</button>
     @elseif($ride->status == 'Rejected')
         <p class="status-message status-rejected">Your request has been rejected.</p>
     @elseif($ride->status == 'Started')
@@ -199,7 +219,7 @@
             <form action="{{ route('rides.join') }}" method="post">
                 @csrf
                 <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-                <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Pickup Location:</label><br>
+                <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter your pickup location:</label><br>
                 <input type="text" id="pickup_location" name="pickup_location" required>
                 <button type="submit" class="btn-confirm">Confirm Request</button>
             </form>

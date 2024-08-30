@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentDataController;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\RideMatchingController;
+use App\Http\Controllers\ChatController;
 
 
 // Redirect root to registration step one
@@ -65,3 +66,7 @@ Route::delete('/rides/{id}/delete', [RideController::class, 'delete'])->name('ri
 Route::delete('/ride-requests/{id}/delete', [RideController::class, 'deleteRequest'])->name('rideRequests.delete');
 Route::post('/rides/{ride}/start', [RideController::class, 'start'])->name('rides.start');
 Route::post('/rides/end/{ride}', [RideController::class, 'end'])->name('rides.end'); // Add this line
+
+Route::get('/chat/{ride_id}', [ChatController::class, 'showChat'])->name('chat');
+Route::post('/chat/{ride_id}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat/{ride_id}/messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');

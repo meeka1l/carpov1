@@ -38,6 +38,7 @@
         nav ul a.active {
             font-weight: bold;
             color:#27af97;
+            font-family:'Krona One', sans-serif;
         }
 
         nav ul a:not(.active) {
@@ -73,6 +74,10 @@
             font-family:'Krona One', sans-serif;
             font-size: larger;
             
+        }
+
+        #shareride{
+            margin-top: 5%;
         }
         
     </style>
@@ -143,10 +148,10 @@
         </select>
         </div>
         <br>
-        
+        <div id="map" class="disabled"></div>
               <button type="submit" id="shareride">Share Ride</button>
             </form>
-            <div id="map" class="disabled"></div>
+           
         </section>
 
         <!-- Commuter Page Section -->
