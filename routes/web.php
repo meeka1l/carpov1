@@ -67,6 +67,12 @@ Route::delete('/ride-requests/{id}/delete', [RideController::class, 'deleteReque
 Route::post('/rides/{ride}/start', [RideController::class, 'start'])->name('rides.start');
 Route::post('/rides/end/{ride}', [RideController::class, 'end'])->name('rides.end'); // Add this line
 
-Route::get('/chat/{ride_id}', [ChatController::class, 'showChat'])->name('chat');
-Route::post('/chat/{ride_id}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-Route::get('/chat/{ride_id}/messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');
+// Route::get('/chat/{ride_id}', [ChatController::class, 'showChat'])->name('chat');
+// Route::post('/chat/{ride_id}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+// Route::get('/chat/{ride_id}/messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat/{ride}', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat/{ride}/send', [ChatController::class, 'send'])->name('chat.send');
+    Route::get('/chat/{ride}/messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');
+});

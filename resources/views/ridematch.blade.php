@@ -253,6 +253,7 @@
                 (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
                 User ID: {{ $location->user_id }})
             </p>
+            <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
         @endforeach
         </div>
 

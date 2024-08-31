@@ -148,7 +148,7 @@
         margin-bottom: 2em;
     }
 
-    .btn-chat {
+    .btn-chat { 
     width: 100%;
     padding: 1em; /* Increased padding for better touchability */
     font-size: 1.2em; /* Larger font size for buttons */
@@ -193,7 +193,8 @@
         <p class="status-message status-pending">Your request is pending...</p>
     @elseif($ride->status == 'Accepted')
         <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
-        <button class="btn-chat" onclick="window.location.href='{{ route('chat', ['ride_id' => $ride->id]) }}'">Chat with Navigator</button>
+        <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
+
     @elseif($ride->status == 'Rejected')
         <p class="status-message status-rejected">Your request has been rejected.</p>
     @elseif($ride->status == 'Started')

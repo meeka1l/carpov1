@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -58,4 +59,10 @@ class User extends Authenticatable
 {
     return $this->hasMany(PickupLocation::class);
 }
+
+public function messages()
+{
+    return $this->hasMany(Message::class);
+}
+
 }

@@ -53,5 +53,10 @@ class Ride extends Model
         $this->update(['current_location' => $location]);
     }
 
+public function messages()
+{
+    return $this->hasMany(Message::class);
+}
+
     
 }
