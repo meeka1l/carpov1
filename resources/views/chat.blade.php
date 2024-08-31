@@ -5,26 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Chat with Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <title>Carpo Chat</title>
+
     <style>
+        .cyantext {
+            color: #1e8573;
+            font-size: 1.5em;
+        }
+
+        h1 {
+            font-size: 1.5em; /* Larger font size for headings */
+            color: #333;
+            font-family: 'Krona One', sans-serif;
+            margin-bottom: 10%;
+            margin-left: 30%;
+            margin-right: 30%;
+            margin-top: 20%;
+        }
+
         .back-button {
             display: block;
             background-color: black;
             color: white;
             border: none;
-            padding: 2% 6%;
+            padding: 10px 15px;
             text-align: center;
             text-decoration: none;
             border-radius: 30px;
             cursor: pointer;
             max-width: 150px;
-            font-size: 1.8em;
+            font-size: 1em;
             position: fixed;
             top: 5%;
             left: 3%;
             transform: translateY(-50%);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            margin: 0;
         }
 
         .back-button:hover {
@@ -52,17 +70,42 @@
 
         .chat-message {
             margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        /* Messages from 'You' aligned to the right */
+        .chat-message.you {
+            background-color: #DCF8C6; /* Light green */
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* Messages from other users aligned to the left */
+        .chat-message.other {
+            background-color: #f1f1f1; /* Light gray */
+            text-align: left;
+            margin-right: auto;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         input[type="text"] {
-            width: 80%;
+            flex: 1;
             padding: 0.5em;
-            margin-right: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
 
         .btn-send {
             padding: 0.5em 1em;
-            background-color: #008CBA;
+            background-color: #08c8a6;
             color: white;
             border: none;
             border-radius: 4px;
@@ -70,29 +113,41 @@
         }
 
         .btn-send:hover {
-            background-color: #007B9A;
+            background-color: #077a66;
+        }
+
+        .warning-message {
+            margin-top: 1em;
+            font-size: 0.85em;
+            color: #d9534f; /* Bootstrap's 'danger' color */
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
     </style>
 </head>
 <body>
 
+<h1><span class="cyantext">CARPO </span>CHAT</h1>
+
 <button onclick="history.back()" class="back-button">&larr;</button>
 
 <div class="chat-container">
-    <h2>Chat with Navigator</h2>
     <div class="chat-box" id="chat-box">
         <!-- Existing chat messages will appear here -->
         @foreach($messages as $message)
-            <div class="chat-message" data-message-id="{{ $message->id }}">
+            <div class="chat-message {{ $message->user_id === auth()->id() ? 'you' : 'other' }}" data-message-id="{{ $message->id }}">
                 <strong>{{ $message->user_id === auth()->id() ? 'You' : $message->user->name }}:</strong> {{ $message->message }}
             </div>
         @endforeach
     </div>
-    <form id="chat-form" action="{{ route('chat.send', ['ride' => $ride->id]) }}" method="POST">
+    <form id="chat-form" action="{{ route('chat.send', ['ride' => $ride->id]) }}" method="POST" class="input-container">
         @csrf
         <input type="text" name="message" id="message-input" placeholder="Type your message..." required>
         <button type="submit" class="btn-send">Send</button>
     </form>
+    <p class="warning-message">
+    ⚠️ Please do not share personal information, passwords, or sensitive data in this chat.
+    </p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -114,8 +169,9 @@
                 },
                 success: function (response) {
                     if (response.status) {
+                        let senderClass = response.message.user_id === userId ? 'you' : 'other';
                         let senderName = response.message.user_id === userId ? 'You' : response.message.user.name;
-                        $('#chat-box').append('<div class="chat-message" data-message-id="' + response.message.id + '"><strong>' + senderName + ':</strong> ' + response.message.message + '</div>');
+                        $('#chat-box').append('<div class="chat-message ' + senderClass + '" data-message-id="' + response.message.id + '"><strong>' + senderName + ':</strong> ' + response.message.message + '</div>');
                         $('#message-input').val('');
                         $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
                         lastMessageId = response.message.id;
@@ -139,8 +195,9 @@
                 success: function (messages) {
                     messages.forEach(function (message) {
                         if (message.id > lastMessageId) {
+                            let senderClass = message.user_id === userId ? 'you' : 'other';
                             let senderName = message.user_id === userId ? 'You' : message.user.name;
-                            $('#chat-box').append('<div class="chat-message" data-message-id="' + message.id + '"><strong>' + senderName + ':</strong> ' + message.message + '</div>');
+                            $('#chat-box').append('<div class="chat-message ' + senderClass + '" data-message-id="' + message.id + '"><strong>' + senderName + ':</strong> ' + message.message + '</div>');
                             lastMessageId = message.id;
                         }
                     });

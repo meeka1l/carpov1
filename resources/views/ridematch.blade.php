@@ -38,7 +38,16 @@
         color: white;
         font-family: 'Krona One', sans-serif;
         margin-top: 0px;
+        margin-bottom: 0.5em;
+    }
+
+    .headerkrona4 {
+        font-size: 1.75em; /* Larger font size for headings */
+        color: #848484;
+        font-family: 'Krona One', sans-serif;
+        margin-top: 0px;
         margin-bottom: 2em;
+
     }
 
     h1  {
@@ -181,18 +190,23 @@
         border-radius: 5%;
         font-size: smaller;
     }
-    .black_box{
-        max-width: 100%;
-        background-color: black;
-        color: white;
-        padding: 5%;
-        padding-top: 5%;
-        padding-bottom: 15%;
-        border-radius: 20px;
-        font-size: smaller;
-        margin-top: 10%;
-        margin-bottom: 10%;
-    }
+    .black_box {
+    max-width: 100%;
+    background-color: black;
+    color: white;
+    padding: 5%;
+    padding-top: 5%;
+    padding-bottom: 15%;
+    border-radius: 20px;
+    font-size: smaller;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    display: flex; /* Enable flexbox */
+    flex-direction:column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Center text horizontally */
+}
+
     .in_a_row{
         display: flex;
         flex-direction: row;
@@ -204,6 +218,11 @@
         margin-top: 10%;
         padding-top: 5%;
         font-size: smaller;
+        display: flex; /* Enable flexbox */
+        flex-direction:column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally */
+        text-align: center; /* Center text horizontally */
+
     }
 </style>
 </head>
@@ -237,7 +256,8 @@
     </div>
     
     <div class="black_box">
-    <strong>Pickup Locations:</strong>
+    <strong class="headerkrona4">Pickups</strong>
+    <div class="in_a_row">
     @php
         $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
     @endphp
@@ -253,8 +273,13 @@
                 (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
                 User ID: {{ $location->user_id }})
             </p>
-            <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
+            @if ($ride->status=='Accepted')
+            <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
+            
+            
+            @endif
         @endforeach
+    </div>
         </div>
 
         <div class="form-actions">
