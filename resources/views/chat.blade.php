@@ -76,7 +76,7 @@
 </head>
 <body>
 
-<a href="{{ route('rides.request', ['ride_id' => $ride->id]) }}" class="back-button">&larr;</a>
+<button onclick="history.back()" class="back-button">&larr;</button>
 
 <div class="chat-container">
     <h2>Chat with Navigator</h2>
