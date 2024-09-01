@@ -108,7 +108,7 @@
             @foreach($rides as $ride)
             <li>
                 <strong class="strong_header">Navigator Details</strong><br><br>
-                <strong>{{ $ride->username }}</strong>
+                <strong>{{ $ride->user_name }}</strong>
                 <strong>{{ $ride->email }}</strong><br><br><br>
                 <strong class="strong_header">Vehicle Details</strong><br><br>
                 <strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})<br><br>
