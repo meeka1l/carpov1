@@ -9,7 +9,17 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
  <style>
 
-        
+.overlay-image {
+    position: absolute; /* Position the image absolutely within the container */
+    top: 0; /* Adjust according to where you want the image */
+    left: 0; /* Adjust according to where you want the image */
+    width: 100%; /* Cover the full width of the container */
+    height: 100%; /* Cover the full height of the container */
+    object-fit: cover; /* Make sure the image covers the container proportionally */
+    opacity: 1.0; /* Adjust transparency here */
+    z-index: -1; /* Place the image behind the content */
+    border-radius: 10%;
+}
     
        /* Loading screen styles */
        #loading-screen {
@@ -115,17 +125,20 @@
             margin-top: 20%;
         }
         .vehicle_details{
-            background-color:#27af97;
+            /*background-color:#27af97;*/
             padding: 10%;
             border-color: black;
             border-radius: 2%;
+            position: relative;
+            color: white;
         }
         .ride_details{
-            background-color:black;
+            /*background-color:black;*/
             color: aliceblue;
             padding: 10%;
             border-color: black;
             border-radius: 2%;
+            position: relative;
         }
         h3{
             font-family:'Krona One', sans-serif;
@@ -185,6 +198,7 @@
                 <br>
                 <div class="vehicle_details">
                     <h3>Vehicle</h3>
+                    <img src="{{ asset('images/car.jpg') }}" alt="Overlay Image" class="overlay-image">
                 <label for="vehicle_number">Vehicle Number:</label>
                 <input type="text" id="vehicle_number" name="vehicle_number" required>
                 <br>
@@ -197,6 +211,7 @@
                 <br>
                 <div class="ride_details">
                     <h3>Ride Details</h3>
+                    <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image">
                 <label for="description">Route Description:</label>
                 <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
                
