@@ -54,7 +54,7 @@
             pointer-events: none; /* Disable interaction */
         }
         #carpo_logo{
-            margin-bottom: 15%;
+            margin-bottom: 11%;
             margin-top: 20%;
         }
         .vehicle_details{
@@ -80,13 +80,24 @@
             margin-top: 5%;
         }
         
+        .cyantext {
+            color: #90f1e0;
+            font-size: 1.2em;
+        }
+
+        .welcome{
+            font-family:'Krona One', sans-serif;
+            margin-bottom: 10%;
+            color: #c9c9c9;
+        }
+
     </style>
 </head>
 <body>
     <div class="wrapper">
         <header class="header">
             <h1 id="carpo_logo">CARPO</h1>
-            
+            <p class="welcome">Welcome, <span class="cyantext">{{ auth()->user()->name }}! </span</p>
             <nav>
                 <ul>
                     <a href="#" id="show-commuter" class="active">Commuter Mode</a>
