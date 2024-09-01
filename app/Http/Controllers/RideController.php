@@ -158,6 +158,10 @@ public function reject($rideId)
     $ride->status = 'Rejected';
     $ride->save();
 
+    $pickupLocations = PickupLocation::where('ride_id', $rideId)->get();
+    foreach ($pickupLocations as $pickupLocation) {
+        $pickupLocation->delete();
+    }
     // Optionally notify the user who made the request
     $this->notifyUser($ride->user_id, 'Your ride request has been rejected.');
 
