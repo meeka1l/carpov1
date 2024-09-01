@@ -213,10 +213,21 @@
                     <h3>Ride Details</h3>
                     <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image">
                 <label for="description">Route Description:</label>
-                <input type="text" id="description" name="description" required> <a href="https://www.google.com/maps" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
+                <input type="text" id="description" name="description" required> <a href="#" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
                
-                <br>
-
+<!-- Popup Modal -->
+<div id="maps-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <h3 style="margin-top: 0; font-size: 18px; color: #333;">Get Route From Google</h3>
+    <ol style="padding-left: 20px; color: #555; font-size: 14px; line-height: 1.6;">
+        <li>Go to <a href="https://www.google.com/maps" target="_blank" style="color: #007bff; text-decoration: none;">Google Maps</a>.</li>
+        <li>Enter your destination in the search bar.</li>
+        <li>Click on the 'Directions' button.</li>
+        <li>Enter your starting location.</li>
+        <li>Choose your preferred route and follow the instructions.</li>
+    </ol>
+    <button id="close-popup" style="display: block; margin: 15px auto 0; padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">Close</button>
+</div>
+<br>
         <label for="start_location">Start Location:</label>
         <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>             
         <input type="text" id="start_location" name="start_location" required readonly onclick="toggleDropdown('start_location')">
@@ -264,6 +275,17 @@
     </div>
 
     <script>
+
+document.getElementById('google-maps-link').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default anchor behavior
+    document.getElementById('maps-popup').style.display = 'block'; // Show the popup
+});
+
+// Close popup when the close button is clicked
+document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('maps-popup').style.display = 'none'; // Hide the popup
+});
+
  window.addEventListener('load', function() {
         const loadingScreen = document.getElementById('loading-screen');
         if (loadingScreen) {
