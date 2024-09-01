@@ -16,7 +16,8 @@ class HomeController extends Controller
     public function index()
     {
         $rides = Ride::all(); // Fetch all rides from the database
-        return view('home', compact('rides'));
+        $user = auth()->user(); //get the authenticated user
+        return view('home', compact('rides','user'));
     }
 
     public function admin()
