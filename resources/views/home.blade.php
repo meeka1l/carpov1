@@ -8,6 +8,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
  <style>
+
+        
+    
+       /* Loading screen styles */
+       #loading-screen {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #1e8573;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Text animation */
+    .loading-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-animate {
+        font-family: 'Krona One', sans-serif;
+        color: #ffffff;
+        font-size: 2em;
+        opacity: 0;
+        animation: fadeInOut 4s ease-in-out infinite;
+    }
+
+    .text-animate:nth-child(2) {
+        animation-delay: 1s;
+    }
+
+    .text-animate:nth-child(3) {
+        animation-delay: 2s;
+    }
+
+    .text-animate:nth-child(4) {
+        animation-delay: 3s;
+    }
+
+    @keyframes fadeInOut {
+        0%, 100% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        25%, 75% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
         nav {
             background-color: white;
             overflow: hidden;
@@ -90,59 +147,6 @@
             margin-bottom: 10%;
             color: #c9c9c9;
         }
-
-       /* Loading screen styles */
-       #loading-screen {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: #1e8573;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        /* Text animation */
-        .loading-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .text-animate {
-            font-family: 'Krona One', sans-serif;
-            color: #ffffff;
-            font-size: 2em;
-            opacity: 0;
-            animation: fadeInOut 4s ease-in-out infinite;
-        }
-
-        .text-animate:nth-child(2) {
-            animation-delay: 1s;
-        }
-
-        .text-animate:nth-child(3) {
-            animation-delay: 2s;
-        }
-
-        .text-animate:nth-child(4) {
-            animation-delay: 3s;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            25%, 75% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
     </style>
 </head>
 <body>
@@ -251,7 +255,7 @@
             // Show the loading screen initially
             loadingScreen.style.opacity = '1';
             
-            // Hide the loading screen after 3 seconds
+            // Hide the loading screen after 5 seconds
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {

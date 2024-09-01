@@ -1,6 +1,63 @@
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+
 <style>
+
+    
+       /* Loading screen styles */
+       #loading-screen {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #1e8573;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Text animation */
+    .loading-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text-animate {
+        font-family: 'Krona One', sans-serif;
+        color: #ffffff;
+        font-size: 2em;
+        opacity: 0;
+        animation: fadeInOut 4s ease-in-out infinite;
+    }
+
+    .text-animate:nth-child(2) {
+        animation-delay: 1s;
+    }
+
+    .text-animate:nth-child(3) {
+        animation-delay: 2s;
+    }
+
+    .text-animate:nth-child(4) {
+        animation-delay: 3s;
+    }
+
+    @keyframes fadeInOut {
+        0%, 100% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        25%, 75% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -169,7 +226,14 @@
 
 </style>
 </head>
-
+<div id="loading-screen">
+        <div class="loading-text">
+            <span class="text-animate">CARPO</span>
+            <span class="text-animate">CONNECT</span>
+            <span class="text-animate">COMMUTE</span>
+            <span class="text-animate">CARPOOL</span>
+        </div>
+    </div>
 <div class="container">
     <h1>CARPO</h1>
     <div id="bg_design">
@@ -232,6 +296,23 @@
 </div>
 
 <script>
+
+window.addEventListener('load', function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            // Show the loading screen initially
+            loadingScreen.style.opacity = '1';
+            
+            // Hide the loading screen after 5 seconds
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1000); // Match the transition duration
+            }, 5000); // Display for 5 seconds
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', (event) => {
         @if($ride->status == 'Started')
         let startTime = new Date("{{ \Carbon\Carbon::parse($ride->start_time)->timezone('Asia/Colombo')->format('Y-m-d H:i:s') }}").getTime();
