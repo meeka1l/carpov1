@@ -132,7 +132,10 @@
             margin-top: 20%;
         }
         .vehicle_details{
-            background-color:#00d5a9;
+            background: linear-gradient(to bottom, 
+            #00d5a9, /* Light at the top */
+            #009475  /* Dark at the bottom */
+            );
             padding: 10%;
             border-color: black;
             border-radius: 2%;
