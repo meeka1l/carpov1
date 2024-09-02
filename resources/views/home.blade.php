@@ -132,15 +132,18 @@
             margin-top: 20%;
         }
         .vehicle_details{
-            /*background-color:#27af97;*/
+            background-color:#00d5a9;
             padding: 10%;
             border-color: black;
             border-radius: 2%;
             position: relative;
-            color: white;
+            
         }
         .ride_details{
-            /*background-color:black;*/
+            background: linear-gradient(to bottom, 
+            #405ead, /* Light at the top */
+            #1b2e5f  /* Dark at the bottom */
+    );
             color: aliceblue;
             padding: 10%;
             border-color: black;
@@ -182,7 +185,7 @@
     <div class="wrapper">
         <header class="header">
             <h1 id="carpo_logo">CARPO</h1>
-            <p class="welcome">Welcome, <span class="cyantext">{{ auth()->user()->name }}! </span</p>
+            <p class="welcome">Welcome, <span class="cyantext">{{ auth()->user()->name }}! </span></p>
             <nav>
                 <ul>
                     <a href="#" id="show-commuter" class="active">Commuter Mode</a>
@@ -205,7 +208,7 @@
                 <br>
                 <div class="vehicle_details">
                     <h3>Vehicle</h3>
-                    <img src="{{ asset('images/car.jpg') }}" alt="Overlay Image" class="overlay-image">
+                    <!-- <img src="{{ asset('images/car.jpg') }}" alt="Overlay Image" class="overlay-image"> -->
                 <label for="vehicle_number">Vehicle Number:</label>
                 <input type="text" id="vehicle_number" name="vehicle_number" required>
                 <br>
@@ -218,7 +221,7 @@
                 <br>
                 <div class="ride_details">
                     <h3>Ride Details</h3>
-                    <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image">
+                    <!-- <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image"> -->
                 <label for="description">Route Description:</label>
                 <input type="text" id="description" name="description" required> <a href="#" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
                
