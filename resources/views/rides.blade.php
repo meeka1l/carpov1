@@ -19,6 +19,13 @@
             margin-bottom: 20px;
         }
 
+        .lightertext{
+            text-align: center;
+            color: gray;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+        }
+
         /* Search Input */
         #search {
             width: 100%;
@@ -33,6 +40,9 @@
         #ride-list {
             list-style-type: none;
             padding: 0;
+            max-height: 400px; /* Adjust this height as needed */
+            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         #ride-list li {
@@ -101,8 +111,8 @@
 <body>
     <section class="commuter-page" id="commuter-page">
         <h2>Available Rides</h2>
-
-        <input type="text" id="search" placeholder="Search by description">
+        <h3 class="lightertext">Type a nearby location or road to find navigators with similar routes</h3>
+        <input type="text" id="search" placeholder="e.g., Kolonnawa Rd">
 
         <ul id="ride-list">
             @foreach($rides as $ride)

@@ -170,7 +170,7 @@
     }
     .headerkrona {
         font-size: 1.5em; /* Larger font size for headings */
-        color: #2cc3a9;
+        color: white;
         font-family: 'Krona One', sans-serif;
         margin-top: 0px;
         margin-bottom: 2em;
@@ -178,28 +178,38 @@
 
     .light_box{
         max-width: 100%;
-        background-color: #1e8573;
+        background: linear-gradient(to bottom, 
+            #00d5a9, /* Light at the top */
+            #009475  /* Dark at the bottom */
+            );
         color: white;
         padding: 5%;
         padding-top: 5%;
         padding-bottom: 10%;
         border-radius: 5%;
         margin-bottom: 10%;
+        font-size: 30px;
     }
     .dark_box{
         max-width: 100%;
-        background-color: black;
+        background: linear-gradient(to bottom, 
+            #405ead, /* Light at the top */
+            #1b2e5f  /* Dark at the bottom */
+    );
+    max-height: 700px; /* Adjust this height as needed */
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
         color: white;
         padding: 5%;
         padding-top: 5%;
         padding-bottom: 15%;
         border-radius: 5%;
-        font-size: smaller;
+        font-size: 20px;
     }
 
     .headerkrona2 {
         font-size: 1.75em; /* Larger font size for headings */
-        color: #848484;
+        color: white;
         font-family: 'Krona One', sans-serif;
         margin-top: 0px;
         margin-bottom: 2em;
@@ -277,7 +287,7 @@
                 @csrf
                 <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                 <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter your pickup location:</label><br>
-                <input type="text" id="pickup_location" name="pickup_location" required>
+                <input type="text" id="pickup_location" name="pickup_location" required placeholder="e.g., Kolonnawa Pizzahut">
                 <button type="submit" class="btn-confirm">Confirm Request</button>
             </form>
         </div>

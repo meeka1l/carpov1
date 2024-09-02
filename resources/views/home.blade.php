@@ -8,19 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
  <style>
-
-.overlay-image {
-    position: absolute; /* Position the image absolutely within the container */
-    top: 0; /* Adjust according to where you want the image */
-    left: 0; /* Adjust according to where you want the image */
-    width: 100%; /* Cover the full width of the container */
-    height: 100%; /* Cover the full height of the container */
-    object-fit: cover; /* Make sure the image covers the container proportionally */
-    opacity: 1.0; /* Adjust transparency here */
-    z-index: -1; /* Place the image behind the content */
-    border-radius: 10%;
-}
-    
        /* Loading screen styles */
        #loading-screen {
         top: 0;
@@ -92,6 +79,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            font-size:0.9em;
         }
 
         nav ul a {
@@ -226,10 +214,10 @@
                     <h3>Ride Details</h3>
                     <!-- <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image"> -->
                 <label for="description">Route Description:</label>
-                <input type="text" id="description" name="description" required> <a href="#" target="_blank" id="google-maps-link">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
+                <input type="text" id="description" name="description" required> <a href="#" target="_blank" id="google-maps-link" style="color:#00d5a9">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
                
 <!-- Popup Modal -->
-<div id="maps-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+<div id="maps-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
     <h3 style="margin-top: 0; font-size: 18px; color: #333;">Get Route From Google</h3>
     <ol style="padding-left: 20px; color: #555; font-size: 14px; line-height: 1.6;">
         <li>Go to <a href="https://www.google.com/maps" target="_blank" style="color: #007bff; text-decoration: none;">Google Maps</a>.</li>

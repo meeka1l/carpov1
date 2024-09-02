@@ -138,6 +138,9 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         font-weight: lighter;
+        max-height: 400px; /* Adjust this height as needed */
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
 
     .shared-time,
@@ -281,12 +284,20 @@
         flex-direction:column; /* Stack items vertically */
         align-items: center; /* Center items horizontally */
         text-align: center; /* Center text horizontally */
+        border-radius: 20px;
+    }
 
+    .container {
+        min-width: 100%;
+        margin: auto;
+        font-size: 1.2rem; /* Increased font size */
+        box-sizing: border-box;
     }
 </style>
 </head>
 
 @if(isset($sharedRides) && isset($pickupLocations) && isset($commuters))
+<div class="container">
 <h1>CARPO</h1>
 <div id="bg_design">
     <h2>MY RIDE</h2>
