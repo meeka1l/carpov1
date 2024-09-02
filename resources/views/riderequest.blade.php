@@ -226,14 +226,6 @@
 
 </style>
 </head>
-<div id="loading-screen">
-        <div class="loading-text">
-            <span class="text-animate">CARPO</span>
-            <span class="text-animate">CONNECT</span>
-            <span class="text-animate">COMMUTE</span>
-            <span class="text-animate">CARPOOL</span>
-        </div>
-    </div>
 <div class="container">
     <h1>CARPO</h1>
     <div id="bg_design">

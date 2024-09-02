@@ -28,51 +28,58 @@
         position: fixed;
         width: 100%;
         height: 100%;
-        background-color: #1e8573;
+        background-color: #ffffff ;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         z-index: 9999;
     }
+/* Text animation */
+.loading-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    /* Text animation */
-    .loading-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.text-animate {
+    font-family: 'Krona One', sans-serif;
+    font-size: 2em;
+    opacity: 0;
+    animation: fadeInOut 4s ease-in-out infinite;
+}
 
-    .text-animate {
-        font-family: 'Krona One', sans-serif;
-        color: #ffffff;
-        font-size: 2em;
+.text-animate:nth-child(1) {
+    font-size: 3em; /* Increase the font size specifically for "CARPO" */
+    color: black; /* Original color */
+}
+
+.text-animate:nth-child(2) {
+    animation-delay: 1s;
+    color: #47a78d; /* Slightly lighter */
+}
+
+.text-animate:nth-child(3) {
+    animation-delay: 2s;
+    color: #70c9a7; /* Lighter */
+}
+
+.text-animate:nth-child(4) {
+    animation-delay: 3s;
+    color: #99ecd1; /* Even lighter */
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
         opacity: 0;
-        animation: fadeInOut 4s ease-in-out infinite;
+        transform: translateY(-10px);
     }
+    25%, 75% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-    .text-animate:nth-child(2) {
-        animation-delay: 1s;
-    }
-
-    .text-animate:nth-child(3) {
-        animation-delay: 2s;
-    }
-
-    .text-animate:nth-child(4) {
-        animation-delay: 3s;
-    }
-
-    @keyframes fadeInOut {
-        0%, 100% {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        25%, 75% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
 
 
         nav {
@@ -223,7 +230,9 @@
         <li>Enter your destination in the search bar.</li>
         <li>Click on the 'Directions' button.</li>
         <li>Enter your starting location.</li>
-        <li>Choose your preferred route and follow the instructions.</li>
+        <li>Click on share.</li>
+        <li>Copy to clipboard.</li>
+        <li>Paste in the route description field!</li>
     </ol>
     <button id="close-popup" style="display: block; margin: 15px auto 0; padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">Close</button>
 </div>

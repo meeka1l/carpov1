@@ -183,14 +183,18 @@ public function delete($rideId)
     if ($ride->navigator_id != auth()->user()->id) {
         return redirect()->back()->with('error', 'You are not authorized to delete this ride.');
     }
-
+    $pickupLocations = PickupLocation::where('ride_id', $rideId)->get();
+    foreach ($pickupLocations as $pickupLocation) {
+        $pickupLocation->delete();
+    }
     // Delete the ride
     $ride->delete();
 
     // Optionally notify the commuter that the ride was deleted
     $this->notifyUser($ride->user_id, 'Your ride request has been deleted by the navigator.');
 
-    return redirect()->back()->with('success', 'Ride deleted successfully.');
+   // return redirect()->back()->with('success', 'Ride deleted successfully.');
+    return redirect()->route('home')->with('status', 'Ride deleted successfully!');
 }
 
 
