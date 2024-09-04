@@ -278,6 +278,7 @@
         @endphp
         <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d (h:i:s A)') }}</p>
         <p>Ride duration: <span id="ride-timer" style="font-weight: bold;">{{ $formattedDuration }}</span></p>
+        <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
     @endif
 
     <!-- Form to allow the user to input their pickup location -->
