@@ -293,6 +293,18 @@
         font-size: 1.2rem; /* Increased font size */
         box-sizing: border-box;
     }
+
+    .commuter-info {
+    padding: 1em; /* Add padding for separation */
+    margin-bottom: 1em; /* Adds space between commuters */
+    border: 1px solid #ddd; /* Adds a light border */
+    border-radius: 4px; /* Slight rounding of corners */
+    background-color: #2e2e2e; /* Example background color */
+}
+.rows{
+    display: flex;
+    flex-direction: column;
+}
 </style>
 </head>
 
@@ -327,7 +339,7 @@
     
     <div class="black_box">
     <strong class="headerkrona4">Pickups</strong>
-    <div class="in_a_row">
+    <div class="rows">
     @php
         $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
     @endphp
@@ -338,6 +350,7 @@
             @php
                 $commuter = $commuters->get($location->user_id);
             @endphp
+            <div class="commuter-info">
             <p>
                 {{ $location->pickup_location }} 
                 (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
@@ -345,9 +358,9 @@
             </p>
             @if ($ride->status=='Accepted')
             <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
-            
-            
             @endif
+            </div>
+            <hr>
         @endforeach
     </div>
         </div>
