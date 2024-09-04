@@ -300,6 +300,16 @@
 
 <script>
 
+document.addEventListener('DOMContentLoaded', function() {
+            // Convert URLs to clickable links
+            const routeDescription = document.querySelector('.dark_box p');
+            if (routeDescription) {
+                const html = routeDescription.innerHTML;
+                const updatedHtml = html.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                routeDescription.innerHTML = updatedHtml;
+            }
+        });
+
 window.addEventListener('load', function() {
         const loadingScreen = document.getElementById('loading-screen');
         if (loadingScreen) {
