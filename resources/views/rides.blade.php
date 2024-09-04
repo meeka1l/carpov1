@@ -151,119 +151,118 @@
 
     <script>
         function convertToClickableLinks(text) {
-            return text.replace(
-                /https:\/\/maps\.app\.goo\.gl\/[^\s]+/g,
-                (url) => `<a href="${url}" target="_blank">${url}</a>`
-            );
-        }
+    return text.replace(
+        /https:\/\/maps\.app\.goo\.gl\/[^\s]+/g,
+        (url) => `<a href="${url}" target="_blank">${url}</a>`
+    );
+}
 
-        function formatRouteDescription(text) {
-            // Define patterns to match each part
-            const patterns = {
-                sharedRoute: /^Shared route\s*$/m,
-                fromToVia: /From (.*?) to (.*?) via (.*?)\./,
-                duration: /(\d+ min \(.*?\))/,
-                traffic: /(\d+ min in current traffic)/,
-                steps: /(?<=current traffic)([\s\S]*?)(?=For the best route)/g,
-                mapLink: /https:\/\/maps\.app\.goo\.gl\/[^\s"']+/
-            };
+function formatRouteDescription(text) {
+    // Define patterns to match each part
+    const patterns = {
+        sharedRoute: /^Shared route\s*$/m,
+        fromToVia: /From (.*?) to (.*?) via (.*?)\./,
+        duration: /(\d+ min \(.*?\))/,
+        traffic: /(\d+ min in current traffic)/,
+        steps: /(\d+\.\s+[^.]+?)(?=\d+\.|$)/g, // Match each step with numbers
+        mapLink: /https:\/\/maps\.app\.goo\.gl\/[^\s"']+/
+    };
 
-            // Extract the matched parts
-            const extract = (pattern) => (text.match(pattern) || [])[0] || '';
+    // Extract the matched parts
+    const extract = (pattern) => (text.match(pattern) || [])[0] || '';
 
-            // Use the defined patterns to extract the data
-            const sharedRoute = extract(patterns.sharedRoute).trim();
-            const fromToViaMatch = text.match(patterns.fromToVia) || [];
-            const from = fromToViaMatch[1]?.trim() || '';
-            const to = fromToViaMatch[2]?.trim() || '';
-            const via = fromToViaMatch[3]?.trim() || '';
-            const duration = extract(patterns.duration).trim();
-            const traffic = extract(patterns.traffic).trim();
-            const steps = text.match(patterns.steps) || [];
-            const mapLink = extract(patterns.mapLink).trim();
+    // Use the defined patterns to extract the data
+    const sharedRoute = extract(patterns.sharedRoute).trim();
+    const fromToViaMatch = text.match(patterns.fromToVia) || [];
+    const from = fromToViaMatch[1]?.trim() || '';
+    const to = fromToViaMatch[2]?.trim() || '';
+    const via = fromToViaMatch[3]?.trim() || '';
+    const duration = extract(patterns.duration).trim();
+    const traffic = extract(patterns.traffic).trim();
+    const steps = [...text.matchAll(patterns.steps)].map(step => step[0].trim()); // Extract steps
+    const mapLink = extract(patterns.mapLink).trim();
 
-            // Fallback to raw description if no specific format is matched
-            if (!sharedRoute && !from && !to && !via && !duration && !traffic && steps.length === 0 && !mapLink) {
-                return { rawDescription: text };
-            }
+    // Fallback to raw description if no specific format is matched
+    if (!sharedRoute && !from && !to && !via && !duration && !traffic && steps.length === 0 && !mapLink) {
+        return { rawDescription: text };
+    }
 
-            return {
-                sharedRoute,
-                from,
-                to,
-                via,
-                duration,
-                traffic,
-                steps,
-                mapLink
-            };
-        }
+    return {
+        sharedRoute,
+        from,
+        to,
+        via,
+        duration,
+        traffic,
+        steps,
+        mapLink
+    };
+}
 
-        function displayRouteDescription(data, descriptionElement) {
-            if (data.rawDescription) {
-                descriptionElement.innerHTML = `<p>${data.rawDescription}</p>`;
-                return;
-            }
+function displayRouteDescription(data, descriptionElement) {
+    if (data.rawDescription) {
+        descriptionElement.innerHTML = `<p>${data.rawDescription}</p>`;
+        return;
+    }
 
-            descriptionElement.innerHTML = `
-                <h2>${data.sharedRoute}</h2>
-                ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
-                ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
-                ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
-                ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
-                ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
-                ${data.steps.length ? `<p><strong>Steps:</strong>${data.steps.map(step => step.replace(/^\d+\.\s*/, '')).join('<br>')}</p>` : ''}
-                ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
-            `;
-        }
+    descriptionElement.innerHTML = `
+        <h2>${data.sharedRoute}</h2>
+        ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
+        ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
+        ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
+        ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
+        ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
+        ${data.steps.length ? `<p><strong>Steps:</strong><br>${data.steps.join('<br>')}</p>` : ''}
+        ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
+    `;
+}
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const rideDescriptions = document.querySelectorAll('.ride-description');
+document.addEventListener('DOMContentLoaded', function() {
+    const rideDescriptions = document.querySelectorAll('.ride-description');
 
-            rideDescriptions.forEach(description => {
-                const formattedText = convertToClickableLinks(description.textContent);
-                const routeData = formatRouteDescription(formattedText);
-                displayRouteDescription(routeData, description);
+    rideDescriptions.forEach(description => {
+        const formattedText = convertToClickableLinks(description.textContent);
+        const routeData = formatRouteDescription(formattedText);
+        displayRouteDescription(routeData, description);
+    });
+
+    document.getElementById('search').addEventListener('input', function() {
+        const query = this.value;
+
+        fetch(`/rides/search?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const rideList = document.getElementById('ride-list');
+                rideList.innerHTML = '';
+
+                data.forEach(ride => {
+                    const descriptionWithLinks = convertToClickableLinks(ride.description);
+                    const routeData = formatRouteDescription(descriptionWithLinks);
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>Vehicle:</strong> ${ride.vehicle_model} (${ride.vehicle_number})<br>
+                        <strong>Color:</strong> ${ride.vehicle_color}<br>
+                        <strong>Description:</strong> <span class="ride-description"></span><br>
+                        <span class="shared-time">Shared on: ${new Date(ride.created_at).toLocaleString()}</span> <!-- Display the shared time -->
+                        <form action="/rides/join" method="POST">
+                            <input type="hidden" name="ride_id" value="${ride.id}">
+                            <input type="hidden" id="pickup_location_${ride.id}" name="pickup_location" required>
+                            <button type="submit" onclick="setPickupLocation(${ride.id})">Join Ride</button>
+                        </form>
+                    `;
+                    const descriptionElement = li.querySelector('.ride-description');
+                    displayRouteDescription(routeData, descriptionElement);
+                    rideList.appendChild(li);
+                });
             });
+    });
 
-            document.getElementById('search').addEventListener('input', function() {
-                const query = this.value;
+    function setPickupLocation(rideId) {
+        var pickupLocation = "Some predefined location"; // Replace with actual logic
+        document.getElementById(`pickup_location_${rideId}`).value = pickupLocation;
+    }
+});
 
-                fetch(`/rides/search?query=${query}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const rideList = document.getElementById('ride-list');
-                        rideList.innerHTML = '';
-
-                        data.forEach(ride => {
-                            const descriptionWithLinks = convertToClickableLinks(ride.description);
-                            const routeData = formatRouteDescription(descriptionWithLinks);
-                            const li = document.createElement('li');
-                            li.innerHTML = `
-                                <strong>Vehicle:</strong> ${ride.vehicle_model} (${ride.vehicle_number})<br>
-                                <strong>Color:</strong> ${ride.vehicle_color}<br>
-                                <strong>Description:</strong> <span class="ride-description"></span><br>
-                                <span class="shared-time">Shared on: ${new Date(ride.created_at).toLocaleString()}</span> <!-- Display the shared time -->
-                                <form action="/rides/join" method="POST">
-                                    <input type="hidden" name="ride_id" value="${ride.id}">
-                                    <input type="hidden" id="pickup_location_${ride.id}" name="pickup_location" required>
-                                    <button type="submit" onclick="setPickupLocation(${ride.id})">Join Ride</button>
-                                </form>
-                            `;
-                            const descriptionElement = li.querySelector('.ride-description');
-                            displayRouteDescription(routeData, descriptionElement);
-                            rideList.appendChild(li);
-                        });
-                    });
-            });
-
-            function setPickupLocation(rideId) {
-                // Assuming you have a way to determine the pickup location, set it here
-                // For example, you might prompt the user or get it from a predefined value
-                var pickupLocation = "Some predefined location"; // Replace with actual logic
-                document.getElementById(`pickup_location_${rideId}`).value = pickupLocation;
-            }
-        });
     </script>
 </body>
 </html>

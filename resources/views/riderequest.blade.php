@@ -251,7 +251,7 @@
 
     <div class="dark_box">
     <strong class="headerkrona2">Route</strong><br><br>
-    <p> {{ $ride->description }}</p>
+    <p>{!! nl2br(e(preg_replace('/(\d+)\./', "\n$1.", $ride->description))) !!}</p>
     </div>
 
     <!-- Display the ride request status -->

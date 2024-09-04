@@ -465,22 +465,28 @@ window.addEventListener('load', function() {
     }
 
     function displayRouteDescription(data, descriptionElement) {
-        if (data.rawDescription) {
-            descriptionElement.innerHTML = `<p>${convertToClickableLinks(data.rawDescription)}</p>`;
-            return;
-        }
-
-        descriptionElement.innerHTML = `
-            <h2>${data.sharedRoute}</h2>
-            ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
-            ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
-            ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
-            ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
-            ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
-            ${data.steps.length ? `<p><strong>Steps:</strong>${data.steps.map(step => step.replace(/^\d+\.\s*/, '')).join('<br>')}</p>` : ''}
-            ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
-        `;
+    if (data.rawDescription) {
+        descriptionElement.innerHTML = `<p>${convertToClickableLinks(data.rawDescription)}</p>`;
+        return;
     }
+
+    // Format each step in the route description to be on a new line
+    const formattedSteps = data.steps.map(step => {
+        // Split steps into individual lines based on numbers or bullet points
+        return step.replace(/(\d+\.\s)/g, '<br>$1').split('<br>').map(line => `<p>${line.trim()}</p>`).join('');
+    }).join('');
+
+    descriptionElement.innerHTML = `
+        <h2>${data.sharedRoute}</h2>
+        ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
+        ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
+        ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
+        ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
+        ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
+        ${formattedSteps}
+        ${data.mapLink ? `<p><a href="${data.mapLink}" target="_blank">${data.mapLink}</a></p>` : ''}
+    `;
+}
     
     document.addEventListener('DOMContentLoaded', (event) => {
         @if($ride->status == 'Started')
