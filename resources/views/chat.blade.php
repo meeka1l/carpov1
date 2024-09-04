@@ -158,12 +158,15 @@
     </p>
 </div>
 
+<audio id="notification-sound" src="{{ asset('carpo_notif.wav') }}" preload="auto"></audio>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
     $(document).ready(function () {
         let lastMessageId = $('.chat-message:last').data('message-id') || 0;
         let userId = {{ auth()->id() }};
+        let notificationSound = document.getElementById('notification-sound');
 
         $('#chat-form').on('submit', function (e) {
             e.preventDefault();
@@ -184,6 +187,7 @@
                         $('#message-input').val('');
                         $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
                         lastMessageId = response.message.id;
+                        notificationSound.play(); // Play sound on message send
                     } else {
                         alert(response.error);
                     }
@@ -194,6 +198,8 @@
             });
         });
 
+
+        
         function fetchNewMessages() {
             $.ajax({
                 url: '{{ route('chat.getMessages', ['ride' => $ride->id]) }}',
@@ -208,6 +214,7 @@
                             let senderName = message.user_id === userId ? 'You' : message.user.name;
                             $('#chat-box').append('<div class="chat-message ' + senderClass + '" data-message-id="' + message.id + '"><strong>' + senderName + ':</strong> ' + message.message + '</div>');
                             lastMessageId = message.id;
+                            notificationSound.play(); // Play sound on new message
                         }
                     });
                     $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
