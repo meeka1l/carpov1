@@ -263,7 +263,8 @@
     <div class="ride-container">
 
     <div class="light_box">
-    <strong class="headerkrona">Vehicle</strong><br><br>
+    <strong class="headerkrona">Details</strong><br><br>
+    <p><strong>Name:</strong> {{$ride->user_name}}</p> 
     <p><strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})</p>
     <p><strong>Color:</strong> {{ $ride->vehicle_color }}</p>
     </div>
