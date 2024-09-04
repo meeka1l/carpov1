@@ -293,6 +293,79 @@
         font-size: 1.2rem; /* Increased font size */
         box-sizing: border-box;
     }
+
+    .commuter-info {
+        display: flex; /* Use flexbox for horizontal layout */
+    flex-direction: row; /* Align items in a row */
+    align-items: center; /* Vertically center items */
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 1rem); /* Maintain three-column layout */
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word; /* Allows text to break at appropriate points */
+    word-wrap: break-word;
+    margin-bottom: 0.5rem; /* Add some spacing between rows */
+}
+
+
+.btn-chat {
+    margin-left: auto; /* Pushes the button to the far right */
+    padding: 0.5rem 1rem;
+    background-color: #1e8573;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 100%; /* Ensure button stays within the bounds of the container */
+}
+
+.btn-chat:hover {
+    opacity: 0.8;
+}
+.commuter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    max-width: 100%;
+    box-sizing: border-box;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+}
+
+.accept-reject-buttons {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .accept-reject-buttons form {
+        margin-left: 0.5rem; /* Spacing between accept and reject buttons */
+    }
+
+    .accept-btn {
+        background-color: #28a745; /* Green color for accept */
+    }
+
+    .reject-btn {
+        background-color: #dc3545; /* Red color for reject */
+    }
+
+    .accept-reject-buttons button {
+        padding: 0.5rem 1rem;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+    }
 </style>
 </head>
 
@@ -327,34 +400,32 @@
     
     <div class="black_box">
     <strong class="headerkrona4">Pickups</strong>
-    <div class="in_a_row">
-    @php
-        $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
-    @endphp
-    @if($locationsForRide->isEmpty())
-        <p class="no-pickup-locations">No pickup locations available.</p>
-    @else
-        @foreach($locationsForRide as $location)
-            @php
-                $commuter = $commuters->get($location->user_id);
-            @endphp
-            <p>
-                {{ $location->pickup_location }} 
-                (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
-                User ID: {{ $location->user_id }})
-            </p>
-            @if ($ride->status=='Accepted')
-            <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
-            
-            
-            @endif
-        @endforeach
+    <div class="commuter-container">
+        @php
+            $locationsForRide = $pickupLocations->where('ride_id', $ride->id);
+        @endphp
+        @if($locationsForRide->isEmpty())
+            <p class="no-pickup-locations">No pickup locations available.</p>
+        @else
+            @foreach($locationsForRide as $location)
+                @php
+                    $commuter = $commuters->get($location->user_id);
+                @endphp
+                <div class="commuter-info">
+                    <p>
+                        {{ $location->pickup_location }} 
+                        (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
+                        User ID: {{ $location->user_id }})
+                    </p>
+                </div>
+            @endforeach
+        @endif
     </div>
-        </div>
+</div>
 
-        <div class="form-actions">
-            @if($ride->status == 'Pending')
-                <form action="{{ route('rides.accept', $ride->id) }}" method="POST">
+<div class="form-actions">
+    @if($ride->status == 'Pending')
+<form action="{{ route('rides.accept', $ride->id) }}" method="POST">
                     @csrf
                     <button type="submit">Accept Commuter</button>
                 </form>
@@ -362,28 +433,32 @@
                     @csrf
                     <button type="submit" class="btn-danger">Reject Commuter</button>
                 </form>
-            @elseif($ride->status == 'Accepted')
-                <form action="{{ route('rides.start', $ride->id) }}" method="POST">
-                    @csrf
-                    <button type="submit">Start Ride</button>
-                </form>
-            @elseif($ride->status == 'Started')
-                @php
-                    $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
-                    $currentTime = \Carbon\Carbon::now()->setTimezone('Asia/Colombo');
-                    $duration = $startTime->diff($currentTime);
-                    $formattedDuration = $duration->format('%H:%I:%S');
-                @endphp
-                <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d h:i:s A') }}.</p>
-                <p>Ride duration: <span id="ride-timer">{{ $formattedDuration }}</span></p>
-                <form action="{{ route('rides.end', $ride->id) }}" method="POST" id="end-ride-form">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">End Ride</button>
-                </form>
-            @elseif($ride->status == 'Rejected')
-                <p>Ride rejected.</p>
+    @elseif($ride->status == 'Accepted')
+        <form action="{{ route('rides.start', $ride->id) }}" method="POST">
+            @csrf
+            <button type="submit">Start Ride</button>
+        </form>
+        @foreach($pickupLocations as $location)
+            @if($location->ride_id == $ride->id)
+                <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
             @endif
-        </div>
+        @endforeach
+    @elseif($ride->status == 'Started')
+        @php
+            $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
+            $currentTime = \Carbon\Carbon::now()->setTimezone('Asia/Colombo');
+            $duration = $startTime->diff($currentTime);
+            $formattedDuration = $duration->format('%H:%I:%S');
+        @endphp
+        <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d h:i:s A') }}.</p>
+        <p>Ride duration: <span id="ride-timer">{{ $formattedDuration }}</span></p>
+        <form action="{{ route('rides.end', $ride->id) }}" method="POST" id="end-ride-form">
+            @csrf
+            <button type="submit" class="btn btn-danger">End Ride</button>
+        </form>
+    @elseif($ride->status == 'Rejected')
+        <p>Ride rejected.</p>
+   
     @endif
 </div>
 @if($ride->status == 'Ended')
@@ -466,20 +541,21 @@ window.addEventListener('load', function() {
 
     function displayRouteDescription(data, descriptionElement) {
         if (data.rawDescription) {
-            descriptionElement.innerHTML = `<p>${convertToClickableLinks(data.rawDescription)}</p>`;
-            return;
-        }
+        descriptionElement.innerHTML = `<p>${convertToClickableLinks(data.rawDescription)}</p>`;
+        return;
+    }
+
 
         descriptionElement.innerHTML = `
-            <h2>${data.sharedRoute}</h2>
-            ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
-            ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
-            ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
-            ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
-            ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
-            ${data.steps.length ? `<p><strong>Steps:</strong>${data.steps.map(step => step.replace(/^\d+\.\s*/, '')).join('<br>')}</p>` : ''}
-            ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
-        `;
+        <h2>${data.sharedRoute}</h2>
+        ${data.from ? `<p><strong>From:</strong> ${data.from}</p>` : ''}
+        ${data.to ? `<p><strong>To:</strong> ${data.to}</p>` : ''}
+        ${data.via ? `<p><strong>Via:</strong> ${data.via}</p>` : ''}
+        ${data.duration ? `<p><strong>Duration:</strong> ${data.duration}</p>` : ''}
+        ${data.traffic ? `<p><strong>Current Traffic:</strong> ${data.traffic}</p>` : ''}
+        ${data.steps.length ? `<p><strong>Steps:</strong><br>${data.steps.map(step => step.replace(/^\d+\.\s*/, '')).join('<br>')}</p>` : ''}
+        ${data.mapLink ? `<p>For the best route in current traffic<br> <strong>Visit: </strong> <a href="${data.mapLink}">${data.mapLink}</a></p>` : ''}
+    `;
     }
     
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -552,4 +628,27 @@ window.addEventListener('load', function() {
             displayRouteDescription(formattedData, descriptionElement);
         });
     });
+
+     // Function to handle acceptance and rejection
+     function handleAcceptRejectFormSubmission() {
+        document.querySelectorAll('.accept-reject-buttons form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                if (!confirm('Are you sure you want to perform this action?')) {
+                    event.preventDefault(); // Prevent form submission if not confirmed
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        handleAcceptRejectFormSubmission();
+        
+        // Existing code to format descriptions and timers
+        document.querySelectorAll('.ride-description').forEach(descriptionElement => {
+            const rawDescription = descriptionElement.innerText;
+            const formattedData = formatRouteDescription(rawDescription);
+            displayRouteDescription(formattedData, descriptionElement);
+        });
+    });
 </script>
+
