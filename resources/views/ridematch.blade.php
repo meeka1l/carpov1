@@ -356,7 +356,7 @@
                 (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
                 User ID: {{ $location->user_id }})
             </p>
-            @if ($ride->status=='Accepted' or 'Started')
+            @if ($ride->status == 'Accepted' || $ride->status == 'Started')
             <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
             @endif
             </div>

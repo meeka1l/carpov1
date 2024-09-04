@@ -147,7 +147,7 @@
     }
 
     .btn-back {
-        background-color:#ef0000;
+        background-color:#434343;
         color: white;
         border: 1px solid #ccc;
     }
@@ -219,21 +219,40 @@
     width: 100%;
     padding: 1em; /* Increased padding for better touchability */
     font-size: 1.2em; /* Larger font size for buttons */
-    background-color: #4CAF50; /* Green background */
+    background-color:#e9c31a; /* Green background */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 60px;
     margin-top: 2em; /* Increased margin for spacing */
     cursor: pointer;
     box-sizing: border-box;
+
 }
 
-.btn-chat:hover {
-    background-color: #45a049; /* Slightly darker green on hover */
-}
 
-    
+.btn-emergency {
+        background-color: #e74c3c; /* Red background */
+        color: white;
+        border: none;
+        border-radius: 60px;
+        padding: 1em;
+        font-size: 1.2em;
+        width: 100%;
+        margin-top: 1.5em;
+        cursor: pointer;
+        box-sizing: border-box;
+       text-align: center;
+       text-decoration: none;
+    }
 
+    .btn-emergency:hover {
+        background-color: #c0392b; /* Darker red on hover */
+    }
+
+    .buttons_{
+        display: flex;
+        flex-direction: column;
+    }
 </style>
 </head>
 <div class="container">
@@ -276,9 +295,12 @@
         // Format the duration
         $formattedDuration = $duration->format('%H:%I:%S');
         @endphp
+        <div class="buttons_">
         <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d (h:i:s A)') }}</p>
         <p>Ride duration: <span id="ride-timer" style="font-weight: bold;">{{ $formattedDuration }}</span></p>
         <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
+        <a href="tel:+1234567890" class="btn-emergency">Emergency Call</a>
+        </div>
     @endif
 
     <!-- Form to allow the user to input their pickup location -->
