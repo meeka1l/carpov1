@@ -9,6 +9,23 @@ use App\Models\PickupLocation;
 use Illuminate\Support\Facades\Auth;
 class RideController extends Controller
 {
+    public function endJourney(Request $request, Ride $ride)
+    {
+        // Get the commuter's user ID (assuming it's stored in $request or $ride)
+        $commuterId = auth()->id(); // Or replace with the correct method to fetch commuter's ID
+
+        // Delete the commuter's pickup location associated with the ride
+        PickupLocation::where('ride_id', $ride->id)
+                      ->where('user_id', $commuterId) // Assumes there's a user_id column in pickup_locations
+                      ->delete();
+
+        // Optionally, update the ride status to 'Ended'
+        //$ride->update(['status' => 'Ended']);
+
+        // Redirect back with a success message
+        return redirect()->route('home')->with('success', 'The ride has ended and your pickup location has been deleted.');
+    }
+
     public function showNavigator()
     {
         return view('home', ['mode' => 'navigator']);

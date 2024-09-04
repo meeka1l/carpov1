@@ -52,7 +52,7 @@ Route::post('/rides', [RideController::class, 'store'])->name('rides.store');
 Route::post('/rides/join', [RideController::class, 'joinRide'])->name('rides.join');
 Route::post('/rides/locate', [RideController::class, 'locate'])->name('rides.locate');
 
-Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
+//Route::post('/rides/end', [RideController::class, 'endRide'])->name('rides.end');
 Route::get('/rides/search', [RideController::class, 'searchRides']);
 
 //Route::get('/rides/match', [RideMatchingController::class, 'store'])->name('ride.match');
@@ -76,3 +76,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/{ride}/send', [ChatController::class, 'send'])->name('chat.send');
     Route::get('/chat/{ride}/messages', [ChatController::class, 'getMessages'])->name('chat.getMessages');
 });
+
+Route::post('/rides/end-journey/{ride}', [RideController::class, 'endJourney'])->name('rides.endJourney');

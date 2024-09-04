@@ -318,10 +318,25 @@
     @elseif($ride->status == 'Ended')
         <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
     @endif
-    <button onclick="history.back()" class="btn-back">&larr; Back</button>
+    @if ($ride->status == 'Started')
+<form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
+    @csrf
+    <button type="submit" class="btn-back" >End Journey</button>
+</form>
+    @elseif ($ride->status == 'Pending')
+    <button class="btn-back" onclick="tohome()">Back</button>
+    @endif
 </div>
 
 <script>
+
+function confirmEndJourney() {
+        return confirm('Are you sure you want to end the journey?'); // Shows a confirmation dialog
+    }
+
+function tohome() {
+                window.location.href = '{{ route("home") }}';
+}
 
 document.addEventListener('DOMContentLoaded', function() {
             // Convert URLs to clickable links
