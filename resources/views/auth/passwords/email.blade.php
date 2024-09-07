@@ -75,23 +75,24 @@
         .alert-danger {
             background-color: #dc3545;
         }
-        .logo{
-            font-family:'Krona One', sans-serif;
+        .logo {
+            font-family: 'Krona One', sans-serif;
             font-size: 2em; 
             color: black;
             text-decoration: none;
             display: block;
             text-align: center;
+            transition: transform 0.6s ease-in-out, color 0.3s ease-in-out;
         }
-        .logo:hover{
-            text-decoration:underline;
+        .logo:hover {
+            transform: rotateY(360deg);
             color: #177a63;
         }
     </style>
 </head>
 <body>
     <div class="container">
-    <a href="{{ route('login') }}" class="logo">CARPO</a>
+        <a href="{{ route('login') }}" class="logo">CARPO</a>
         <h1>Reset Password</h1>
 
         @if (session('status'))
