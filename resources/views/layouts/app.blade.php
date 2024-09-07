@@ -13,8 +13,11 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Scripts -->
+    <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!-- Additional Styles -->
+    @stack('styles')
 </head>
 <body>
     <div id="app">
@@ -30,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <!-- Left Side Content -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -72,16 +75,16 @@
             </div>
         </nav>
 
- <!-- Notification Area -->
- @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @elseif(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+        <!-- Notification Area -->
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <main class="py-4">
             @yield('content')

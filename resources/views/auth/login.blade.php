@@ -31,6 +31,7 @@
                 <button type="submit">Login</button>
             </div>
             <p>Don't have an account? <a href="{{ route('register.step.one') }}">Register</a></p>
+            <p><a href="{{ route('password.request') }}">Forgot Password?</a></p> <!-- Added this line -->
         </form>
     </div>
     <style>
