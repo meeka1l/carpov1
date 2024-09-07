@@ -204,8 +204,11 @@ public function delete($rideId)
     foreach ($pickupLocations as $pickupLocation) {
         $pickupLocation->delete();
     }
-    // Delete the ride
-    $ride->delete();
+    
+     // Update the ride status to 'Ended'
+     $ride->status = 'Ended';
+     $ride->is_active = false;
+     $ride->save();
 
     // Optionally notify the commuter that the ride was deleted
     $this->notifyUser($ride->user_id, 'Your ride request has been deleted by the navigator.');
