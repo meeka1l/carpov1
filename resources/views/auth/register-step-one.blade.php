@@ -49,7 +49,7 @@
             <div class="form-group">
                 <button type="submit">Proceed</button>
             </div>
-            <p>By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+            <p>By clicking continue, you agree to our <a href="{{ route('terms') }}">Terms of Service</a> and <a href="{{ route('privacy') }}">Privacy Policy</a>.</p>
             <p>Already have an account? <a href="{{ route('login') }}">Login</a></p>
         </form>
     </div>

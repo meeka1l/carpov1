@@ -79,12 +79,19 @@
             font-family:'Krona One', sans-serif;
             font-size: 2em; 
             color: black;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .logo:hover{
+            text-decoration:underline;
+            color: #177a63;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="logo">CARPO</h1>
+    <a href="{{ route('login') }}" class="logo">CARPO</a>
         <h1>Reset Password</h1>
 
         @if (session('status'))
