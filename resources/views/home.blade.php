@@ -554,45 +554,51 @@ document.getElementById('close-popup').addEventListener('click', function() {
                 document.getElementById('rides-page').innerHTML = html;
             })
             .catch(error => console.error('Error loading rides:', error));
+    });// Handle form submission and active class change
+const shareRideForm = document.querySelector('form[action="{{ route('rides.store') }}"]');
+shareRideForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Validate route description
+    const description = document.getElementById('description').value;
+    const pattern = /^Shared route From \(\d{1,2}\.\d+,\d{1,2}\.\d+\) to [\w\s]+(?: via [\w\s.]+)?\. \d+ min \(\d+\.\d+ km\) \d+ min in current traffic(?: \d+\..+)+ For the best route in current traffic visit https:\/\/maps\.app\.goo\.gl\/\S+\?g_st=ac$/;
+
+    if (!pattern.test(description)) {
+        alert('Invalid route description format. Please follow the specific pattern.');
+        return; // Exit the function to prevent submission
+    }
+
+    // If validation passes, proceed with form submission
+    const formData = new FormData(shareRideForm);
+
+    fetch(shareRideForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text(); // or response.json() depending on your endpoint
+        } else {
+            throw new Error('Failed to submit form');
+        }
+    })
+    .then(data => {
+        // Assuming a successful submission
+        navigatorLink.classList.remove('active');
+        commuterLink.classList.remove('active');
+        ridesLink.classList.add('active');
+        commuterPage.style.display = 'none';
+        navigatorPage.style.display = 'none';
+        ridesPage.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
-    // Handle form submission and active class change
-    const shareRideForm = document.querySelector('form[action="{{ route('rides.store') }}"]');
-    shareRideForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = new FormData(shareRideForm);
-
-        fetch(shareRideForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text(); // or response.json() depending on your endpoint
-            } else {
-                throw new Error('Failed to submit form');
-            }
-        })
-        .then(data => {
-            // Assuming a successful submission
-            navigatorLink.classList.remove('active');
-            commuterLink.classList.remove('active');
-            ridesLink.classList.add('active');
-            commuterPage.style.display = 'none';
-            navigatorPage.style.display = 'none';
-            ridesPage.style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-
-          
-        });
-       
+});
+});
     </script>
 </body>
 </html>
