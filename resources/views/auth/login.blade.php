@@ -31,6 +31,7 @@
                 <button type="submit">Login</button>
             </div>
             <p>By clicking continue, you agree to our <a href="{{ route('terms') }}">Terms of Service</a> and <a href="{{ route('privacy') }}">Privacy Policy</a>.</p>
+            <p><a href="{{ route('register.step.one')}}">New to CARPO?</a></p>
             <p><a href="{{ route('password.request') }}">Forgot Password?</a></p> <!-- Added this line -->
         </form>
     </div>

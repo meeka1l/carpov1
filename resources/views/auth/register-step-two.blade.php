@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Documents - Carpo</title>
+    <title>Complete Registration - Carpo</title>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
             <h1>CARPO</h1>
         </header>
         <h2>Register Information</h2>
-        <h3>Upload images of the following:</h3>
+        <h3>Complete Registration</h3>
         </div>
         <form method="POST" action="{{ route('register.step.two.post') }}" enctype="multipart/form-data">
             @csrf
