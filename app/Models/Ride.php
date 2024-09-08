@@ -23,7 +23,6 @@ class Ride extends Model
         'end_time',
         'duration',
         'user_name',
-        'is_active',
     ];
 
     public function navigator()
