@@ -67,6 +67,7 @@ class RideController extends Controller
         'end_location' => 'required|string',
         'description' => 'required|string',
         'email' => 'requied|string', // Validate description
+        'distance_km' => 'required|numeric|min:0.1|max:500',
     ]);
 
     // Add the navigator_id (assuming the authenticated user is the navigator)
@@ -83,6 +84,7 @@ class RideController extends Controller
         'navigator_id' => $user->id, // Save navigator ID
         'email' => $user->email,  // Save the user's email for checking ride uniqueness
         'user_name' => Auth::user()->name, // Automatically populate user_name
+        'distance_km' => $validated['distance_km'],
     ]);
     $validated = $request->validate([
         'id' => 'required|exists:rides,id',
