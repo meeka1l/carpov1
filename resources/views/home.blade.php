@@ -215,7 +215,9 @@
                     <!-- <img src="{{ asset('images/map.jpg') }}" alt="Overlay Image" class="overlay-image"> -->
                 <label for="description">Route Description:</label>
                 <input type="text" id="description" name="description" required> <a href="#" target="_blank" id="google-maps-link" style="color:#00d5a9">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
-               
+               <br>
+               <label for="ridedistance">Distance (Km):</label>
+               <input type="number" id="ridedistance" name="distance_km" required placeholder="Get from route description" step="0.01">
 <!-- Popup Modal -->
 <div id="maps-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
     <h3 style="margin-top: 0; font-size: 18px; color: #333;">Get Route From Google</h3>
@@ -557,8 +559,22 @@ document.getElementById('close-popup').addEventListener('click', function() {
     });
     // Handle form submission and active class change
     const shareRideForm = document.querySelector('form[action="{{ route('rides.store') }}"]');
+
+if (shareRideForm) {
     shareRideForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+        const distanceInput = document.getElementById('ridedistance');
+        const distanceValue = parseFloat(distanceInput.value);
+
+        // Custom validation rule: ensure distance is within a reasonable range, e.g., between 0.1 and 500 km
+        if (isNaN(distanceValue) || distanceValue < 0.1 || distanceValue > 500) {
+            alert('Please enter a valid distance in kilometers.');
+            distanceInput.focus();
+            event.preventDefault(); // Prevent form submission
+            return; // Exit the function early
+        }
+
+        // If validation passes, proceed with the form submission
+        event.preventDefault(); // Prevent default form submission
 
         const formData = new FormData(shareRideForm);
 
@@ -589,6 +605,8 @@ document.getElementById('close-popup').addEventListener('click', function() {
             console.error('Error:', error);
         });
     });
+}
+
 
           
         });
