@@ -266,7 +266,8 @@ public function show()
 
     // Debugging: Check if sharedRides is fetched correctly
     if ($sharedRides->isEmpty()) {
-        dd('No shared rides found for user: ' . $user->id);
+        //dd('No shared rides found for user: ' . $user->id);
+        return redirect()->back()->with('error', 'There are no rides. (Refresh)');
     }
 
     // Fetch all pickup locations for these rides

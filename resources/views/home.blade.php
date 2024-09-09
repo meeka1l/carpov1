@@ -269,7 +269,13 @@
         <!-- Rides Page Section -->
         <section class="rides-page" id="rides-page">
         @include('test')
-        <a href="{{ route('ridematch') }}" class="btn btn-primary">View Your Ride </a>
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @else
+        <a href="{{ route('ridematch') }}" class="btn btn-primary">View Your Ride</a>
+    @endif
         </section>
 
         <!-- Logout Form -->
