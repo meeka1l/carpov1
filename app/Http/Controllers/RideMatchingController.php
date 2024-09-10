@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Ride;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PickupLocation; // Add this import
+
 
 class RideMatchingController extends Controller
 {
@@ -24,8 +26,10 @@ public function showRideRequestPage(Request $request)
     $rideId = $request->query('ride_id');
     $ride = Ride::findOrFail($rideId);
 
+    // Fetch pickup locations for the specific ride
+    $pickupLocations = PickupLocation::where('ride_id', $rideId)->get();
     // Pass ride details to the view
-    return view('riderequest', compact('ride'));
+    return view('riderequest', compact('ride','pickupLocations'));
 }
     
     public function showUserRides()
