@@ -236,7 +236,24 @@ public function delete($rideId)
         return response()->json(['status' => 'Location updated successfully!']);
     }
     
+    public function showPaymentPage($ride_id)
+{
+    $ride = Ride::find($ride_id);
     
+    $distance_ = 0;
+    $description = '';
+    if ($ride) {
+        $description = $ride->description;
+        $pattern = '/(\d+(\.\d+)?)\s+km/i';
+        
+        if (preg_match($pattern, $description, $matches)) {
+            $distance_ = (float) $matches[1];
+        }
+    }
+
+    return view('payment', compact('distance_', 'description'));
+}
+
     public function searchRides(Request $request)
 {
     $query = $request->input('query');

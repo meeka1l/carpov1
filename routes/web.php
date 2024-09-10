@@ -88,3 +88,4 @@ Route::middleware(['auth'])->group(function () {
 
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
+Route::get('/payment/{ride_id}', [RideController::class, 'showPaymentPage']);
