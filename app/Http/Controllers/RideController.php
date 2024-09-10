@@ -148,6 +148,23 @@ public function joinRide(Request $request)
     return redirect()->back();
 }
 
+public function showPaymentPage($ride_id)
+{
+    $ride = Ride::find($ride_id);
+    
+    $distance_ = 0;
+    $description = '';
+    if ($ride) {
+        $description = $ride->description;
+        $pattern = '/(\d+(\.\d+)?)\s+km/i';
+        
+        if (preg_match($pattern, $description, $matches)) {
+            $distance_ = (float) $matches[1];
+        }
+    }
+
+    return view('payment', compact('distance_', 'description'));
+}
 public function accept($rideId)
 {
     $ride = Ride::findOrFail($rideId);

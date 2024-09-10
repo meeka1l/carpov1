@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PickupLocation extends Model
 {
-    protected $fillable = ['user_id', 'ride_id', 'pickup_location'];
+    protected $fillable = ['user_id', 'ride_id', 'pickup_location', 'status'];
 
     public function user()
     {

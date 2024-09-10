@@ -70,7 +70,7 @@ Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPag
 Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
 
 // Ride Actions: Accept, Reject, Start, End, and Delete
-Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('rides.accept');
+Route::post('/rides/{ride}/accept/', [RideController::class, 'accept'])->name('rides.accept');
 Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');
 Route::delete('/rides/{id}/delete', [RideController::class, 'delete'])->name('rides.delete');
 Route::delete('/ride-requests/{id}/delete', [RideController::class, 'deleteRequest'])->name('rideRequests.delete');
@@ -88,3 +88,5 @@ Route::middleware(['auth'])->group(function () {
 
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
+
+Route::get('/payment/{ride_id}', [RideController::class, 'showPaymentPage']);
