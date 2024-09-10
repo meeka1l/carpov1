@@ -275,37 +275,15 @@
     </div>
 
     <!-- Display the ride request status -->
-@php
-    // Get the specific commuter's pickup location
-    $commuterPickupLocation = $pickupLocations->where('ride_id', $ride->id)->where('user_id', auth()->user()->id)->first();
-@endphp
+    @if($ride->status == 'Pending')
+        <p class="status-message status-pending">Your request is pending...</p>
+    @elseif($ride->status == 'Accepted')
+        <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
+        <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
 
-@if($ride->status == 'Pending')
-            @if($commuterPickupLocation)
-                @if($commuterPickupLocation->status == 'pending')
-                    <p class="status-message status-pending">Your request is pending...</p>
-                @elseif($commuterPickupLocation->status == 'accepted')
-                    <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
-                    <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
-                @elseif($commuterPickupLocation->status == 'rejected')
-                    <p class="status-message status-rejected">Your request has been rejected.</p>
-                @endif
-            @else
-                <div class="form-container">
-                    <form action="{{ route('rides.join') }}" method="post">
-                        @csrf
-                        <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-                        <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter your pickup location:</label><br>
-                        <input type="text" id="pickup_location" name="pickup_location" required placeholder="e.g., Kolonnawa Pizzahut">
-                        <button type="submit" class="btn-confirm">Confirm Request</button>
-                    </form>
-                </div>
-            @endif
-        @elseif($ride->status == 'Ended')
-            <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
-        @endif
-
-        @if($ride->status == 'Started')
+    @elseif($ride->status == 'Rejected')
+        <p class="status-message status-rejected">Your request has been rejected.</p>
+    @elseif($ride->status == 'Started')
         <p class="status-message status-started">The ride has started.</p>
         @php
         // Convert the start time to the desired timezone
@@ -324,12 +302,30 @@
         <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
         <a href="tel:+1234567890" class="btn-emergency">Emergency Call</a>
         </div>
-            <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
-                @csrf
-                <button type="submit" class="btn-back">End Journey</button>
-            </form>
-        @endif
+    @endif
 
+    <!-- Form to allow the user to input their pickup location -->
+    @if($ride->status == 'Pending')
+        <div class="form-container">
+            <form action="{{ route('rides.join') }}" method="post">
+                @csrf
+                <input type="hidden" name="ride_id" value="{{ $ride->id }}">
+                <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter your pickup location:</label><br>
+                <input type="text" id="pickup_location" name="pickup_location" required placeholder="e.g., Kolonnawa Pizzahut">
+                <button type="submit" class="btn-confirm">Confirm Request</button>
+            </form>
+        </div>
+    @elseif($ride->status == 'Ended')
+        <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
+    @endif
+    @if ($ride->status == 'Started')
+<form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
+    @csrf
+    <button type="submit" class="btn-back" >End Journey</button>
+</form>
+    @elseif ($ride->status == 'Pending')
+    <button class="btn-back" onclick="tohome()">Back</button>
+    @endif
 </div>
 
 <script>

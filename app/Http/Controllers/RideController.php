@@ -9,39 +9,6 @@ use App\Models\PickupLocation;
 use Illuminate\Support\Facades\Auth;
 class RideController extends Controller
 {
-
-    public function acceptCommuter($rideId, $locationId)
-{
-    $pickupLocation = PickupLocation::where('id', $locationId)->where('ride_id', $rideId)->firstOrFail();
-
-    if ($pickupLocation->status !== 'pending') {
-        return redirect()->back()->with('error', 'Commuter has already been processed.');
-    }
-
-    $pickupLocation->status = 'accepted';
-    $pickupLocation->save();
-
-    // Optionally, you can add notifications or other logic here.
-
-    return redirect()->back()->with('status', 'Commuter accepted successfully.');
-}
-
-public function rejectCommuter($rideId, $locationId)
-{
-    $pickupLocation = PickupLocation::where('id', $locationId)->where('ride_id', $rideId)->firstOrFail();
-
-    if ($pickupLocation->status !== 'pending') {
-        return redirect()->back()->with('error', 'Commuter has already been processed.');
-    }
-
-    $pickupLocation->status = 'rejected';
-    $pickupLocation->save();
-
-    // Optionally, you can add notifications or other logic here.
-
-    return redirect()->back()->with('status', 'Commuter rejected successfully.');
-}
-
     public function endJourney(Request $request, Ride $ride)
     {
         // Get the commuter's user ID (assuming it's stored in $request or $ride)
@@ -166,7 +133,7 @@ public function joinRide(Request $request)
     }
 
     // Check if the user already has 3 pickup locations in total
-    if ($user->pickupLocations()->count() >= 3) {
+    if ($user->pickupLocations()->count()) {
         return redirect()->back()->with('error', 'You can only have up to 3 pickup locations.');
     }
 
