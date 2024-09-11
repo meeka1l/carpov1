@@ -288,7 +288,7 @@
                     <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
                     <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
                 @elseif($commuterPickupLocation->status == 'rejected')
-                    <p class="status-message status-rejected">Your request has been rejected.</p>
+                    <p class="status-message status-rejected">Sorry! Your request has been rejected. Please try another Navigator... </p>
                 @endif
             @else
                 <div class="form-container">

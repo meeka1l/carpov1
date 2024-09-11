@@ -233,7 +233,7 @@
 <br>
         <label for="start_location">Start Location:</label>
         <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>             
-        <input type="text" id="start_location" name="start_location" required readonly onclick="toggleDropdown('start_location')">
+        <input type="text" id="start_location" name="start_location" required readonly onclick="toggleDropdown('start_location')" placeholder="Select on Map">
 
         <select id="start_location_dropdown" name="start_location_dropdown" style="display: none;" required onchange="updateLocation('start_location')">
             <option disabled selected>Select</option>
@@ -244,7 +244,7 @@
 
         <label for="end_location">End Location:</label>
         <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>
-        <input type="text" id="end_location" name="end_location" required readonly onclick="toggleDropdown('end_location')">
+        <input type="text" id="end_location" name="end_location" required readonly onclick="toggleDropdown('end_location')" placeholder="Select on Map">
 
         <select id="end_location_dropdown" name="end_location_dropdown" style="display: none;" required onchange="updateLocation('end_location')">
             <option disabled selected>Select</option>
