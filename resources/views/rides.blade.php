@@ -129,6 +129,12 @@
                 <br>
                 <span class="shared-time">Shared {{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }}</span>
                 <!-- Display the shared time -->
+                 <br><br>
+                <strong class="strong_header">Planned Departure Time</strong><br><br>
+        <span class="planned-departure-time">
+            {{ \Carbon\Carbon::parse($ride->planned_departure_time)->setTimezone('Asia/Colombo')->format('F j, Y, g:i a') }}
+        </span><br>
+                
                 <form action="{{ route('rides.join') }}" method="POST">
                     @csrf
                     <input type="hidden" name="ride_id" value="{{ $ride->id }}">
