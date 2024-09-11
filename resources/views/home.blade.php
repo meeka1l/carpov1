@@ -246,11 +246,15 @@
         <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>
         <input type="text" id="end_location" name="end_location" required readonly onclick="toggleDropdown('end_location')" placeholder="Select on Map">
 
+        
         <select id="end_location_dropdown" name="end_location_dropdown" style="display: none;" required onchange="updateLocation('end_location')">
             <option disabled selected>Select</option>
             <option value="6.918688426614458,79.8612400882712">APIIT City Campus</option>
             <option value="6.920275317391224,79.85747472886152">APIIT Law School</option>
-        </select>
+        </select><br>
+        <label for="departure_time">Planned Departure Time:</label>
+        <input type="datetime-local" id="departure_datetime" name="departure_datetime" required>
+
         </div>
         <br>
         <div id="map" class="disabled"></div>
