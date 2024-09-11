@@ -253,6 +253,14 @@
         display: flex;
         flex-direction: column;
     }
+
+    textarea{
+        width: 100%;
+        font-size: 1.0em;      /* Adjusts the font size to make the text larger */
+        padding: 10px;        /* Adds padding for better readability */
+        line-height: 1.1;     /* Increases the line height for better spacing */
+        resize: vertical; 
+        }
 </style>
 </head>
 <div class="container">
@@ -295,8 +303,25 @@
                     <form action="{{ route('rides.join') }}" method="post">
                         @csrf
                         <input type="hidden" name="ride_id" value="{{ $ride->id }}">
-                        <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter your pickup location:</label><br>
-                        <input type="text" id="pickup_location" name="pickup_location" required placeholder="e.g., Kolonnawa Pizzahut">
+                        <label for="pickup_location" style="font-weight: bold; font-size: 1.2em;">Enter the Route:</label><br>
+                        <a href="#" target="_blank" id="google-maps-link" style="color:#00d5a9">[Use Google Maps to get route]</a> <!-- Added Google Maps link -->
+                        <br>
+                        <br>
+                                      <!-- Popup Modal -->
+<div id="maps-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; padding: 5%; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <h3 style="margin-top: 0; font-size: 2em; color: #333;">Get Route From Google</h3>
+    <ol style="padding-left: 5%; color: #555; font-size: 1em; line-height: 1.6;">
+        <li>Go to <a href="https://www.google.com/maps" target="_blank" style="color: #007bff; text-decoration: none;">Google Maps</a>.</li>
+        <li>Enter your destination in the search bar.</li>
+        <li>Click on the 'Directions' button.</li>
+        <li>Enter your starting location.</li>
+        <li>Click on share.</li>
+        <li>Copy to clipboard.</li>
+        <li>Paste in the route description field!</li>
+    </ol>
+    <button id="close-popup" style="display: block; margin: 15px auto 0; padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">Close</button>
+</div>
+                        <textarea id="pickup_location" name="pickup_location" required placeholder="e.g., Shared route From (6.9205265,79.8618715) to Dehiwala Railway Station via Colombo......etc" rows="5" cols="50"></textarea>
                         <button type="submit" class="btn-confirm">Confirm Request</button>
                     </form>
                 </div>
@@ -333,6 +358,15 @@
 </div>
 
 <script>
+    document.getElementById('google-maps-link').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default anchor behavior
+    document.getElementById('maps-popup').style.display = 'block'; // Show the popup
+});
+
+// Close popup when the close button is clicked
+document.getElementById('close-popup').addEventListener('click', function() {
+    document.getElementById('maps-popup').style.display = 'none'; // Hide the popup
+});
 
 function confirmEndJourney() {
         return confirm('Are you sure you want to end the journey?'); // Shows a confirmation dialog

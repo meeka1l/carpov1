@@ -133,7 +133,7 @@ public function joinRide(Request $request)
     // Validate the input
     $request->validate([
         'ride_id' => 'required|exists:rides,id',
-        'pickup_location' => 'required|string|max:255',
+        'pickup_location' => 'required|string',
     ]);
 
     // Get the currently authenticated user
