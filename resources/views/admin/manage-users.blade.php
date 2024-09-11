@@ -143,7 +143,8 @@
             </div>
         </div>
         <!-- Back Button -->
-        <button class="btn btn-secondary mt-3" onclick="window.history.back()">Back</button>
+        <button class="btn btn-secondary mt-3" onclick="window.location.href='{{ route('admin.dashboard') }}'">Back</button>
+
 
     </div>
 
