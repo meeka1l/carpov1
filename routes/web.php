@@ -91,3 +91,10 @@ Route::view('/privacy', 'privacy')->name('privacy');
 Route::get('/payment/{ride_id}', [RideController::class, 'showPaymentPage']);
 Route::post('/rides/{ride}/accept-commuter/{location}', [RideController::class, 'acceptCommuter'])->name('rides.acceptCommuter');
 Route::post('/rides/{ride}/reject-commuter/{location}', [RideController::class, 'rejectCommuter'])->name('rides.rejectCommuter');
+
+// In routes/web.php
+Route::get('/admin/manage-users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers')->middleware('auth');
+Route::post('/admin/manage-users/store', [AdminController::class, 'storeUser'])->name('admin.storeUser')->middleware('auth');
+Route::post('/admin/manage-users/update/{email}', [AdminController::class, 'updateUser'])->name('admin.updateUser')->middleware('auth');
+Route::delete('/admin/manage-users/delete/{email}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+

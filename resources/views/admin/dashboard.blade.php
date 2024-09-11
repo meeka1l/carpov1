@@ -18,7 +18,7 @@
                 <h2>More Details</h2>
             </div>
             <div class="admin-button-group">
-                <a href="#"><button class="admin-btn black-btn">Manage Users</button></a>
+                <a href="{{ route('admin.manageUsers') }}"><button class="admin-btn black-btn">Manage Users</button></a>
                 <a href="#"><button class="admin-btn green-btn">View Analytics</button></a>
                 <a href="#"><button class="admin-btn green-btn">View & Manage Complaints</button></a>
                 <a href="{{ route('admin.manageStudentDatabase') }}"><button class="admin-btn black-btn">Manage Student Database File</button></a>
