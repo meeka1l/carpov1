@@ -40,7 +40,10 @@ class Ride extends Model
                     ->withPivot('pickup_location')
                     ->withTimestamps();
     }
-
+    public function pickupLocations()
+    {
+        return $this->hasMany(PickupLocation::class);
+    }
     public function join(User $user, $pickupLocation)
     {
         $this->commuters()->attach($user, ['pickup_location' => $pickupLocation]);
@@ -61,6 +64,9 @@ public function messages()
 {
     return $this->hasMany(Message::class);
 }
-
+public function users()
+    {
+        return $this->belongsToMany(User::class, 'ride_user', 'ride_id', 'user_id');
+    }
     
 }
