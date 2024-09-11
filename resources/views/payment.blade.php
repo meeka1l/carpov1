@@ -6,9 +6,9 @@
 <body>
     <!-- Span to display the total -->
      <p>Description : <span id="description">{{$description}}</span></p>
-     <p>Commuter1 Des: <span id="">{{ $user_descriptions[1] ?? 'N/A' }}</span></p>
-<p>Commuter2 Des: <span id="">{{ $user_descriptions[2] ?? 'N/A' }}</span></p>
-<p>Commuter3 Des: <span id="">{{ $user_descriptions[3] ?? 'N/A' }}</span></p>
+     <p>Commuter1 Des: <span id="distance1d">{{ $user_descriptions[1] ?? 'N/A' }}</span></p>
+<p>Commuter2 Des: <span id="distance2d">{{ $user_descriptions[2] ?? 'N/A' }}</span></p>
+<p>Commuter3 Des: <span id="distance3d">{{ $user_descriptions[3] ?? 'N/A' }}</span></p>
      <p>Navigator Distance: <span id="distance"></span></p>
      <p>Commuter1 Distance: <span id="distance1"></span></p>
      <p>Commuter2 Distance: <span id="distance2"></span></p>
@@ -22,24 +22,38 @@
     <script>
         // Get the description from the Blade template
         var description = document.getElementById('description').innerText;
+        var distance1 = document.getElementById('distance1d').innerText;
+        var distance2 = document.getElementById('distance2d').innerText;
+        var distance3 = document.getElementById('distance3d').innerText;
 
         // Define the regex pattern to match a number followed by "km"
         var pattern = /(\d+(\.\d+)?)(?=\s*km)/;
 
         // Perform the regex match
         var matches = description.match(pattern);
+        var distance1 = distance1.match(pattern);
+        var distance2 = distance2.match(pattern);
+        var distance3 = distance3.match(pattern);
 
         // Extract the distance if a match is found
         var distance = matches ? parseFloat(matches[1]) : 0;
+        var distancec1 = distance1 ? parseFloat(distance1[1]) : 0;
+        var distancec2 = distance2 ? parseFloat(distance2[1]) : 0;
+        var distancec3 = distance3 ? parseFloat(distance3[1]) : 0;
+        
+
 
         // Display the distance in the HTML
         document.getElementById('distance').innerText = distance;
+        document.getElementById('distance1').innerText = distancec1;
+        document.getElementById('distance2').innerText = distancec2;
+        document.getElementById('distance3').innerText = distancec3;
 
         
         // Declare distances for commuters
-        var Commuter1Distance = 2.5; // Example value, replace with actual
-        var Commuter2Distance = 5; // Example value, replace with actual
-        var Commuter3Distance = 7.5; // Example value, replace with actual
+        var Commuter1Distance = distancec1; // Example value, replace with actual
+        var Commuter2Distance = distancec2; // Example value, replace with actual
+        var Commuter3Distance = distancec3; // Example value, replace with actual
 
         // Calculate total distance of commuters
         var TotalCommutersDistance = Commuter1Distance + Commuter2Distance + Commuter3Distance;
