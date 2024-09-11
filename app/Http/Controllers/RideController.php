@@ -270,20 +270,33 @@ public function delete($rideId)
     public function showPaymentPage($ride_id)
 {
     $ride = Ride::find($ride_id);
-    
+
     $distance_ = 0;
     $description = '';
+    $pickup_locations = [];
+    $user_descriptions = []; // Array to store commuter descriptions
+
     if ($ride) {
+        // Get description from the ride
         $description = $ride->description;
         $pattern = '/(\d+(\.\d+)?)\s+km/i';
         
         if (preg_match($pattern, $description, $matches)) {
             $distance_ = (float) $matches[1];
         }
+
+        // Get pickup locations and user descriptions for the ride_id
+        $pickup_locations = PickupLocation::where('ride_id', $ride_id)->get();
+
+        // Assuming 'description' is a column in 'pickup_locations' table
+        foreach ($pickup_locations as $key => $pickup) {
+            $user_descriptions[$key + 1] = $pickup->pickup_location?? 'N/A';  // Index starts from 1 for display
+        }
     }
 
-    return view('payment', compact('distance_', 'description'));
+    return view('payment', compact('distance_', 'description', 'user_descriptions'));
 }
+
 
     public function searchRides(Request $request)
 {

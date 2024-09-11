@@ -6,6 +6,9 @@
 <body>
     <!-- Span to display the total -->
      <p>Description : <span id="description">{{$description}}</span></p>
+     <p>Commuter1 Des: <span id="">{{ $user_descriptions[1] ?? 'N/A' }}</span></p>
+<p>Commuter2 Des: <span id="">{{ $user_descriptions[2] ?? 'N/A' }}</span></p>
+<p>Commuter3 Des: <span id="">{{ $user_descriptions[3] ?? 'N/A' }}</span></p>
      <p>Navigator Distance: <span id="distance"></span></p>
      <p>Commuter1 Distance: <span id="distance1"></span></p>
      <p>Commuter2 Distance: <span id="distance2"></span></p>
