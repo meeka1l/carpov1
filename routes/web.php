@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
-Route::get('/payment/{ride_id}', [RideController::class, 'showPaymentPage']);
+Route::get('/payment/{ride_id}', [RideController::class, 'showPaymentPage'])->name('payment');
 Route::post('/rides/{ride}/accept-commuter/{location}', [RideController::class, 'acceptCommuter'])->name('rides.acceptCommuter');
 Route::post('/rides/{ride}/reject-commuter/{location}', [RideController::class, 'rejectCommuter'])->name('rides.rejectCommuter');
 

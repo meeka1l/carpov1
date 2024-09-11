@@ -19,6 +19,9 @@
      <p>Commuter3 Total: <span id="commuter3t"></span></p>
     <p>Total Cost for Commuters: <span id="totalCost"></span></p>
 
+    <button onclick="window.location.href='{{ route('home') }}'">Go to Homepage</button>
+
+
     <script>
         // Get the description from the Blade template
         var description = document.getElementById('description').innerText;

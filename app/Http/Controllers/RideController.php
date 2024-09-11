@@ -355,7 +355,8 @@ public function end(Ride $ride)
     $ride->duration = $duration; // Assuming you have a 'duration' column in your 'rides' table
     $ride->save();
 
-    return redirect()->route('ridematch')->with('status', 'Ride ended successfully.');
+    // Redirect to the payment route with the ride_id parameter
+    return redirect()->route('payment', ['ride_id' => $ride->id])->with('status', 'Ride ended successfully.');
 }
 }
 
