@@ -7,6 +7,7 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
  <style>
        /* Loading screen styles */
        #loading-screen {
@@ -173,9 +174,41 @@
         </div>
     </div>
 
+    
+
     <div class="wrapper">
         <header class="header">
+
+    <!-- User Icon in the Top Left Corner -->
+        <div class="user-icon">
+            <a href="{{ route('profile.edit') }}">
+                <i class="bi bi-person-circle"></i> <!-- Bootstrap User Icon -->
+            </a>
+        </div>
+        <style>
+        .user-icon {
+            text-align: right;
+            top: 10px;
+            margin: 1px 0; /* Optional: Space above and below the icon */
+        }
+        .user-icon i {
+                font-size: 20px; /* Make the icon small */
+                color: #000; /* Change icon color if needed */
+                border-radius: 50%;
+                border: 2px solid #000; /* Add border to make it circular */
+                padding: 5px;
+                background-color: #fff; /* Background color */
+                display: inline-block; /* Keep the icon inline */
+                width: 30px; /* Set the desired width */
+                height: 30px; /* Set height to keep it square */
+                text-align: center; /* Center the icon text inside the block */
+                line-height: 30px; /* Vertically align the icon inside the box */
+            }
+            </style>
+
             <h1 id="carpo_logo">CARPO</h1>
+
+
             <p class="welcome">Welcome, <span class="cyantext">{{ auth()->user()->name }}! </span></p>
             <nav>
                 <ul>
@@ -185,6 +218,8 @@
                 </ul>
             </nav>
         </header>
+
+    
 
         <!-- Navigator Page Section -->
         <section class="navigator-page" id="navigator-page" style="display: none;">
