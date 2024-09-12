@@ -39,6 +39,8 @@
                     <td>{{ $user->phone_number }}</td>
                     <td>{{ $user->nic }}</td>
                     <td>
+                        <!-- View Details Button -->
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewUserModal{{ $user->id }}">View Details</button>
                         <!-- Edit Button -->
                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">Edit</button>
 
@@ -51,6 +53,27 @@
                     </td>
                 </tr>
 
+                <!-- View User Details Modal -->
+                <div class="modal fade" id="viewUserModal{{ $user->id }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">User Details: {{ $user->name }}</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>ID:</strong> {{ $user->id }}</p>
+                                <p><strong>Name:</strong> {{ $user->name }}</p>
+                                <p><strong>Email:</strong> {{ $user->email }}</p>
+                                <p><strong>Role:</strong> {{ $user->role }}</p>
+                                <p><strong>Phone:</strong> {{ $user->phone_number }}</p>
+                                <p><strong>NIC:</strong> {{ $user->nic }}</p>
+                                <p><strong>Address:</strong> {{ $user->address ?? 'N/A' }}</p>
+                                <p><strong>Emergency Contact:</strong> {{ $user->emergency_contact ?? 'N/A' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Edit User Modal -->
                 <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">

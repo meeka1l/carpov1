@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="emergency_contact">Emergency Contact</label>
-                <input type="tel" class="form-control" id="emergency_contact" name="emergency_contact" value="{{ $user->emergency_contact }}" pattern="[0-9\s\-\+\(\)]*" placeholder="eg:0712312345" required>
+                <input type="tel" class="form-control" id="emergency_contact" name="emergency_contact" value="{{ $user->emergency_contact }}" pattern="[0-9\s\-\+\(\)]*" placeholder="eg:0712312345" >
             </div>
             <div class="form-group">
                 <label for="nic">NIC</label>
