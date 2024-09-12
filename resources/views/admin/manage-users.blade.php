@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{ $user->email }}" readonly>
+                                        <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="role">Role</label>

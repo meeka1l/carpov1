@@ -77,6 +77,7 @@ class AdminController extends Controller
         // Update user data
         $user->update([
             'name' => $request->name,
+            'email' => $request->email,
             'role' => $request->role,
             'phone_number' => $request->phone,
             'nic' => $request->nic,
