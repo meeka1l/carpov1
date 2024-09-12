@@ -101,7 +101,7 @@ public function rejectCommuter($rideId, $locationId)
         'description' => 'required|string',
         'email' => 'requied|string', // Validate description
         'departure_datetime' => 'required|date|after:now',
-    ]);
+  ]);
 
     // Add the navigator_id (assuming the authenticated user is the navigator)
     $validated['navigator_id'] = auth()->id();

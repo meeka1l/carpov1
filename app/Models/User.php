@@ -25,6 +25,7 @@ class User extends Authenticatable
         'nic',
         'address',
         'role',
+        'emergency_contact',
     ];
 
     /**

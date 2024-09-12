@@ -30,6 +30,7 @@ class UserController extends Controller
             'phone_number' => 'required|string|max:15',
             'nic' => 'required|string|max:15',
             'address' => 'nullable|string|max:255',
+            'emergency_contact' => 'nullable|string|max:15'
         ]);
 
         // Update the authenticated user's profile
@@ -40,6 +41,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'nic' => $request->nic,
             'address' => $request->address,
+            'emergency_contact' => $request->emergency_contact,
         ]);
 
         // Redirect back to profile page with a success message
