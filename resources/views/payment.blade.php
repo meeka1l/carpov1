@@ -1,25 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <!-- Span to display the total -->
-     <p>Description : <span id="description">{{$description}}</span></p>
-     <p>Commuter1 Des: <span id="distance1d">{{ $user_descriptions[1] ?? 'N/A' }}</span></p>
-<p>Commuter2 Des: <span id="distance2d">{{ $user_descriptions[2] ?? 'N/A' }}</span></p>
-<p>Commuter3 Des: <span id="distance3d">{{ $user_descriptions[3] ?? 'N/A' }}</span></p>
-     <p>Navigator Distance: <span id="distance"></span></p>
-     <p>Commuter1 Distance: <span id="distance1"></span></p>
-     <p>Commuter2 Distance: <span id="distance2"></span></p>
-     <p>Commuter3 Distance: <span id="distance3"></span></p>
 
-     <p>Commuter1 Total: <span id="commuter1t"></span></p>
-     <p>Commuter2 Total: <span id="commuter2t"></span></p>
-     <p>Commuter3 Total: <span id="commuter3t"></span></p>
-    <p>Total Cost for Commuters: <span id="totalCost"></span></p>
+<body class="bg-gray-100 text-gray-900">
 
-    <button onclick="window.location.href='{{ route('home') }}'">Go to Homepage</button>
+    <div class="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+        <h1 class="text-2xl font-bold mb-4">Payment Details</h1>
+
+        <div class="space-y-2">
+    <!-- Description -->
+    <p class="text-lg">
+        Description: 
+        <span id="description" class="font-semibold">{{$description}}</span>
+        <span id="extra-description" class="hidden"></span>
+        <button class="text-blue-500 ml-2 hidden" id="toggle-description" onclick="toggleContent('description', this)">Show More</button>
+    </p>
+
+    <!-- Commuter 1 Description -->
+    <p class="text-lg">
+        Commuter1 Des: 
+        <span id="distance1d" class="font-semibold">{{ $user_descriptions[1] ?? 'N/A' }}</span>
+        <span id="extra-distance1" class="hidden"></span>
+        <button class="text-blue-500 ml-2 hidden" id="toggle-distance1" onclick="toggleContent('distance1d', this)">Show More</button>
+    </p>
+
+    <!-- Commuter 2 Description -->
+    <p class="text-lg">
+        Commuter2 Des: 
+        <span id="distance2d" class="font-semibold">{{ $user_descriptions[2] ?? 'N/A' }}</span>
+        <span id="extra-distance2" class="hidden"></span>
+        <button class="text-blue-500 ml-2 hidden" id="toggle-distance2" onclick="toggleContent('distance2d', this)">Show More</button>
+    </p>
+
+    <!-- Commuter 3 Description -->
+    <p class="text-lg">
+        Commuter3 Des: 
+        <span id="distance3d" class="font-semibold">{{ $user_descriptions[3] ?? 'N/A' }}</span>
+        <span id="extra-distance3" class="hidden"></span>
+        <button class="text-blue-500 ml-2 hidden" id="toggle-distance3" onclick="toggleContent('distance3d', this)">Show More</button>
+    </p>
+</div>
+
+        <!-- Distance Section -->
+        <div class="space-y-2 mt-6">
+            <h2 class="text-xl font-bold">Distance Details</h2>
+            <p>Navigator Distance: <span id="distance" class="font-semibold"></span> km</p>
+            <p>Commuter1 Distance: <span id="distance1" class="font-semibold"></span> km</p>
+            <p>Commuter2 Distance: <span id="distance2" class="font-semibold"></span> km</p>
+            <p>Commuter3 Distance: <span id="distance3" class="font-semibold"></span> km</p>
+        </div>
+
+        <!-- Commuter Totals -->
+        <div class="space-y-2 mt-6">
+            <h2 class="text-xl font-bold">Commuter Costs</h2>
+            <p>Commuter1 Total: <span id="commuter1t" class="font-semibold"></span> LKR</p>
+            <p>Commuter2 Total: <span id="commuter2t" class="font-semibold"></span> LKR</p>
+            <p>Commuter3 Total: <span id="commuter3t" class="font-semibold"></span> LKR</p>
+        </div>
+
+        <!-- Total Cost Section -->
+        <div class="mt-6">
+            <p class="text-lg font-bold">Total Cost for Commuters: <span id="totalCost" class="text-green-600"></span> LKR</p>
+        </div>
+
+        <!-- Button -->
+        <div class="mt-6">
+            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+                    onclick="window.location.href='{{ route('home') }}'">
+                Go to Homepage
+            </button>
+        </div>
+    </div>
 
 
     <script>
@@ -98,7 +155,49 @@
 
         document.getElementById('commuter1t').innerText = commuter1tot;
         document.getElementById('commuter2t').innerText = commuter2tot;
-        document.getElementById('commuter3t').innerText = commuter3tot
+        document.getElementById('commuter3t').innerText = commuter3tot;
+
+        // Function to truncate content and show the 'Show More' button
+    function truncateContent(id, buttonId) {
+        var contentSpan = document.getElementById(id);
+        var fullText = contentSpan.textContent.trim();
+
+        // Store the full text in a custom data attribute
+        contentSpan.setAttribute('data-full-text', fullText);
+
+        // Only truncate if the text is longer than 100 characters
+        if (fullText.length > 100) {
+            var truncatedText = fullText.slice(0, 100) + "...";
+            contentSpan.textContent = truncatedText;
+
+            // Show the "Show More" button
+            document.getElementById(buttonId).classList.remove('hidden');
+        }
+    }
+
+    // Function to toggle between showing truncated and full content
+    function toggleContent(id, btn) {
+        var contentSpan = document.getElementById(id);
+        var fullText = contentSpan.getAttribute('data-full-text');
+        var isTruncated = contentSpan.getAttribute('data-truncated') === 'true';
+
+        // Toggle between full and truncated text
+        if (isTruncated) {
+            contentSpan.textContent = fullText;  // Show full content
+            btn.textContent = "Show Less";       // Change button text
+            contentSpan.setAttribute('data-truncated', 'false');
+        } else {
+            contentSpan.textContent = fullText.slice(0, 100) + "...";  // Show truncated content
+            btn.textContent = "Show More";                             // Change button text
+            contentSpan.setAttribute('data-truncated', 'true');
+        }
+    }
+
+    // Initialize truncation for each content
+    truncateContent('description', 'toggle-description');
+    truncateContent('distance1d', 'toggle-distance1');
+    truncateContent('distance2d', 'toggle-distance2');
+    truncateContent('distance3d', 'toggle-distance3');
 
  </script>
 </body>

@@ -328,6 +328,7 @@
             @endif
         @elseif($ride->status == 'Ended')
             <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
+            <button onclick="window.location.href='{{ route('payment', ['ride_id' => $ride->id]) }}'"><b>Pay Your Payment</b></button>
         @endif
 
         @if($ride->status == 'Started')
