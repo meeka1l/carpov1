@@ -305,6 +305,11 @@
     display: flex;
     flex-direction: column;
 }
+.toggle-more-less {
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
 </style>
 </head>
 @if(isset($sharedRides) && isset($pickupLocations) && isset($commuters))
@@ -351,12 +356,20 @@
 
                         @php
                             $commuter = $commuters->get($location->user_id);
+                            $pickupWords = explode(' ', $location->pickup_location);
+                                $shortenedPickup = implode(' ', array_slice($pickupWords, 0, 10));
                         @endphp
                         <div class="commuter-info">
                             <p>
-                                {{ $location->pickup_location }} 
-                                (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
-                                User ID: {{ $location->user_id }})
+                            <span class="pickup-location" data-full="{{ $location->pickup_location }}" data-short="{{ $shortenedPickup }}">
+                                        {{ count($pickupWords) > 10 ? $shortenedPickup . '...' : $location->pickup_location }}
+                                    </span> 
+                                    @if(count($pickupWords) > 10)
+                                        <span class="toggle-more-less" onclick="togglePickupLocation(this)">See More</span>
+                                    @endif
+                                    <br>
+                                    (Commuter: {{ $commuter ? $commuter->name : 'Unknown' }}, 
+                                    User ID: {{ $location->user_id }})
                             </p>
 
                             @if ($location->status == 'accepted')
@@ -430,6 +443,21 @@
 @endif
 
 <script>
+   function togglePickupLocation(element) {
+            var parent = element.parentElement;
+            var pickupLocation = parent.querySelector('.pickup-location');
+            var isExpanded = element.textContent.includes('Less');
+
+            if (isExpanded) {
+                // Show the shortened text
+                pickupLocation.textContent = pickupLocation.dataset.short + '...';
+                element.textContent = 'See More';
+            } else {
+                // Show the full text
+                pickupLocation.textContent = pickupLocation.dataset.full;
+                element.textContent = 'See Less';
+            }
+        }
 
     
 window.addEventListener('load', function() {
@@ -588,3 +616,7 @@ window.addEventListener('load', function() {
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    

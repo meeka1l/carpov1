@@ -348,7 +348,7 @@
         <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d (h:i:s A)') }}</p>
         <p>Ride duration: <span id="ride-timer" style="font-weight: bold;">{{ $formattedDuration }}</span></p>
         <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
-        <a href="tel:+1234567890" class="btn-emergency">Emergency Call</a>
+        <a href="tel:{{ $ride->user->emergency_contact }}" class="btn-emergency">Emergency Call</a>
         </div>
             <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
                 @csrf
