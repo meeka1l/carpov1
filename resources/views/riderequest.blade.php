@@ -263,6 +263,9 @@
         }
 </style>
 </head>
+@php
+    $emergencyContact = auth()->user()->emergency_contact;
+@endphp
 <div class="container">
     <h1>CARPO</h1>
     <div id="bg_design">
@@ -348,8 +351,12 @@
         <p>Ride started at {{ \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo')->format('Y-m-d (h:i:s A)') }}</p>
         <p>Ride duration: <span id="ride-timer" style="font-weight: bold;">{{ $formattedDuration }}</span></p>
         <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat</button>
-        <a href="tel:{{ $ride->user->emergency_contact }}" class="btn-emergency">Emergency Call</a>
-        </div>
+        @if($emergencyContact)
+        <a href="tel:{{ $emergencyContact }}" class="btn-emergency">Emergency Call</a>
+    @else
+        <p class="btn-emergency">No emergency contact available.</p>
+    @endif  
+    </div>
             <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
                 @csrf
                 <button type="submit" class="btn-back">End Journey</button>
