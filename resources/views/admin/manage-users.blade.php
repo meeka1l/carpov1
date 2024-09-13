@@ -5,9 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <style>
+        h1{
+            font-family: 'Krona One', sans-serif;
+            color: #70d5c3;
+        }
+        .logo{
+            font-size: 2em;
+            color: black;
+        }    
+        .editbtn{
+            background-color: #e09a4e;
+            border: none;
+        }
+        .backbtn {
+    background-color: black;
+    color: white;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+    </style>
 </head>
 <body>
     <div class="container">
+        <h1 class="mt-5 logo">CARPO</h1>
         <h1 class="mt-5">User Management</h1>
         
         <!-- Add User Button -->
@@ -40,9 +66,9 @@
                     <td>{{ $user->nic }}</td>
                     <td>
                         <!-- View Details Button -->
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewUserModal{{ $user->id }}">View Details</button>
+                        <button class="btn btn btn-info btn-sm" data-toggle="modal" data-target="#viewUserModal{{ $user->id }}">View Details</button>
                         <!-- Edit Button -->
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">Edit</button>
+                        <button class="editbtn btn btn-primary btn-sm" data-toggle="modal" data-target="#editUserModal{{ $user->id }}">Edit</button>
 
                         <!-- Delete Form -->
                         <form action="{{ route('admin.deleteUser', $user->id) }}" method="POST" style="display:inline-block;">
@@ -166,7 +192,7 @@
             </div>
         </div>
         <!-- Back Button -->
-        <button class="btn btn-secondary mt-3" onclick="window.location.href='{{ route('admin.dashboard') }}'">Back</button>
+        <button class="backbtn btn btn-secondary mt-3" onclick="window.location.href='{{ route('admin.dashboard') }}'">&larr;Back</button>
 
 
     </div>
