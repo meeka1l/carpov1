@@ -28,8 +28,9 @@ class Ride extends Model
         'duration',
         'user_name',
         'planned_departure_time',
+        'apiit_route',
     ];
-
+    
     public function navigator()
     {
         return $this->belongsTo(User::class, 'navigator_id');

@@ -101,6 +101,7 @@ public function rejectCommuter($rideId, $locationId)
         'description' => 'required|string',
         'email' => 'requied|string', // Validate description
         'departure_datetime' => 'required|date|after:now',
+        'apiit_route' => 'required|string|in:from,to',
   ]);
 
     // Add the navigator_id (assuming the authenticated user is the navigator)
@@ -118,10 +119,7 @@ public function rejectCommuter($rideId, $locationId)
         'email' => $user->email,  // Save the user's email for checking ride uniqueness
         'user_name' => Auth::user()->name, // Automatically populate user_name
         'planned_departure_time' => $validated[ 'departure_datetime'],
-    ]);
-    $validated = $request->validate([
-        'id' => 'required|exists:rides,id',
-        
+        'apiit_route' => $validated['apiit_route'],    
     ]);
     $validated['email'] = $user->email;
     $ride = Ride::findOrFail($validated['id']);

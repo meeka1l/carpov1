@@ -12,16 +12,14 @@ return new class extends Migration
     public function up()
 {
     Schema::table('rides', function (Blueprint $table) {
-        $table->boolean('from_apiit')->default(0);
-        $table->boolean('to_apiit')->default(0);
+        $table->string('apiit_route')->nullable();
     });
 }
 
 public function down()
 {
     Schema::table('rides', function (Blueprint $table) {
-        $table->dropColumn('from_apiit');
-        $table->dropColumn('to_apiit');
+        $table->dropColumn('apiit_route');
     });
 }
 

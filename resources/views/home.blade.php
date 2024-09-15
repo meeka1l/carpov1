@@ -227,9 +227,13 @@
             <form action="{{ route('rides.store') }}" method="post">
                 @csrf
                 
-                
-                <label><input type="checkbox" id="from-apiit"> From APIIT</label>
-                <label><input type="checkbox" id="to-apiit"> To APIIT</label>
+                <label>
+    <input type="radio" id="from-apiit" name="apiit_route" value="from" required> From APIIT
+</label>
+<label>
+    <input type="radio" id="to-apiit" name="apiit_route" value="to" required> To APIIT
+</label>
+<label>
                 <br>
                 <br>
                 <div class="vehicle_details">
