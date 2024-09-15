@@ -359,7 +359,7 @@
     </div>
             <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
                 @csrf
-                <button type="submit" class="btn-back">End Journey</button>
+                <button type="submit" class="btn-back">Cancel Pickup</button>
             </form>
         @endif
 
@@ -377,7 +377,7 @@ document.getElementById('close-popup').addEventListener('click', function() {
 });
 
 function confirmEndJourney() {
-        return confirm('Are you sure you want to end the journey?'); // Shows a confirmation dialog
+        return confirm('Are you sure you want to cancel your pickup?'); // Shows a confirmation dialog
     }
 
 function tohome() {
