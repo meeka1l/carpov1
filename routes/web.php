@@ -69,6 +69,7 @@ Route::get('/rides/match', [RideController::class, 'show'])->name('rides.index')
 Route::get('/rides/request', [RideMatchingController::class, 'showRideRequestPage'])->name('rides.request');
 Route::get('/ridematch', [RideController::class, 'show'])->name('ridematch');
 
+
 // Ride Actions: Accept, Reject, Start, End, and Delete
 Route::post('/rides/{ride}/accept', [RideController::class, 'accept'])->name('rides.accept');
 Route::post('/rides/{ride}/reject', [RideController::class, 'reject'])->name('rides.reject');
@@ -106,5 +107,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
     
 });
+
+// Route to filter rides based on apiit_route
+Route::get('/rides', [RideController::class, 'index'])->name('rides.index');
+
 
 

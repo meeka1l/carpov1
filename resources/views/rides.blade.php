@@ -106,11 +106,45 @@
         .strong_header{
             font-family: "Krona one";
         }
+        .filter button{
+            font-size: 0.8em;
+            width: 60%;
+            border-radius: 50px;
+            margin: 5%;
+            transition: border-radius 0.3s ease;
+        }
+        .filter button:hover{
+            border-radius:0;
+        }
+        .filter label{
+            font-family: 'Krona One';
+            font-size:0.85em;
+            color: #555;
+        }
     </style>
 </head>
 <body>
     <section class="commuter-page" id="commuter-page">
         <h2>Available Rides</h2>
+        <form class="filter" method="GET" action="{{ route('rides.index') }}">
+            <fieldset>
+                <legend>Filter Rides</legend>
+                <label>
+                    <input type="radio" name="apiit_route" value="to" {{ request('apiit_route') == 'to' ? 'checked' : '' }}>
+                    To APIIT
+                </label><br>
+                <label>
+                    <input type="radio" name="apiit_route" value="from" {{ request('apiit_route') == 'from' ? 'checked' : '' }}>
+                    From APIIT
+                </label><br>
+                <label>
+                    <input type="radio" name="apiit_route" value="" {{ request('apiit_route') == '' ? 'checked' : '' }}>
+                    All
+                </label><br>
+                <button type="submit">Apply Filter</button>
+            </fieldset>
+        </form>
+
         <h3 class="lightertext">Type a nearby location or road to find navigators with similar routes</h3>
         <input type="text" id="search" placeholder="e.g., Kolonnawa Rd">
 

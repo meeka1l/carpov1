@@ -9,20 +9,21 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
  <style>
-       /* Loading screen styles */
-       #loading-screen {
-        top: 0;
-        left: 0;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff ;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
+      /* Loading screen styles */
+#loading-screen {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
 /* Text animation */
 .loading-text {
     display: flex;
@@ -34,7 +35,7 @@
     font-family: 'Krona One', sans-serif;
     font-size: 2em;
     opacity: 0;
-    animation: fadeInOut 4s ease-in-out infinite;
+    animation: fadeInOut 3s ease-in-out infinite; /* Change duration to 3s */
 }
 
 .text-animate:nth-child(1) {
@@ -43,17 +44,17 @@
 }
 
 .text-animate:nth-child(2) {
-    animation-delay: 1s;
+    animation-delay: 0.75s; /* Adjusted for a 3s total duration */
     color: #47a78d; /* Slightly lighter */
 }
 
 .text-animate:nth-child(3) {
-    animation-delay: 2s;
+    animation-delay: 1.5s; /* Adjusted for a 3s total duration */
     color: #70c9a7; /* Lighter */
 }
 
 .text-animate:nth-child(4) {
-    animation-delay: 3s;
+    animation-delay: 2.25s; /* Adjusted for a 3s total duration */
     color: #99ecd1; /* Even lighter */
 }
 
@@ -67,6 +68,7 @@
         transform: translateY(0);
     }
 }
+
 
 
 
@@ -344,13 +346,13 @@ document.getElementById('close-popup').addEventListener('click', function() {
             // Show the loading screen initially
             loadingScreen.style.opacity = '1';
             
-            // Hide the loading screen after 5 seconds
+            // Hide the loading screen after 3 seconds
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 1000); // Match the transition duration
-            }, 5000); // Display for 5 seconds
+            }, 3000); // Display for 3 seconds
         }
     });
 

@@ -10,6 +10,29 @@ use Illuminate\Support\Facades\Auth;
 class RideController extends Controller
 {
 
+    public function index(Request $request)
+{
+    $user = auth()->user(); // Get the authenticated user
+
+    // Get the filter value from the request
+    $apiitRoute = $request->query('apiit_route');
+
+    // Initialize the query
+    $query = Ride::query();
+
+    // Apply the filter if provided
+    if ($apiitRoute) {
+        $query->where('apiit_route', $apiitRoute);
+    }
+
+    // Fetch the filtered rides
+    $rides = $query->get();
+
+    // Return the view with filtered rides and user
+    return view('home', compact('rides', 'user'));
+}
+
+
     public function acceptCommuter($rideId, $locationId)
 {
     $pickupLocation = PickupLocation::where('id', $locationId)->where('ride_id', $rideId)->firstOrFail();
