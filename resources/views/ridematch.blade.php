@@ -250,7 +250,7 @@
         padding-top: 5%;
         padding-bottom: 15%;
         border-radius: 5%;
-        font-size: smaller;
+        font-size: 0.5em;
     }
     .black_box {
     max-width: 100%;
@@ -334,12 +334,17 @@
                 <span class="shared-time-ago">({{ $ride->created_at->setTimezone('Asia/Colombo')->diffForHumans() }})</span><br>
                 <strong>Navigator ID:</strong> {{ $ride->navigator_id }}<br>
                 <strong>Status:</strong> <span class="ride-status">{{ $ride->status }}</span><br>
+                @if ($ride->apiit_route =='to')
+                <p><strong>Ride: </strong>TO APIIT</p>
+           @elseif ($ride->apiit_route =='from')
+                <p><strong>Ride: </strong>FROM APIIT</p>
+                @endif
             </div>
         </div>
 
         <div class="wide_box">
             <strong class="headerkrona3">Description</strong>
-            <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>
+            <div class="ride-description" id="description-{{ $ride->id }}">{{ $ride->description }}</div>           
         </div>
 
         <div class="black_box">

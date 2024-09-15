@@ -278,6 +278,11 @@
     <p><strong>Name:</strong> {{$ride->user_name}}</p> 
     <p><strong>Vehicle:</strong> {{ $ride->vehicle_model }} ({{ $ride->vehicle_number }})</p>
     <p><strong>Color:</strong> {{ $ride->vehicle_color }}</p>
+    @if ($ride->apiit_route=='to')
+    <p><strong>Ride: </strong>TO APIIT</p>
+    @elseif ($ride->apiit_route=='from')
+    <p><strong>Ride: </strong>FROM APIIT</p>
+    @endif
     </div>
 
     <div class="dark_box">
