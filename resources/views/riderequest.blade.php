@@ -365,6 +365,15 @@
         @endif
 
         @if($ride->status == 'Started')
+        <script>
+                // Function to refresh the page
+                function refreshPage() {
+                    location.reload();
+                }
+
+                // Set the page to refresh every 15 seconds
+                setInterval(refreshPage, 15000);
+            </script>
         <p class="status-message status-started">The ride has started.</p>
         @php
         // Convert the start time to the desired timezone
