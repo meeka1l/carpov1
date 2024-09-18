@@ -152,6 +152,19 @@
 .btn-refresh:focus {
     outline: none;
 }
+fieldset{
+    font-size: 0.85em;
+    background-color: #e7fffa;
+    padding: 5%;
+    border-radius: 30px;
+    margin-bottom: 10%;
+}
+.row{
+    display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px; /* Space between radio buttons */
+}
 
     </style>
 </head>
@@ -162,14 +175,16 @@
         <form class="filter" method="GET" action="{{ route('rides.index') }}">
             <fieldset>
                 <legend>Filter Rides</legend>
+                <div class="row">
                 <label>
                     <input type="radio" name="apiit_route" value="to" {{ request('apiit_route') == 'to' ? 'checked' : '' }}>
                     To APIIT
-                </label><br>
+                </label>
                 <label>
                     <input type="radio" name="apiit_route" value="from" {{ request('apiit_route') == 'from' ? 'checked' : '' }}>
                     From APIIT
-                </label><br>
+                </label>
+                </div><br>
                 <button type="submit">Apply Filter</button>
             </fieldset>
         </form>
