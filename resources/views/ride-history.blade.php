@@ -6,6 +6,7 @@
     <title>Ride History</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome for icons -->
     <style>
         h1 {
             font-family: 'Krona One', sans-serif;
@@ -32,7 +33,7 @@
         }
         .table-container {
             margin-top: 2rem;
-            overflow-x: auto; /* Allows horizontal scrolling if needed */
+            overflow-x: auto;
         }
         .clickable-row {
             cursor: pointer;
@@ -49,15 +50,15 @@
             display: flex;
             flex-direction: column;
             border-bottom: 1px solid #dee2e6;
-            border: 2px solid black; /* Adds a black border around each row */
-            border-radius: 5px; /* Optional: adds rounded corners to the rows */
-            margin-bottom: 1rem; /* Adds space between rows */
-            padding: 0.5rem; /* Adds padding to each row */
-            background-color: #f8f9fa; /* Light background color for better readability */
+            border: 2px solid black;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
         }
         .table tbody td {
             display: flex;
-            justify-content: space-between;
+            align-items: center; /* Align items vertically center */
             padding: 0.75rem;
             border-bottom: 1px solid #dee2e6;
         }
@@ -66,6 +67,9 @@
             font-weight: bold;
             flex-basis: 40%;
             text-align: left;
+        }
+        .icon {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -96,7 +100,10 @@
                         <tbody>
                             @foreach($rides as $ride)
                             <tr class="clickable-row" data-toggle="modal" data-target="#viewRideModal{{ $ride->id }}" data-id="{{ $ride->id }}" data-vehicle_number="{{ $ride->vehicle_number }}" data-vehicle_color="{{ $ride->vehicle_color }}" data-vehicle_model="{{ $ride->vehicle_model }}" data-user_name="{{ $ride->user_name }}" data-start_location="{{ $ride->start_location }}" data-end_location="{{ $ride->end_location }}" data-description="{{ $ride->description }}" data-status="{{ $ride->status }}" data-start_time="{{ $ride->start_time }}" data-end_time="{{ $ride->end_time }}" data-duration="{{ $ride->duration }}" data-deleted_at="{{ $ride->deleted_at }}" data-planned_departure_time="{{ $ride->planned_departure_time }}" data-apiit_route="{{ $ride->apiit_route }}">
-                                <td data-label="ID">{{ $ride->id }}</td>
+                                <td><i class="fas fa-users icon"></i> <!-- Two people icon for commuter rides --></td>
+                                <td data-label="ID">
+                                    {{ $ride->id }}
+                                </td>
                                 <td data-label="Navigator/Commuter Name">{{ $ride->user_name }}</td>
                                 <td data-label="Start Location">{{ $ride->start_location }}</td>
                                 <td data-label="End Location">{{ $ride->end_location }}</td>
@@ -168,7 +175,7 @@
         // Update modal content on row click
         document.querySelectorAll('.clickable-row').forEach(row => {
             row.addEventListener('click', function() {
-                const modal = document.querySelector(`#viewRideModal${this.dataset.id}`);
+                const modal = document.querySelector('#viewRideModal' + this.dataset.id);
                 modal.querySelector('#modal-id').textContent = this.dataset.id;
                 modal.querySelector('#modal-vehicle_number').textContent = this.dataset.vehicle_number;
                 modal.querySelector('#modal-vehicle_color').textContent = this.dataset.vehicle_color;
@@ -181,8 +188,8 @@
                 modal.querySelector('#modal-start_time').textContent = this.dataset.start_time;
                 modal.querySelector('#modal-end_time').textContent = this.dataset.end_time;
                 modal.querySelector('#modal-duration').textContent = this.dataset.duration;
-                modal.querySelector('#modal-deleted_at').textContent = this.dataset.deleted_at || 'N/A';
-                modal.querySelector('#modal-planned_departure_time').textContent = this.dataset.planned_departure_time || 'N/A';
+                modal.querySelector('#modal-deleted_at').textContent = this.dataset.deleted_at;
+                modal.querySelector('#modal-planned_departure_time').textContent = this.dataset.planned_departure_time;
                 modal.querySelector('#modal-apiit_route').textContent = this.dataset.apiit_route;
             });
         });
