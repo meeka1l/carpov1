@@ -16,7 +16,9 @@ class RideHistoryController extends Controller
         // Fetch all rides for the logged-in user, including soft-deleted ones
         $rides = Ride::withTrashed()->where('email', $userEmail)->get();
 
+        
         // Pass the rides data to the view
         return view('ride-history', compact('rides'));
     }
+    
 }
