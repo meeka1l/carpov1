@@ -70,12 +70,37 @@
         </div>
 
         <!-- Button -->
-        <div class="mt-6">
-            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-                    onclick="window.location.href='{{ route('home') }}'">
-                Go to Homepage
-            </button>
-        </div>
+        <!-- Button -->
+<form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
+    @csrf
+    @method('DELETE')
+    <button id="cancel_button" type="submit">To Home Page</button>
+</form>
+
+<style>
+    #cancel_button {
+        padding: 10px 20px;
+        background: linear-gradient(to right, #ff8c00, #ffa500);
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    #cancel_button:hover {
+        background: linear-gradient(to right, #e55353, #ff6347);
+        transform: scale(1.05);
+    }
+
+    #cancel_button:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.4);
+    }
+</style>
+
     </div>
 
 

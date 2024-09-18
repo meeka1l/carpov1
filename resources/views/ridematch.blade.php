@@ -435,11 +435,7 @@
             <strong>Duration: </strong> {{ $ride->duration }}<br>
         @endif
 
-        <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
-            @csrf
-            @method('DELETE')
-            <button id="cancel_button" type="submit">Cancel Ride Sharing</button>
-        </form>
+    
         <hr>
         <button onclick="history.back()" class="back-button">&larr;</button>
     </div>

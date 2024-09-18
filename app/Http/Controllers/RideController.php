@@ -317,7 +317,7 @@ public function delete($rideId)
         }
     }
 
-    return view('payment', compact('distance_', 'description', 'user_descriptions'));
+    return view('payment', compact('ride','distance_', 'description', 'user_descriptions'));
 }
 
 
