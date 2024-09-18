@@ -30,7 +30,13 @@ class Ride extends Model
         'planned_departure_time',
         'apiit_route',
     ];
-    
+      // Define the dates to be cast as Carbon instances
+      protected $casts = [
+        'deleted_at' => 'datetime',
+        'planned_departure_time' => 'datetime',
+    ];
+
+
     public function navigator()
     {
         return $this->belongsTo(User::class, 'navigator_id');
