@@ -1,6 +1,6 @@
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
 
     
@@ -261,6 +261,28 @@
         line-height: 1.1;     /* Increases the line height for better spacing */
         resize: vertical; 
         }
+
+        .btn-report {
+            display:block;
+            align-items: center;
+            text-align: center;
+            padding: 10px 15px;
+            background-color: #dc3545; /* Red color for alert */
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-report i {
+            margin-right: 8px;
+        }
+
+        .btn-report:hover {
+            background-color: #c82333;
+        }
 </style>
 </head>
 @php
@@ -395,6 +417,10 @@
     @else
         <p class="btn-emergency">No emergency contact available.</p>
     @endif  
+    <button id="report-button" class="btn-report">
+        <i class="fas fa-exclamation-triangle"></i> Report
+    </button>
+
     </div>
             <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndJourney()">
                 @csrf
@@ -405,6 +431,12 @@
 </div>
 
 <script>
+
+document.getElementById('report-button').addEventListener('click', function() {
+            alert('Report button clicked! This would trigger a reporting process.');
+            // Implement the reporting functionality here
+        });
+
     document.getElementById('google-maps-link').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor behavior
     document.getElementById('maps-popup').style.display = 'block'; // Show the popup
