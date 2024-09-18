@@ -304,9 +304,30 @@
                 @csrf
                 <button type="submit" class="btn-back">Cancel Request</button>
             </form>
+            <script>
+                // Function to refresh the page
+                function refreshPage() {
+                    location.reload();
+                }
+
+                // Set the page to refresh every 15 seconds
+                setInterval(refreshPage, 15000);
+            </script>
                 @elseif($commuterPickupLocation->status == 'accepted')
                     <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
                     <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
+                    <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndRequest()">
+                    <script>
+                // Function to refresh the page
+                function refreshPage() {
+                    location.reload();
+                }
+
+                // Set the page to refresh every 15 seconds
+                setInterval(refreshPage, 15000);
+            </script>
+                @csrf
+                <button type="submit" class="btn-back">Cancel Request</button>
                 @elseif($commuterPickupLocation->status == 'rejected')
                     <p class="status-message status-rejected">Sorry! Your request has been rejected. Please try another Navigator... </p>
                 @endif

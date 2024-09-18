@@ -448,6 +448,15 @@
 @endif
 
 <script>
+    
+                // Function to refresh the page
+                function refreshPage() {
+                    location.reload();
+                }
+
+                // Set the page to refresh every 15 seconds
+                setInterval(refreshPage, 15000);
+            
    function togglePickupLocation(element) {
             var parent = element.parentElement;
             var pickupLocation = parent.querySelector('.pickup-location');

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commuter Page</title>
@@ -121,11 +123,42 @@
             font-size:0.85em;
             color: #555;
         }
+        .btn-refresh {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: white;
+    color: #01b5a0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5em;
+    transition: background-color 0.3s ease;
+    margin-left: 13%;
+}
+.btn-refresh p{
+    font-size: 0.8em;
+}
+
+.btn-refresh i {
+    margin-right: 8px;
+}
+
+.btn-refresh:hover {
+    background-color: white;
+    color: gray;
+}
+
+.btn-refresh:focus {
+    outline: none;
+}
+
     </style>
 </head>
 <body>
     <section class="commuter-page" id="commuter-page">
         <h2>Available Rides</h2>
+        
         <form class="filter" method="GET" action="{{ route('rides.index') }}">
             <fieldset>
                 <legend>Filter Rides</legend>
@@ -143,6 +176,10 @@
 
         <h3 class="lightertext">Type a nearby location or road to find navigators with similar routes</h3>
         <input type="text" id="search" placeholder="e.g., Kolonnawa Rd">
+         <!-- Refresh Button -->
+         <button id="refresh-rides" class="btn-refresh">
+         <i class="fas fa-sync-alt"></i><p>Refresh List</p>
+        </button>
 
         <ul id="ride-list">
             @foreach($rides as $ride)
@@ -186,6 +223,9 @@
     </section>
 
     <script>
+        document.getElementById('refresh-rides').addEventListener('click', function() {
+                location.reload();
+            });
         function convertToClickableLinks(text) {
     return text.replace(
         /https:\/\/maps\.app\.goo\.gl\/[^\s]+/g,
