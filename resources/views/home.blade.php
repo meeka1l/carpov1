@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
  <style>
       /* Loading screen styles */
 #loading-screen {
@@ -164,6 +166,40 @@
             margin-bottom: 10%;
             color: #c9c9c9;
         }
+        .hamburger-icon {
+    text-align: right;
+    margin: 1px 0;
+    position: relative;
+}
+
+.hamburger-icon i {
+    font-size: 24px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    border: 2px solid #000;
+    width: 30px;
+    height: 30px;
+    display: contents;
+    text-align: center;
+    line-height: 30px;
+}
+
+.dropdown-menu {
+    min-width: 160px;
+    background-color: #fff;
+}
+
+.dropdown-item {
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
     </style>
 </head>
 <body>
@@ -193,49 +229,6 @@
         <li><a class="dropdown-item" href="{{ route('ride.history') }}">Ride History</a></li>
     </ul>
 </div>
-
-<!-- Internal CSS -->
-<style>
-    .hamburger-icon {
-        text-align: right;
-        margin: 1px 0;
-        position: relative;
-    }
-
-    .hamburger-icon i {
-        font-size: 24px; /* Slightly larger for a hamburger */
-        color: #000;
-        background-color: #fff;
-        border-radius: 50%;
-        padding: 5px;
-        border: 2px solid #000;
-        width: 30px;
-        height: 30px;
-        display: inline-block;
-        text-align: center;
-        line-height: 30px; /* Align icon vertically */
-    }
-
-    .dropdown-menu {
-        min-width: 160px; /* Adjust width if necessary */
-        background-color: #fff;
-    }
-
-    .dropdown-item {
-        padding: 10px;
-        font-size: 14px;
-        color: #000;
-    }
-
-    .dropdown-item:hover {
-        background-color: #f0f0f0;
-    }
-</style>
-
-<!-- Add Bootstrap and JavaScript dependencies for dropdown functionality -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-
 
             <h1 id="carpo_logo">CARPO</h1>
 
@@ -357,7 +350,11 @@
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+
+        
 
 document.getElementById('google-maps-link').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor behavior
