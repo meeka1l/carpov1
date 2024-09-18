@@ -111,5 +111,6 @@ Route::middleware(['auth'])->group(function() {
 // Route to filter rides based on apiit_route
 Route::get('/rides', [RideController::class, 'index'])->name('rides.index');
 
+use App\Http\Controllers\RideHistoryController;
 
-
+Route::get('/ride-history', [RideHistoryController::class, 'index'])->name('ride.history')->middleware('auth');

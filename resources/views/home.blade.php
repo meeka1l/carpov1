@@ -181,32 +181,61 @@
     <div class="wrapper">
         <header class="header">
 
-    <!-- User Icon in the Top Left Corner -->
-        <div class="user-icon">
-            <a href="{{ route('profile.edit') }}">
-                <i class="bi bi-person-circle"></i> <!-- Bootstrap User Icon -->
-            </a>
-        </div>
-        <style>
-        .user-icon {
-            text-align: right;
-            top: 10px;
-            margin: 1px 0; /* Optional: Space above and below the icon */
-        }
-        .user-icon i {
-                font-size: 20px; /* Make the icon small */
-                color: #000; /* Change icon color if needed */
-                border-radius: 50%;
-                border: 2px solid #000; /* Add border to make it circular */
-                padding: 5px;
-                background-color: #fff; /* Background color */
-                display: inline-block; /* Keep the icon inline */
-                width: 30px; /* Set the desired width */
-                height: 30px; /* Set height to keep it square */
-                text-align: center; /* Center the icon text inside the block */
-                line-height: 30px; /* Vertically align the icon inside the box */
-            }
-            </style>
+        <!-- Hamburger Icon with Dropdown Menu -->
+<div class="hamburger-icon dropdown">
+    <a href="#" class="dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-list"></i> <!-- Bootstrap Hamburger Icon -->
+    </a>
+
+    <!-- Dropdown Menu -->
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+        <li><a class="dropdown-item" href="{{ route('ride.history') }}">Ride History</a></li>
+    </ul>
+</div>
+
+<!-- Internal CSS -->
+<style>
+    .hamburger-icon {
+        text-align: right;
+        margin: 1px 0;
+        position: relative;
+    }
+
+    .hamburger-icon i {
+        font-size: 24px; /* Slightly larger for a hamburger */
+        color: #000;
+        background-color: #fff;
+        border-radius: 50%;
+        padding: 5px;
+        border: 2px solid #000;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px; /* Align icon vertically */
+    }
+
+    .dropdown-menu {
+        min-width: 160px; /* Adjust width if necessary */
+        background-color: #fff;
+    }
+
+    .dropdown-item {
+        padding: 10px;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+
+<!-- Add Bootstrap and JavaScript dependencies for dropdown functionality -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
 
             <h1 id="carpo_logo">CARPO</h1>
 
