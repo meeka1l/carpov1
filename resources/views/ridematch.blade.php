@@ -412,6 +412,17 @@
                     @csrf
                     <button type="submit">Start Ride</button>
                 </form>
+                <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
+            @csrf
+            @method('DELETE')
+            <button id="cancel_button" type="submit">Cancel Ride Sharing</button>
+        </form>
+        @elseif($ride->status=='Pending')
+        <form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
+            @csrf
+            @method('DELETE')
+            <button id="cancel_button" type="submit">Cancel Ride Sharing</button>
+        </form>
     @elseif($ride->status == 'Started')
                 @php
                     $startTime = \Carbon\Carbon::parse($ride->start_time)->setTimezone('Asia/Colombo');
