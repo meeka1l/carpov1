@@ -118,21 +118,21 @@
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>ID:</strong> <span id="modal-id"></span></p>
-                                            <p><strong>Vehicle Number:</strong> <span id="modal-vehicle_number"></span></p>
-                                            <p><strong>Vehicle Color:</strong> <span id="modal-vehicle_color"></span></p>
-                                            <p><strong>Vehicle Model:</strong> <span id="modal-vehicle_model"></span></p>
-                                            <p><strong>Navigator/Commuter Name:</strong> <span id="modal-user_name"></span></p>
-                                            <p><strong>Start Location:</strong> <span id="modal-start_location"></span></p>
-                                            <p><strong>End Location:</strong> <span id="modal-end_location"></span></p>
-                                            <p><strong>Description:</strong> <span id="modal-description"></span></p>
-                                            <p><strong>Status:</strong> <span id="modal-status"></span></p>
-                                            <p><strong>Start Time:</strong> <span id="modal-start_time"></span></p>
-                                            <p><strong>End Time:</strong> <span id="modal-end_time"></span></p>
-                                            <p><strong>Duration:</strong> <span id="modal-duration"></span></p>
-                                            <p><strong>Deleted At:</strong> <span id="modal-deleted_at"></span></p>
-                                            <p><strong>Planned Departure Time:</strong> <span id="modal-planned_departure_time"></span></p>
-                                            <p><strong>APIIT Route:</strong> <span id="modal-apiit_route"></span></p>
+                                            <p><strong>ID:</strong> <span id="modal-id-{{ $ride->id }}"></span></p>
+                                            <p><strong>Vehicle Number:</strong> <span id="modal-vehicle_number-{{ $ride->id }}"></span></p>
+                                            <p><strong>Vehicle Color:</strong> <span id="modal-vehicle_color-{{ $ride->id }}"></span></p>
+                                            <p><strong>Vehicle Model:</strong> <span id="modal-vehicle_model-{{ $ride->id }}"></span></p>
+                                            <p><strong>Navigator/Commuter Name:</strong> <span id="modal-user_name-{{ $ride->id }}"></span></p>
+                                            <p><strong>Start Location:</strong> <span id="modal-start_location-{{ $ride->id }}"></span></p>
+                                            <p><strong>End Location:</strong> <span id="modal-end_location-{{ $ride->id }}"></span></p>
+                                            <p><strong>Description:</strong> <span id="modal-description-{{ $ride->id }}"></span></p>
+                                            <p><strong>Status:</strong> <span id="modal-status-{{ $ride->id }}"></span></p>
+                                            <p><strong>Start Time:</strong> <span id="modal-start_time-{{ $ride->id }}"></span></p>
+                                            <p><strong>End Time:</strong> <span id="modal-end_time-{{ $ride->id }}"></span></p>
+                                            <p><strong>Duration:</strong> <span id="modal-duration-{{ $ride->id }}"></span></p>
+                                            <p><strong>Deleted At:</strong> <span id="modal-deleted_at-{{ $ride->id }}"></span></p>
+                                            <p><strong>Planned Departure Time:</strong> <span id="modal-planned_departure_time-{{ $ride->id }}"></span></p>
+                                            <p><strong>APIIT Route:</strong> <span id="modal-apiit_route-{{ $ride->id }}"></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -145,8 +145,44 @@
 
             <!-- Commuter History Tab -->
             <div class="tab-pane fade" id="commuter-history" role="tabpanel" aria-labelledby="commuter-history-tab">
-                <!-- Content for Commuter History will be added here -->
-                <p>This section is for commuter history. Content will be added here later.</p>
+                <!-- Search Bar -->
+                <input type="text" id="commuter-search" class="form-control mt-3" placeholder="Search by ID, Pickup Location, or Status">
+
+                <!-- Commuter Table -->
+                <div class="table-container">
+                    <table class="table table-striped" id="commuterTable">
+                        <tbody>
+                            @foreach($pickupLocations as $pickupLocation)
+                            <tr class="clickable-row" data-toggle="modal" data-target="#viewPickupModal{{ $pickupLocation->id }}" data-id="{{ $pickupLocation->id }}" data-ride_id="{{ $pickupLocation->ride_id }}" data-pickup_location="{{ $pickupLocation->pickup_location }}" data-status="{{ $pickupLocation->status }}" data-deleted_at="{{ $pickupLocation->deleted_at }}">
+                                <td><i class="fas fa-map-marker-alt icon"></i> <!-- Map marker icon for pickup locations --></td>
+                                <td data-label="ID">{{ $pickupLocation->id }}</td>
+                                <td data-label="Ride ID">{{ $pickupLocation->ride_id }}</td>
+                                <td data-label="Pickup Location">{{ $pickupLocation->pickup_location }}</td>
+                                <td data-label="Status">{{ $pickupLocation->status }}</td>
+                            </tr>
+
+                            <!-- View Pickup Details Modal -->
+                            <div class="modal fade" id="viewPickupModal{{ $pickupLocation->id }}" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Pickup Details: {{ $pickupLocation->id }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>ID:</strong> <span id="modal-pickup-id-{{ $pickupLocation->id }}"></span></p>
+                                            <p><strong>Ride ID:</strong> <span id="modal-pickup-ride_id-{{ $pickupLocation->id }}"></span></p>
+                                            <p><strong>Pickup Location:</strong> <span id="modal-pickup_location-{{ $pickupLocation->id }}"></span></p>
+                                            <p><strong>Status:</strong> <span id="modal-pickup-status-{{ $pickupLocation->id }}"></span></p>
+                                            <p><strong>Deleted At:</strong> <span id="modal-pickup-deleted_at-{{ $pickupLocation->id }}"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -172,25 +208,47 @@
             });
         });
 
+        document.getElementById('commuter-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#commuterTable tbody tr');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const match = Array.from(cells).some(cell => 
+                    cell.textContent.toLowerCase().includes(searchTerm)
+                );
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
         // Update modal content on row click
         document.querySelectorAll('.clickable-row').forEach(row => {
             row.addEventListener('click', function() {
-                const modal = document.querySelector('#viewRideModal' + this.dataset.id);
-                modal.querySelector('#modal-id').textContent = this.dataset.id;
-                modal.querySelector('#modal-vehicle_number').textContent = this.dataset.vehicle_number;
-                modal.querySelector('#modal-vehicle_color').textContent = this.dataset.vehicle_color;
-                modal.querySelector('#modal-vehicle_model').textContent = this.dataset.vehicle_model;
-                modal.querySelector('#modal-user_name').textContent = this.dataset.user_name;
-                modal.querySelector('#modal-start_location').textContent = this.dataset.start_location;
-                modal.querySelector('#modal-end_location').textContent = this.dataset.end_location;
-                modal.querySelector('#modal-description').textContent = this.dataset.description;
-                modal.querySelector('#modal-status').textContent = this.dataset.status;
-                modal.querySelector('#modal-start_time').textContent = this.dataset.start_time;
-                modal.querySelector('#modal-end_time').textContent = this.dataset.end_time;
-                modal.querySelector('#modal-duration').textContent = this.dataset.duration;
-                modal.querySelector('#modal-deleted_at').textContent = this.dataset.deleted_at;
-                modal.querySelector('#modal-planned_departure_time').textContent = this.dataset.planned_departure_time;
-                modal.querySelector('#modal-apiit_route').textContent = this.dataset.apiit_route;
+                if (this.closest('#ridesTable')) {
+                    const modal = document.querySelector('#viewRideModal' + this.dataset.id);
+                    modal.querySelector('#modal-id-' + this.dataset.id).textContent = this.dataset.id;
+                    modal.querySelector('#modal-vehicle_number-' + this.dataset.id).textContent = this.dataset.vehicle_number;
+                    modal.querySelector('#modal-vehicle_color-' + this.dataset.id).textContent = this.dataset.vehicle_color;
+                    modal.querySelector('#modal-vehicle_model-' + this.dataset.id).textContent = this.dataset.vehicle_model;
+                    modal.querySelector('#modal-user_name-' + this.dataset.id).textContent = this.dataset.user_name;
+                    modal.querySelector('#modal-start_location-' + this.dataset.id).textContent = this.dataset.start_location;
+                    modal.querySelector('#modal-end_location-' + this.dataset.id).textContent = this.dataset.end_location;
+                    modal.querySelector('#modal-description-' + this.dataset.id).textContent = this.dataset.description;
+                    modal.querySelector('#modal-status-' + this.dataset.id).textContent = this.dataset.status;
+                    modal.querySelector('#modal-start_time-' + this.dataset.id).textContent = this.dataset.start_time;
+                    modal.querySelector('#modal-end_time-' + this.dataset.id).textContent = this.dataset.end_time;
+                    modal.querySelector('#modal-duration-' + this.dataset.id).textContent = this.dataset.duration;
+                    modal.querySelector('#modal-deleted_at-' + this.dataset.id).textContent = this.dataset.deleted_at;
+                    modal.querySelector('#modal-planned_departure_time-' + this.dataset.id).textContent = this.dataset.planned_departure_time;
+                    modal.querySelector('#modal-apiit_route-' + this.dataset.id).textContent = this.dataset.apiit_route;
+                } else if (this.closest('#commuterTable')) {
+                    const modal = document.querySelector('#viewPickupModal' + this.dataset.id);
+                    modal.querySelector('#modal-pickup-id-' + this.dataset.id).textContent = this.dataset.id;
+                    modal.querySelector('#modal-pickup-ride_id-' + this.dataset.id).textContent = this.dataset.ride_id;
+                    modal.querySelector('#modal-pickup_location-' + this.dataset.id).textContent = this.dataset.pickup_location;
+                    modal.querySelector('#modal-pickup-status-' + this.dataset.id).textContent = this.dataset.status;
+                    modal.querySelector('#modal-pickup-deleted_at-' + this.dataset.id).textContent = this.dataset.deleted_at;
+                }
             });
         });
     </script>
