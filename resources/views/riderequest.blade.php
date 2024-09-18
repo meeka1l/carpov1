@@ -300,6 +300,10 @@
             @if($commuterPickupLocation)
                 @if($commuterPickupLocation->status == 'pending')
                     <p class="status-message status-pending">Your request is pending...</p>
+                    <form action="{{ route('rides.endJourney', ['ride' => $ride->id]) }}" method="POST" onsubmit="return confirmEndRequest()">
+                @csrf
+                <button type="submit" class="btn-back">Cancel Request</button>
+            </form>
                 @elseif($commuterPickupLocation->status == 'accepted')
                     <p class="status-message status-accepted">Your request has been accepted! Waiting for ride to start...</p>
                     <button class="btn-chat" onclick="window.location.href='{{ route('chat.index', ['ride' => $ride->id]) }}'">Chat with Navigator</button>
@@ -383,6 +387,10 @@ document.getElementById('close-popup').addEventListener('click', function() {
 
 function confirmEndJourney() {
         return confirm('Are you sure you want to cancel your pickup?'); // Shows a confirmation dialog
+    }
+
+    function confirmEndRequest() {
+        return confirm('Are you sure you want to cancel your Request?'); // Shows a confirmation dialog
     }
 
 function tohome() {

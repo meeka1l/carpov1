@@ -137,10 +137,6 @@
                     <input type="radio" name="apiit_route" value="from" {{ request('apiit_route') == 'from' ? 'checked' : '' }}>
                     From APIIT
                 </label><br>
-                <label>
-                    <input type="radio" name="apiit_route" value="" {{ request('apiit_route') == '' ? 'checked' : '' }}>
-                    All
-                </label><br>
                 <button type="submit">Apply Filter</button>
             </fieldset>
         </form>
