@@ -6,59 +6,167 @@
     <title>Payment</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    
+<style>
+    #cancel_button {
+        padding: 10px 20px;
+        background: linear-gradient(to right, #ff8c00, #ffa500);
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+        margin-left: 30%;
+        margin-top:5%;
+    }
+
+    #cancel_button:hover {
+        background: linear-gradient(to right, #e55353, #ff6347);
+        transform: scale(1.05);
+    }
+
+    #cancel_button:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.4);
+    }
+    .headfont{
+        font-family: 'Krona One', sans-serif;
+        font-size: 2.5em;
+        margin-bottom: 20%;
+        margin-left: 17%;
+    }
+    .commuter-container {
+        display: flex;
+    flex-direction: column;
+    padding: 5%;
+    border-radius: 30px;
+    align-items: center;
+    margin-bottom: 5% !important;
+    margin-top: 5% !important;
+    background: #c7c7c7;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+
+.driver_route{
+    background-color: #333333;
+    color: white;
+    padding: 5%;
+    border-radius: 30px;
+}
+h2{
+    font-family: 'Krona One';
+}
+
+
+.info_block {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    border-radius: 30px;
+    align-items: center;
+    margin-bottom: 5%;
+    background: #c7c7c7;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.cost_block{
+    display: flex;
+    flex-direction: column;
+    background-color: #f8db76;
+    padding: 5%;
+    border-radius: 30px;
+    align-items: center;
+}
+.rotate {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+</style>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="text-gray-900">
 
     <div class="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
-        <h1 class="text-2xl font-bold mb-4">Payment Details</h1>
+        <h1 class="headfont">Payment Details</h1>
 
         <div class="space-y-2">
     <!-- Description -->
-    <p class="text-lg">
-        Description: 
+     <div class="driver_route">
+     <h2>Navigator Route:</h2>
+    <p class="text-lg"> 
         <span id="description" class="font-semibold">{{$description}}</span>
         <span id="extra-description" class="hidden"></span>
         <button class="text-blue-500 ml-2 hidden" id="toggle-description" onclick="toggleContent('description', this)">Show More</button>
     </p>
+    </div>
+    <div class="commuter-container">
+   <!-- Commuter Routes Header with Toggle -->
+   <h2 class="text-xl font-bold cursor-pointer" onclick="toggleCommuterDetails()">
+       Commuter Routes <i id="arrow-icon" class="fas fa-chevron-down"></i>
+   </h2>
+   
+   <!-- Commuter Details Section -->
+   <div id="commuter-details" class="hidden">
+       <!-- Commuter 1 Description -->
+       <p class="text-lg">
+           {{ $commuter_names[1] ?? 'Commuter 1' }}'s Route: 
+           <span id="distance1d" class="font-semibold">{{ $user_descriptions[1] ?? 'N/A' }}</span>
+           <span id="extra-distance1" class="hidden">Additional details here...</span>
+           <button class="text-blue-500 ml-2" id="toggle-distance1" onclick="toggleContent('extra-distance1', this)">Show More</button>
+       </p>
 
-   <!-- Commuter 1 Description -->
-<p class="text-lg">
-    {{ $commuter_names[1] ?? 'Commuter 1' }}'s Route: 
-    <span id="distance1d" class="font-semibold">{{ $user_descriptions[1] ?? 'N/A' }}</span>
-    <span id="extra-distance1" class="hidden"></span>
-    <button class="text-blue-500 ml-2" id="toggle-distance1" onclick="toggleContent('extra-distance1', this)">Show More</button>
-</p>
+       <!-- Commuter 2 Description -->
+       <p class="text-lg">
+           {{ $commuter_names[2] ?? 'Commuter 2' }}'s Route: 
+           <span id="distance2d" class="font-semibold">{{ $user_descriptions[2] ?? 'N/A' }}</span>
+           <span id="extra-distance2" class="hidden">Additional details here...</span>
+           <button class="text-blue-500 ml-2" id="toggle-distance2" onclick="toggleContent('extra-distance2', this)">Show More</button>
+       </p>
 
-<!-- Commuter 2 Description -->
-<p class="text-lg">
-    {{ $commuter_names[2] ?? 'Commuter 2' }}'s Route: 
-    <span id="distance2d" class="font-semibold">{{ $user_descriptions[2] ?? 'N/A' }}</span>
-    <span id="extra-distance2" class="hidden"></span>
-    <button class="text-blue-500 ml-2" id="toggle-distance2" onclick="toggleContent('extra-distance2', this)">Show More</button>
-</p>
+       <!-- Commuter 3 Description -->
+       <p class="text-lg">
+           {{ $commuter_names[3] ?? 'Commuter 3' }}'s Route: 
+           <span id="distance3d" class="font-semibold">{{ $user_descriptions[3] ?? 'N/A' }}</span>
+           <span id="extra-distance3" class="hidden">Additional details here...</span>
+           <button class="text-blue-500 ml-2" id="toggle-distance3" onclick="toggleContent('extra-distance3', this)">Show More</button>
+       </p>
+   </div>
+</div>
 
-<!-- Commuter 3 Description -->
-<p class="text-lg">
-    {{ $commuter_names[3] ?? 'Commuter 3' }}'s Route: 
-    <span id="distance3d" class="font-semibold">{{ $user_descriptions[3] ?? 'N/A' }}</span>
-    <span id="extra-distance3" class="hidden"></span>
-    <button class="text-blue-500 ml-2" id="toggle-distance3" onclick="toggleContent('extra-distance3', this)">Show More</button>
-</p>
 
 </div>
 
         <!-- Distance Section -->
-        <div class="space-y-2 mt-6">
-            <h2 class="text-xl font-bold">Distance Details</h2>
-            <p>Navigator Distance: <span id="distance" class="font-semibold"></span> km</p>
-            <p>Commuter1 Distance: <span id="distance1" class="font-semibold"></span> km</p>
-            <p>Commuter2 Distance: <span id="distance2" class="font-semibold"></span> km</p>
-            <p>Commuter3 Distance: <span id="distance3" class="font-semibold"></span> km</p>
-        </div>
+<div class="info_block">
+    <h2 class="text-xl font-bold cursor-pointer" onclick="toggleDetails()">
+    Distance Details <i id="arrow-icon2" class="fas fa-chevron-down"></i>
+    </h2>
+    
+    <div id="details" class="hidden">
+        <p>Navigator Distance: <span id="distance" class="font-semibold">20</span> km</p>
+        <p>Commuter1 Distance: <span id="distance1" class="font-semibold">10</span> km</p>
+        <p>Commuter2 Distance: <span id="distance2" class="font-semibold">15</span> km</p>
+        <p>Commuter3 Distance: <span id="distance3" class="font-semibold">25</span> km</p>
+    </div>
+</div>
 
         <!-- Commuter Totals -->
-        <div class="space-y-2 mt-6">
+        <div class="cost_block">
             <h2 class="text-xl font-bold">Commuter Costs</h2>
             <p>Commuter1 Total: <span id="commuter1t" class="font-semibold"></span> LKR</p>
             <p>Commuter2 Total: <span id="commuter2t" class="font-semibold"></span> LKR</p>
@@ -78,34 +186,36 @@
     <button id="cancel_button" type="submit">To Home Page</button>
 </form>
 
-<style>
-    #cancel_button {
-        padding: 10px 20px;
-        background: linear-gradient(to right, #ff8c00, #ffa500);
-        color: white;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        transition: background 0.3s ease, transform 0.3s ease;
-    }
-
-    #cancel_button:hover {
-        background: linear-gradient(to right, #e55353, #ff6347);
-        transform: scale(1.05);
-    }
-
-    #cancel_button:focus {
-        outline: none;
-        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.4);
-    }
-</style>
 
     </div>
 
 
     <script>
+    function toggleCommuterDetails() {
+    var details = document.getElementById('commuter-details');
+    var arrowIcon = document.getElementById('arrow-icon');
+
+    // Toggle the visibility of the commuter details section
+    if (details.classList.contains("hidden")) {
+        details.classList.remove("hidden");
+        arrowIcon.classList.add("rotate"); // Rotate arrow upwards
+    } else {
+        details.classList.add("hidden");
+        arrowIcon.classList.remove("rotate"); // Rotate arrow downwards
+    }
+}
+
+        function toggleDetails() {
+    var details = document.getElementById("details");
+    var arrowIcon = document.getElementById('arrow-icon2');
+    if (details.classList.contains("hidden")) {
+        details.classList.remove("hidden");
+        arrowIcon.classList.add("rotate"); // Rotate arrow upwards
+    } else {
+        details.classList.add("hidden");
+        arrowIcon.classList.remove("rotate"); // Rotate arrow downwards
+    }
+}
         // Get the description from the Blade template
         var description = document.getElementById('description').innerText;
         var distance1 = document.getElementById('distance1d').innerText;
