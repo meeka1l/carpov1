@@ -298,6 +298,7 @@ public function delete($rideId)
     $description = '';
     $pickup_locations = [];
     $user_descriptions = []; // Array to store commuter descriptions
+    $commuter_names = []; // Array to store commuter names
 
     if ($ride) {
         // Get description from the ride
@@ -313,11 +314,15 @@ public function delete($rideId)
 
         // Assuming 'description' is a column in 'pickup_locations' table
         foreach ($pickup_locations as $key => $pickup) {
+
+             $commuter = User::find($pickup->user_id);  // Retrieve commuter based on user_id
+
             $user_descriptions[$key + 1] = $pickup->pickup_location?? 'N/A';  // Index starts from 1 for display
+            $commuter_names[$key + 1] = $commuter->name ?? 'Commuter ' . ($key + 1); // Get the name or default
         }
     }
 
-    return view('payment', compact('ride','distance_', 'description', 'user_descriptions'));
+    return view('payment', compact('ride','distance_', 'description', 'user_descriptions','commuter_names'));
 }
 
 

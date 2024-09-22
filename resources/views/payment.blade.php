@@ -22,29 +22,30 @@
         <button class="text-blue-500 ml-2 hidden" id="toggle-description" onclick="toggleContent('description', this)">Show More</button>
     </p>
 
-    <!-- Commuter 1 Description -->
-    <p class="text-lg">
-        Commuter1 Des: 
-        <span id="distance1d" class="font-semibold">{{ $user_descriptions[1] ?? 'N/A' }}</span>
-        <span id="extra-distance1" class="hidden"></span>
-        <button class="text-blue-500 ml-2 hidden" id="toggle-distance1" onclick="toggleContent('distance1d', this)">Show More</button>
-    </p>
+   <!-- Commuter 1 Description -->
+<p class="text-lg">
+    {{ $commuter_names[1] ?? 'Commuter 1' }}'s Route: 
+    <span id="distance1d" class="font-semibold">{{ $user_descriptions[1] ?? 'N/A' }}</span>
+    <span id="extra-distance1" class="hidden"></span>
+    <button class="text-blue-500 ml-2" id="toggle-distance1" onclick="toggleContent('extra-distance1', this)">Show More</button>
+</p>
 
-    <!-- Commuter 2 Description -->
-    <p class="text-lg">
-        Commuter2 Des: 
-        <span id="distance2d" class="font-semibold">{{ $user_descriptions[2] ?? 'N/A' }}</span>
-        <span id="extra-distance2" class="hidden"></span>
-        <button class="text-blue-500 ml-2 hidden" id="toggle-distance2" onclick="toggleContent('distance2d', this)">Show More</button>
-    </p>
+<!-- Commuter 2 Description -->
+<p class="text-lg">
+    {{ $commuter_names[2] ?? 'Commuter 2' }}'s Route: 
+    <span id="distance2d" class="font-semibold">{{ $user_descriptions[2] ?? 'N/A' }}</span>
+    <span id="extra-distance2" class="hidden"></span>
+    <button class="text-blue-500 ml-2" id="toggle-distance2" onclick="toggleContent('extra-distance2', this)">Show More</button>
+</p>
 
-    <!-- Commuter 3 Description -->
-    <p class="text-lg">
-        Commuter3 Des: 
-        <span id="distance3d" class="font-semibold">{{ $user_descriptions[3] ?? 'N/A' }}</span>
-        <span id="extra-distance3" class="hidden"></span>
-        <button class="text-blue-500 ml-2 hidden" id="toggle-distance3" onclick="toggleContent('distance3d', this)">Show More</button>
-    </p>
+<!-- Commuter 3 Description -->
+<p class="text-lg">
+    {{ $commuter_names[3] ?? 'Commuter 3' }}'s Route: 
+    <span id="distance3d" class="font-semibold">{{ $user_descriptions[3] ?? 'N/A' }}</span>
+    <span id="extra-distance3" class="hidden"></span>
+    <button class="text-blue-500 ml-2" id="toggle-distance3" onclick="toggleContent('extra-distance3', this)">Show More</button>
+</p>
+
 </div>
 
         <!-- Distance Section -->

@@ -433,7 +433,7 @@
 <script>
 
 document.getElementById('report-button').addEventListener('click', function() {
-            alert('Report button clicked! This would trigger a reporting process.');
+            alert('User has been reported! This feature is under development...');
             // Implement the reporting functionality here
         });
 
