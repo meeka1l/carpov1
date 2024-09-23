@@ -294,6 +294,12 @@ public function delete($rideId)
 {
     $ride = Ride::find($ride_id);
 
+    // Check if the ride exists and hasn't ended
+    if ($ride === null || $ride->status === 'ended') {
+        // Redirect to the home page if the ride is null or has ended
+        return redirect()->route('home')->with('error', 'Ride not found or has already ended.');
+    }
+
     $distance_ = 0;
     $description = '';
     $pickup_locations = [];
