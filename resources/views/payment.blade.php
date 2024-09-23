@@ -180,7 +180,7 @@ h2{
 
         <!-- Button -->
         <!-- Button -->
-<form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to Cancel this Ride Sharing?');">
+<form action="{{ route('rides.delete', $ride->id) }}" method="post" onsubmit="return confirm('Are you sure you want to complete this ride?');">
     @csrf
     @method('DELETE')
     <button id="cancel_button" type="submit">To Home Page</button>
