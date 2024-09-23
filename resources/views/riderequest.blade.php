@@ -432,10 +432,14 @@
 
 <script>
 
-document.getElementById('report-button').addEventListener('click', function() {
-            alert('User has been reported! This feature is under development...');
-            // Implement the reporting functionality here
-        });
+var reportButton = document.getElementById('report-button');
+if (reportButton) {
+    reportButton.addEventListener('click', function() {
+        alert('User has been reported! This feature is under development...');
+        // Implement the reporting functionality here
+    });
+}
+
 
     document.getElementById('google-maps-link').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor behavior
