@@ -159,18 +159,18 @@ h2{
     
     <div id="details" class="hidden">
         <p>Navigator Distance: <span id="distance" class="font-semibold">20</span> km</p>
-        <p>Commuter1 Distance: <span id="distance1" class="font-semibold">10</span> km</p>
-        <p>Commuter2 Distance: <span id="distance2" class="font-semibold">15</span> km</p>
-        <p>Commuter3 Distance: <span id="distance3" class="font-semibold">25</span> km</p>
+        <p> {{ $commuter_names[1] ?? 'Commuter 1' }}'s Distance: <span id="distance1" class="font-semibold">10</span> km</p>
+        <p> {{ $commuter_names[2] ?? 'Commuter 2' }}'s Distance: <span id="distance2" class="font-semibold">15</span> km</p>
+        <p> {{ $commuter_names[3] ?? 'Commuter 3' }}'s Distance: <span id="distance3" class="font-semibold">25</span> km</p>
     </div>
 </div>
 
         <!-- Commuter Totals -->
         <div class="cost_block">
             <h2 class="text-xl font-bold">Commuter Costs</h2>
-            <p>Commuter1 Total: <span id="commuter1t" class="font-semibold"></span> LKR</p>
-            <p>Commuter2 Total: <span id="commuter2t" class="font-semibold"></span> LKR</p>
-            <p>Commuter3 Total: <span id="commuter3t" class="font-semibold"></span> LKR</p>
+            <p>{{ $commuter_names[1] ?? 'Commuter 1' }}'s Total: <span id="commuter1t" class="font-semibold"></span> LKR</p>
+            <p>{{ $commuter_names[2] ?? 'Commuter 2' }}'s Total: <span id="commuter2t" class="font-semibold"></span> LKR</p>
+            <p>{{ $commuter_names[3] ?? 'Commuter 3' }}'s Total: <span id="commuter3t" class="font-semibold"></span> LKR</p>
         </div>
 
         <!-- Total Cost Section -->
