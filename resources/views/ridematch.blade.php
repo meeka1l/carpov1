@@ -445,7 +445,7 @@
             <p>Your ride has ended.</p>
             <strong>Duration: </strong> {{ $ride->duration }}<br>
             <p class="status-message status-rejected" style="margin-top: 2em;">The ride has ended.</p>
-            <button onclick="window.location.href='{{ route('payment', ['ride_id' => $ride->id]) }}'"><b>Pay Your Payment</b></button>
+            <button onclick="window.location.href='{{ route('payment', ['ride_id' => $ride->id]) }}'"><b>Go to Payment</b></button>
         @endif
 
     
